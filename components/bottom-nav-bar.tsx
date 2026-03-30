@@ -1,6 +1,6 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -21,28 +21,23 @@ function TabIcon({
   isActive,
   isCenter,
   onPress,
+  onLayout,
 }: {
   icon: React.ComponentProps<typeof MaterialIcons>['name'];
   isActive: boolean;
   isCenter: boolean;
   onPress: () => void;
+  onLayout: (x: number) => void;
 }) {
-  const scale = useRef(new Animated.Value(1)).current;
   const bgAnim = useRef(new Animated.Value(isActive ? 1 : 0)).current;
 
   useEffect(() => {
-    Animated.parallel([
-      Animated.spring(bgAnim, {
-        toValue: isActive ? 1 : 0,
-        useNativeDriver: false,
-        damping: 18,
-        stiffness: 200,
-      }),
-      Animated.sequence([
-        Animated.spring(scale, { toValue: isActive ? 0.88 : 1, useNativeDriver: true, damping: 12, stiffness: 300 }),
-        Animated.spring(scale, { toValue: 1, useNativeDriver: true, damping: 12, stiffness: 300 }),
-      ]),
-    ]).start();
+    Animated.spring(bgAnim, {
+      toValue: isActive ? 1 : 0,
+      useNativeDriver: false,
+      damping: 18,
+      stiffness: 200,
+    }).start();
   }, [isActive]);
 
   const bgColor = bgAnim.interpolate({
@@ -52,8 +47,12 @@ function TabIcon({
 
   if (isCenter) {
     return (
-      <Pressable onPress={onPress} hitSlop={8}>
-        <Animated.View style={[styles.centerBtn, { transform: [{ scale }] }]}>
+      <Pressable
+        onPress={onPress}
+        hitSlop={8}
+        onLayout={(e) => onLayout(e.nativeEvent.layout.x + e.nativeEvent.layout.width / 2)}
+      >
+        <Animated.View style={[styles.centerBtn, { backgroundColor: bgColor }]}>
           <MaterialIcons name={icon} size={24} color={isActive ? ICON_ACTIVE : CENTER_BORDER} />
         </Animated.View>
       </Pressable>
@@ -61,13 +60,13 @@ function TabIcon({
   }
 
   return (
-    <Pressable onPress={onPress} hitSlop={8}>
-      <Animated.View style={[styles.iconWrap, { backgroundColor: bgColor, transform: [{ scale }] }]}>
-        <MaterialIcons
-          name={icon}
-          size={24}
-          color={isActive ? ICON_ACTIVE : ICON_INACTIVE}
-        />
+    <Pressable
+      onPress={onPress}
+      hitSlop={8}
+      onLayout={(e) => onLayout(e.nativeEvent.layout.x + e.nativeEvent.layout.width / 2)}
+    >
+      <Animated.View style={[styles.iconWrap, { backgroundColor: bgColor }]}>
+        <MaterialIcons name={icon} size={24} color={isActive ? ICON_ACTIVE : ICON_INACTIVE} />
       </Animated.View>
     </Pressable>
   );
@@ -75,9 +74,46 @@ function TabIcon({
 
 export function BottomNavBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
+  const [tabCenters, setTabCenters] = useState<number[]>([]);
+  const bumpX = useRef(new Animated.Value(0)).current;
+  const bumpInitialized = useRef(false);
+
+  useEffect(() => {
+    if (tabCenters[state.index] === undefined) return;
+    if (!bumpInitialized.current) {
+      bumpX.setValue(tabCenters[state.index]);
+      bumpInitialized.current = true;
+      return;
+    }
+    Animated.spring(bumpX, {
+      toValue: tabCenters[state.index],
+      useNativeDriver: true,
+      damping: 20,
+      stiffness: 220,
+      mass: 0.8,
+    }).start();
+  }, [state.index, tabCenters]);
+
+  const handleTabLayout = (index: number, centerX: number) => {
+    setTabCenters((prev) => {
+      const next = [...prev];
+      next[index] = centerX;
+      return next;
+    });
+  };
 
   return (
     <View style={[styles.wrapper, { paddingBottom: Math.max(insets.bottom, 16) }]}>
+      {/* Bump */}
+      {tabCenters.length === state.routes.length && (
+        <Animated.View
+          style={[
+            styles.bump,
+            { transform: [{ translateX: Animated.subtract(bumpX, 28) }] },
+          ]}
+        />
+      )}
+
       <View style={styles.container}>
         {state.routes.map((route, index) => {
           const config = TAB_CONFIGS[route.name] ?? { icon: 'circle' as const };
@@ -89,6 +125,7 @@ export function BottomNavBar({ state, navigation }: BottomTabBarProps) {
               icon={config.icon}
               isActive={isActive}
               isCenter={!!config.center}
+              onLayout={(cx) => handleTabLayout(index, cx)}
               onPress={() => {
                 const event = navigation.emit({
                   type: 'tabPress',
@@ -103,7 +140,7 @@ export function BottomNavBar({ state, navigation }: BottomTabBarProps) {
           );
         })}
       </View>
-      {/* Scroll indicator line */}
+
       <View style={styles.indicator} />
     </View>
   );
@@ -112,12 +149,20 @@ export function BottomNavBar({ state, navigation }: BottomTabBarProps) {
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: NAV_BG,
-    paddingTop: 12,
+    paddingTop: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.05,
     shadowRadius: 12,
     elevation: 12,
+  },
+  bump: {
+    position: 'absolute',
+    top: -10,
+    width: 56,
+    height: 20,
+    backgroundColor: NAV_BG,
+    borderRadius: 28,
   },
   container: {
     flexDirection: 'row',
