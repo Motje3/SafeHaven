@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const BLUE = '#2B55E6';
+const BLUE = '#7C6FE0';
 const DRAWER_WIDTH = 290;
 
 const MENU_ITEMS: { icon: React.ComponentProps<typeof MaterialIcons>['name']; label: string }[] = [
@@ -143,20 +143,20 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 14,
-    backgroundColor: BLUE,
+    backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 5,
-    shadowColor: BLUE,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
     elevation: 8,
   },
   line: {
     width: 20,
     height: 2,
-    backgroundColor: '#fff',
+    backgroundColor: '#1A1A2E',
     borderRadius: 2,
   },
   backdrop: {

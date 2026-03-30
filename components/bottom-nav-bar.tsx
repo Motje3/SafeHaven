@@ -4,74 +4,70 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const BLUE = '#2B55E6';
-const PILL_BG = '#FFFFFF';
-const ICON_ACTIVE = '#2B55E6';
-const ICON_INACTIVE = 'rgba(255, 255, 255, 0.72)';
+const NAV_BG = '#FFFFFF';
+const ACTIVE_BG = '#1A1A2E';
+const ICON_ACTIVE = '#FFFFFF';
+const ICON_INACTIVE = '#8E8EAA';
+const CENTER_BORDER = '#1A1A2E';
 
-const COLLAPSED_WIDTH = 52;
-const EXPANDED_WIDTH = 118;
-const PILL_HEIGHT = 44;
-
-const TAB_CONFIGS: Record<string, { label: string; icon: React.ComponentProps<typeof MaterialIcons>['name'] }> = {
-  marketplace: { label: 'Market', icon: 'store' },
-  index: { label: 'The Vault', icon: 'shield' },
-  community: { label: 'Community', icon: 'forum' },
+const TAB_CONFIGS: Record<string, { icon: React.ComponentProps<typeof MaterialIcons>['name']; center?: boolean }> = {
+  marketplace: { icon: 'store' },
+  index:        { icon: 'shield', center: true },
+  community:    { icon: 'forum' },
 };
 
-function TabPill({
-  label,
+function TabIcon({
   icon,
   isActive,
+  isCenter,
   onPress,
 }: {
-  label: string;
   icon: React.ComponentProps<typeof MaterialIcons>['name'];
   isActive: boolean;
+  isCenter: boolean;
   onPress: () => void;
 }) {
-  const pillWidth = useRef(new Animated.Value(isActive ? EXPANDED_WIDTH : COLLAPSED_WIDTH)).current;
-  const textOpacity = useRef(new Animated.Value(isActive ? 1 : 0)).current;
-  const pillBg = useRef(new Animated.Value(isActive ? 1 : 0)).current;
+  const scale = useRef(new Animated.Value(1)).current;
+  const bgAnim = useRef(new Animated.Value(isActive ? 1 : 0)).current;
 
   useEffect(() => {
     Animated.parallel([
-      Animated.spring(pillWidth, {
-        toValue: isActive ? EXPANDED_WIDTH : COLLAPSED_WIDTH,
+      Animated.spring(bgAnim, {
+        toValue: isActive ? 1 : 0,
         useNativeDriver: false,
-        damping: 20,
+        damping: 18,
         stiffness: 200,
-        mass: 0.9,
       }),
-      Animated.timing(textOpacity, {
-        toValue: isActive ? 1 : 0,
-        duration: isActive ? 220 : 80,
-        useNativeDriver: true,
-      }),
-      Animated.timing(pillBg, {
-        toValue: isActive ? 1 : 0,
-        duration: 180,
-        useNativeDriver: false,
-      }),
+      Animated.sequence([
+        Animated.spring(scale, { toValue: isActive ? 0.88 : 1, useNativeDriver: true, damping: 12, stiffness: 300 }),
+        Animated.spring(scale, { toValue: 1, useNativeDriver: true, damping: 12, stiffness: 300 }),
+      ]),
     ]).start();
   }, [isActive]);
 
-  const backgroundColor = pillBg.interpolate({
+  const bgColor = bgAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ['transparent', PILL_BG],
+    outputRange: ['transparent', ACTIVE_BG],
   });
 
+  if (isCenter) {
+    return (
+      <Pressable onPress={onPress} hitSlop={8}>
+        <Animated.View style={[styles.centerBtn, { transform: [{ scale }] }]}>
+          <MaterialIcons name={icon} size={24} color={isActive ? ICON_ACTIVE : CENTER_BORDER} />
+        </Animated.View>
+      </Pressable>
+    );
+  }
+
   return (
-    <Pressable onPress={onPress} hitSlop={6} android_ripple={null}>
-      <Animated.View style={[styles.pill, { width: pillWidth, backgroundColor }]}>
+    <Pressable onPress={onPress} hitSlop={8}>
+      <Animated.View style={[styles.iconWrap, { backgroundColor: bgColor, transform: [{ scale }] }]}>
         <MaterialIcons
           name={icon}
-          size={26}
+          size={24}
           color={isActive ? ICON_ACTIVE : ICON_INACTIVE}
         />
-        <Animated.Text style={[styles.label, { opacity: textOpacity }]} numberOfLines={1}>
-          {label}
-        </Animated.Text>
       </Animated.View>
     </Pressable>
   );
@@ -81,18 +77,18 @@ export function BottomNavBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.wrapper, { paddingBottom: Math.max(insets.bottom, 12) }]}>
+    <View style={[styles.wrapper, { paddingBottom: Math.max(insets.bottom, 16) }]}>
       <View style={styles.container}>
         {state.routes.map((route, index) => {
-          const config = TAB_CONFIGS[route.name] ?? { label: route.name, icon: 'circle' as const };
+          const config = TAB_CONFIGS[route.name] ?? { icon: 'circle' as const };
           const isActive = state.index === index;
 
           return (
-            <TabPill
+            <TabIcon
               key={route.key}
-              label={config.label}
               icon={config.icon}
               isActive={isActive}
+              isCenter={!!config.center}
               onPress={() => {
                 const event = navigation.emit({
                   type: 'tabPress',
@@ -107,44 +103,51 @@ export function BottomNavBar({ state, navigation }: BottomTabBarProps) {
           );
         })}
       </View>
+      {/* Scroll indicator line */}
+      <View style={styles.indicator} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: 'transparent',
-    paddingHorizontal: 20,
-    paddingTop: 8,
+    backgroundColor: NAV_BG,
+    paddingTop: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 12,
+    elevation: 12,
   },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor: BLUE,
-    borderRadius: 40,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    shadowColor: '#2B55E6',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.35,
-    shadowRadius: 20,
-    elevation: 16,
+    paddingHorizontal: 24,
   },
-  pill: {
-    flexDirection: 'row',
+  iconWrap: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    height: PILL_HEIGHT,
-    borderRadius: PILL_HEIGHT / 2,
-    overflow: 'hidden',
-    gap: 6,
-    paddingHorizontal: 11,
   },
-  label: {
-    color: ICON_ACTIVE,
-    fontWeight: '700',
-    fontSize: 14,
-    letterSpacing: 0.1,
+  centerBtn: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: CENTER_BORDER,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  indicator: {
+    width: 134,
+    height: 5,
+    backgroundColor: '#1A1A2E',
+    borderRadius: 3,
+    alignSelf: 'center',
+    marginTop: 10,
+    opacity: 0.15,
   },
 });

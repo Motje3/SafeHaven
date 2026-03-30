@@ -11,6 +11,6 @@ export default function MarketplaceScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8 },
-  sub: { opacity: 0.5 },
+  container: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8, backgroundColor: '#F0EFFE' },
+  sub: { opacity: 0.45, color: '#1A1A2E' },
 });
