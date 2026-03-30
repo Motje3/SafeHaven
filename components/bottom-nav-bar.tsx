@@ -17,7 +17,6 @@ const TAB_CONFIGS: Record<string, { label: string; icon: React.ComponentProps<ty
   marketplace: { label: 'Market', icon: 'store' },
   index: { label: 'The Vault', icon: 'shield' },
   community: { label: 'Community', icon: 'forum' },
-  profile: { label: 'Profile', icon: 'account-circle' },
 };
 
 function TabPill({
