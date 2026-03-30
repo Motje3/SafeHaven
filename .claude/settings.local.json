@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(head -30 \"c:/Users/moham/Desktop/School/3/SafeHaven/app/\\(tabs\\)/index.tsx\")",
+      "WebSearch"
+    ]
+  }
+}

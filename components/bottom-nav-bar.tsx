@@ -11,9 +11,9 @@ const ICON_INACTIVE = '#8E8EAA';
 const CENTER_BORDER = '#1A1A2E';
 
 const TAB_CONFIGS: Record<string, { icon: React.ComponentProps<typeof MaterialIcons>['name']; center?: boolean }> = {
-  marketplace: { icon: 'store' },
-  index:        { icon: 'shield', center: true },
-  community:    { icon: 'forum' },
+  marketplace: { icon: 'groups' },
+  index:        { icon: 'home', center: true },
+  community:    { icon: 'map' },
 };
 
 function TabIcon({
@@ -74,25 +74,28 @@ function TabIcon({
 
 export function BottomNavBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
+  const visibleRoutes = state.routes.filter((route) => TAB_CONFIGS[route.name]);
+  const activeFilteredIndex = visibleRoutes.findIndex((r) => r.key === state.routes[state.index]?.key);
+
   const [tabCenters, setTabCenters] = useState<number[]>([]);
   const bumpX = useRef(new Animated.Value(0)).current;
   const bumpInitialized = useRef(false);
 
   useEffect(() => {
-    if (tabCenters[state.index] === undefined) return;
+    if (tabCenters[activeFilteredIndex] === undefined) return;
     if (!bumpInitialized.current) {
-      bumpX.setValue(tabCenters[state.index]);
+      bumpX.setValue(tabCenters[activeFilteredIndex]);
       bumpInitialized.current = true;
       return;
     }
     Animated.spring(bumpX, {
-      toValue: tabCenters[state.index],
+      toValue: tabCenters[activeFilteredIndex],
       useNativeDriver: true,
       damping: 20,
       stiffness: 220,
       mass: 0.8,
     }).start();
-  }, [state.index, tabCenters]);
+  }, [activeFilteredIndex, tabCenters]);
 
   const handleTabLayout = (index: number, centerX: number) => {
     setTabCenters((prev) => {
@@ -105,19 +108,19 @@ export function BottomNavBar({ state, navigation }: BottomTabBarProps) {
   return (
     <View style={[styles.wrapper, { paddingBottom: Math.max(insets.bottom, 16) }]}>
       {/* Bump */}
-      {tabCenters.length === state.routes.length && (
+      {tabCenters.length === visibleRoutes.length && (
         <Animated.View
           style={[
             styles.bump,
-            { transform: [{ translateX: Animated.subtract(bumpX, 28) }] },
+            { transform: [{ translateX: Animated.subtract(bumpX, 30) }] },
           ]}
         />
       )}
 
       <View style={styles.container}>
-        {state.routes.map((route, index) => {
-          const config = TAB_CONFIGS[route.name] ?? { icon: 'circle' as const };
-          const isActive = state.index === index;
+        {visibleRoutes.map((route, index) => {
+          const config = TAB_CONFIGS[route.name];
+          const isActive = index === activeFilteredIndex;
 
           return (
             <TabIcon
@@ -149,7 +152,9 @@ export function BottomNavBar({ state, navigation }: BottomTabBarProps) {
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: NAV_BG,
-    paddingTop: 16,
+    paddingTop: 8,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.05,
@@ -158,11 +163,11 @@ const styles = StyleSheet.create({
   },
   bump: {
     position: 'absolute',
-    top: -10,
-    width: 56,
-    height: 20,
+    top: -12,
+    width: 60,
+    height: 60,
     backgroundColor: NAV_BG,
-    borderRadius: 28,
+    borderRadius: 30,
   },
   container: {
     flexDirection: 'row',
