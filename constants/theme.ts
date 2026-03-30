@@ -31,6 +31,47 @@ export const Colors = {
   },
 };
 
+export const LightVault = {
+  // Background
+  bgTop: '#FFFFFF',
+  bgBottom: '#EDE8FD',
+
+  // Glass cards (white frosted)
+  glassBase: 'rgba(255, 255, 255, 0.80)',
+  glassBorder: 'rgba(255, 255, 255, 0.95)',
+  glassShadow: 'rgba(124, 111, 224, 0.12)',
+
+  // Scan CTA card
+  ctaColor: '#7C6FE0',
+  ctaColorLight: '#9D8FF5',
+  ctaShadow: 'rgba(124, 111, 224, 0.40)',
+
+  // Brand
+  purple: '#7C6FE0',
+  purpleLight: '#A99CF0',
+  purpleSoft: 'rgba(124, 111, 224, 0.12)',
+
+  // Text
+  textPrimary: '#1A1A2E',
+  textSecondary: 'rgba(26, 26, 46, 0.55)',
+  textMuted: 'rgba(26, 26, 46, 0.38)',
+  textOnPurple: '#FFFFFF',
+
+  // Status
+  statusOnline: '#22C55E',
+  statusOffline: '#EF4444',
+  statusWarning: '#F59E0B',
+
+  // Pastel action card tints
+  actionBlue: 'rgba(147, 197, 253, 0.35)',
+  actionGreen: 'rgba(134, 239, 172, 0.35)',
+  actionYellow: 'rgba(253, 224, 71, 0.40)',
+  actionPurple: 'rgba(196, 181, 253, 0.40)',
+
+  // Coin
+  coinGold: '#D97706',
+};
+
 export const Fonts = Platform.select({
   ios: {
     /** iOS `UIFontDescriptorSystemDesignDefault` */

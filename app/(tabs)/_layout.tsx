@@ -7,11 +7,11 @@ import { MenuDrawer } from '@/components/menu-drawer';
 
 export default function TabLayout() {
   return (
-    <View style={{ flex: 1, backgroundColor: '#F0EFFE' }}>
+    <View style={{ flex: 1, backgroundColor: '#EDE8FD' }}>
       <Tabs
         tabBar={(props) => <BottomNavBar {...props} />}
         screenOptions={{ headerShown: false }}
-        sceneContainerStyle={{ backgroundColor: '#F0EFFE' }}
+        sceneContainerStyle={{ backgroundColor: 'transparent' }}
       >
         <Tabs.Screen name="marketplace" />
         <Tabs.Screen name="index" />
