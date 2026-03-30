@@ -1,11 +1,11 @@
 import { StyleSheet, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 
-export default function VaultScreen() {
+export default function ProfileScreen() {
   return (
     <View style={styles.container}>
-      <ThemedText type="title">The Vault</ThemedText>
-      <ThemedText style={styles.sub}>Your SafeHaven hub</ThemedText>
+      <ThemedText type="title">Profile & Credits</ThemedText>
+      <ThemedText style={styles.sub}>Karma points & digital key</ThemedText>
     </View>
   );
 }

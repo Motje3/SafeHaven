@@ -1,11 +1,11 @@
 import { StyleSheet, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 
-export default function VaultScreen() {
+export default function CommunityScreen() {
   return (
     <View style={styles.container}>
-      <ThemedText type="title">The Vault</ThemedText>
-      <ThemedText style={styles.sub}>Your SafeHaven hub</ThemedText>
+      <ThemedText type="title">Community</ThemedText>
+      <ThemedText style={styles.sub}>Requests & Offers</ThemedText>
     </View>
   );
 }

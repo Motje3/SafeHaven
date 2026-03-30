@@ -14,8 +14,11 @@ const EXPANDED_WIDTH = 118;
 const PILL_HEIGHT = 44;
 
 const TAB_CONFIGS: Record<string, { label: string; icon: React.ComponentProps<typeof MaterialIcons>['name'] }> = {
-  index: { label: 'Home', icon: 'home' },
-  explore: { label: 'Explore', icon: 'explore' },
+  map: { label: 'Map', icon: 'map' },
+  marketplace: { label: 'Market', icon: 'store' },
+  index: { label: 'The Vault', icon: 'shield' },
+  community: { label: 'Community', icon: 'forum' },
+  profile: { label: 'Profile', icon: 'account-circle' },
 };
 
 function TabPill({
