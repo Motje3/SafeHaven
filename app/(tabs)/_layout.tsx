@@ -11,7 +11,6 @@ export default function TabLayout() {
         headerShown: false,
       }}
     >
-      <Tabs.Screen name="map" />
       <Tabs.Screen name="marketplace" />
       <Tabs.Screen name="index" />
       <Tabs.Screen name="community" />

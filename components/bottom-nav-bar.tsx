@@ -9,12 +9,11 @@ const PILL_BG = '#FFFFFF';
 const ICON_ACTIVE = '#2B55E6';
 const ICON_INACTIVE = 'rgba(255, 255, 255, 0.72)';
 
-const COLLAPSED_WIDTH = 44;
+const COLLAPSED_WIDTH = 52;
 const EXPANDED_WIDTH = 118;
 const PILL_HEIGHT = 44;
 
 const TAB_CONFIGS: Record<string, { label: string; icon: React.ComponentProps<typeof MaterialIcons>['name'] }> = {
-  map: { label: 'Map', icon: 'map' },
   marketplace: { label: 'Market', icon: 'store' },
   index: { label: 'The Vault', icon: 'shield' },
   community: { label: 'Community', icon: 'forum' },
@@ -68,7 +67,7 @@ function TabPill({
       <Animated.View style={[styles.pill, { width: pillWidth, backgroundColor }]}>
         <MaterialIcons
           name={icon}
-          size={22}
+          size={26}
           color={isActive ? ICON_ACTIVE : ICON_INACTIVE}
         />
         <Animated.Text style={[styles.label, { opacity: textOpacity }]} numberOfLines={1}>
