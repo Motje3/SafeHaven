@@ -1,5 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Dimensions,
   Pressable,
@@ -11,8 +11,6 @@ import Animated, {
   FadeInDown,
   useAnimatedStyle,
   useSharedValue,
-  withRepeat,
-  withSequence,
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -22,66 +20,6 @@ import { LightVault } from '@/constants/theme';
 const SCREEN_W = Dimensions.get('window').width;
 
 // ─── Mesh Sync Bar ────────────────────────────────────────────────────────────
-
-function MeshSyncBar() {
-  const pulse = useSharedValue(1);
-
-  useEffect(() => {
-    pulse.value = withRepeat(
-      withSequence(
-        withTiming(0.3, { duration: 900 }),
-        withTiming(1, { duration: 900 }),
-      ),
-      -1,
-      false,
-    );
-  }, []);
-
-  const dotStyle = useAnimatedStyle(() => ({ opacity: pulse.value }));
-
-  return (
-    <View style={meshStyles.bar}>
-      <Animated.View style={[meshStyles.dot, dotStyle]} />
-      <Text style={meshStyles.text}>Connected via </Text>
-      <Text style={meshStyles.bold}>3 Hops</Text>
-      <Text style={meshStyles.text}>  ·  Last synced </Text>
-      <Text style={meshStyles.bold}>2 min ago</Text>
-    </View>
-  );
-}
-
-const meshStyles = StyleSheet.create({
-  bar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'center',
-    marginTop: 14,
-    paddingHorizontal: 16,
-    paddingVertical: 7,
-    borderRadius: 20,
-    backgroundColor: 'rgba(34, 211, 238, 0.10)',
-    borderWidth: 1,
-    borderColor: 'rgba(34, 211, 238, 0.30)',
-    gap: 0,
-  },
-  dot: {
-    width: 7,
-    height: 7,
-    borderRadius: 3.5,
-    backgroundColor: '#22D3EE',
-    marginRight: 8,
-  },
-  text: {
-    fontSize: 12,
-    color: 'rgba(26,26,46,0.55)',
-    fontWeight: '500',
-  },
-  bold: {
-    fontSize: 12,
-    color: '#0891B2',
-    fontWeight: '700',
-  },
-});
 
 // ─── Feature Card ─────────────────────────────────────────────────────────────
 
@@ -189,6 +127,7 @@ const cardStyles = StyleSheet.create({
   textBlock: {
     flex: 1,
     paddingVertical: 20,
+    paddingLeft: 14,
     paddingRight: 4,
     gap: 5,
   },
@@ -239,6 +178,17 @@ const FEATURES: (FeatureCardProps & { delay: number })[] = [
     delay: 80,
   },
   {
+    icon: 'event',
+    iconColor: '#DB2777',
+    iconBg: 'rgba(251, 207, 232, 0.28)',
+    accentColor: '#EC4899',
+    tag: 'Gather · Connect',
+    title: 'Community Meetups',
+    description: "Schedule a local gathering\nand bring the neighborhood together",
+    onPress: () => {},
+    delay: 160,
+  },
+  {
     icon: 'campaign',
     iconColor: '#D97706',
     iconBg: 'rgba(253, 224, 71, 0.28)',
@@ -247,7 +197,7 @@ const FEATURES: (FeatureCardProps & { delay: number })[] = [
     title: 'Post a Beacon',
     description: 'Request help with urgency levels\nand a SafeCoin bounty',
     onPress: () => {},
-    delay: 160,
+    delay: 240,
   },
   {
     icon: 'terminal',
@@ -258,7 +208,7 @@ const FEATURES: (FeatureCardProps & { delay: number })[] = [
     title: 'Offline Messages',
     description: 'Direct chat over the SafeHaven\nmesh network — no Wi-Fi needed',
     onPress: () => {},
-    delay: 240,
+    delay: 320,
   },
   {
     icon: 'military-tech',
@@ -269,7 +219,7 @@ const FEATURES: (FeatureCardProps & { delay: number })[] = [
     title: 'Skills & Karma',
     description: 'Share your expertise and earn\ntrust badges from the community',
     onPress: () => {},
-    delay: 320,
+    delay: 400,
   },
 ];
 
@@ -304,11 +254,6 @@ export default function CommunityScreen() {
             </View>
           </View>
           <Text style={styles.pageSubtitle}>Your neighborhood network</Text>
-        </Animated.View>
-
-        {/* Mesh sync bar */}
-        <Animated.View entering={FadeInDown.duration(400).delay(40).springify()}>
-          <MeshSyncBar />
         </Animated.View>
 
         {/* Section label */}

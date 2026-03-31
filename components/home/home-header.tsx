@@ -1,6 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useEffect } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -50,9 +50,11 @@ export function HomeHeader({ hasUnread = true, isOnline = true }: HomeHeaderProp
     <View style={styles.container}>
       {/* Left: Logo + App name */}
       <View style={styles.left}>
-        <View style={styles.logoCircle}>
-          <MaterialIcons name="security" size={18} color={LightVault.purple} />
-        </View>
+        <Image
+          source={require('../../assets/images/t-icon.png')}
+          style={styles.logoImage}
+          resizeMode="contain"
+        />
         <Text style={styles.appName}>SafeHaven</Text>
       </View>
 
@@ -99,13 +101,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
-  logoCircle: {
+  logoImage: {
     width: 34,
     height: 34,
-    borderRadius: 10,
-    backgroundColor: LightVault.purpleSoft,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   appName: {
     fontSize: 18,

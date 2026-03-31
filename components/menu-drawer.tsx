@@ -1,6 +1,6 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import React, { useRef, useState } from 'react';
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const BLUE = '#7C6FE0';
@@ -9,7 +9,6 @@ const DRAWER_WIDTH = 290;
 const MENU_ITEMS: { icon: React.ComponentProps<typeof MaterialIcons>['name']; label: string }[] = [
   { icon: 'person', label: 'Profile' },
   { icon: 'monetization-on', label: 'SafeCoins' },
-  { icon: 'vpn-key', label: 'Digital Key' },
   { icon: 'settings', label: 'Settings' },
   { icon: 'help-outline', label: 'Help & Support' },
   { icon: 'logout', label: 'Sign Out' },
@@ -17,6 +16,7 @@ const MENU_ITEMS: { icon: React.ComponentProps<typeof MaterialIcons>['name']; la
 
 export function MenuDrawer() {
   const [visible, setVisible] = useState(false);
+  const [emergencyVisible, setEmergencyVisible] = useState(false);
   const anim = useRef(new Animated.Value(0)).current;
   const insets = useSafeAreaInsets();
 
@@ -101,7 +101,7 @@ export function MenuDrawer() {
                   <MaterialIcons name="person" size={36} color={BLUE} />
                 </View>
                 <View>
-                  <Text style={styles.userName}>SafeHaven User</Text>
+                  <Text style={styles.userName}>SafeHaven</Text>
                   <View style={styles.karmaBadge}>
                     <MaterialIcons name="monetization-on" size={13} color={BLUE} />
                     <Text style={styles.karmaText}>142 SafeCoins</Text>
@@ -127,10 +127,63 @@ export function MenuDrawer() {
                   )}
                 </Pressable>
               ))}
+
+              {/* Emergency button */}
+              <View style={styles.emergencyWrap}>
+                <Pressable
+                  style={({ pressed }) => [styles.emergencyBtn, pressed && { opacity: 0.85 }]}
+                  onPress={() => setEmergencyVisible(true)}
+                >
+                  <MaterialIcons name="crisis-alert" size={20} color="#fff" />
+                  <Text style={styles.emergencyText}>I Need Help Now</Text>
+                </Pressable>
+              </View>
             </View>
           </Animated.View>
         </>
       )}
+      {/* Emergency confirmation modal */}
+      <Modal
+        visible={emergencyVisible}
+        transparent
+        animationType="fade"
+        statusBarTranslucent
+        onRequestClose={() => setEmergencyVisible(false)}
+      >
+        <Pressable style={styles.modalBackdrop} onPress={() => setEmergencyVisible(false)}>
+          <Pressable style={styles.modalCard} onPress={() => {}}>
+            {/* Icon */}
+            <View style={styles.modalIconWrap}>
+              <MaterialIcons name="crisis-alert" size={36} color="#EF4444" />
+            </View>
+
+            {/* Text */}
+            <Text style={styles.modalTitle}>Send Emergency Alert?</Text>
+            <Text style={styles.modalBody}>
+              This will notify nearby SafeHaven members that you need immediate help.
+            </Text>
+
+            {/* Buttons */}
+            <Pressable
+              style={({ pressed }) => [styles.modalSendBtn, pressed && { opacity: 0.85 }]}
+              onPress={() => {
+                setEmergencyVisible(false);
+                // TODO: broadcast emergency over mesh
+              }}
+            >
+              <MaterialIcons name="crisis-alert" size={18} color="#fff" />
+              <Text style={styles.modalSendText}>Send Alert</Text>
+            </Pressable>
+
+            <Pressable
+              style={({ pressed }) => [styles.modalCancelBtn, pressed && { opacity: 0.7 }]}
+              onPress={() => setEmergencyVisible(false)}
+            >
+              <Text style={styles.modalCancelText}>Cancel</Text>
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </>
   );
 }
@@ -249,5 +302,111 @@ const styles = StyleSheet.create({
   },
   menuChevron: {
     marginLeft: 'auto',
+  },
+  emergencyWrap: {
+    marginTop: 'auto',
+    paddingTop: 20,
+    paddingBottom: 12,
+  },
+  emergencyBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    backgroundColor: '#EF4444',
+    borderRadius: 18,
+    paddingVertical: 16,
+    shadowColor: '#EF4444',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.35,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  emergencyText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#fff',
+    letterSpacing: -0.2,
+  },
+
+  // Emergency modal
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 28,
+  },
+  modalCard: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 28,
+    paddingHorizontal: 28,
+    paddingVertical: 32,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 20 },
+    shadowOpacity: 0.15,
+    shadowRadius: 40,
+    elevation: 20,
+  },
+  modalIconWrap: {
+    width: 72,
+    height: 72,
+    borderRadius: 24,
+    backgroundColor: 'rgba(239,68,68,0.10)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(239,68,68,0.20)',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#1A1A2E',
+    textAlign: 'center',
+    letterSpacing: -0.4,
+    marginBottom: 10,
+  },
+  modalBody: {
+    fontSize: 14,
+    color: 'rgba(26,26,46,0.55)',
+    textAlign: 'center',
+    lineHeight: 21,
+    marginBottom: 28,
+  },
+  modalSendBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    width: '100%',
+    paddingVertical: 16,
+    borderRadius: 18,
+    backgroundColor: '#EF4444',
+    shadowColor: '#EF4444',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.30,
+    shadowRadius: 16,
+    elevation: 8,
+    marginBottom: 12,
+  },
+  modalSendText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#fff',
+  },
+  modalCancelBtn: {
+    width: '100%',
+    paddingVertical: 14,
+    borderRadius: 18,
+    backgroundColor: 'rgba(26,26,46,0.06)',
+    alignItems: 'center',
+  },
+  modalCancelText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: 'rgba(26,26,46,0.50)',
   },
 });
