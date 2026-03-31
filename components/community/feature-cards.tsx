@@ -1,5 +1,4 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
@@ -20,6 +19,11 @@ interface FeatureCardProps {
   title: string;
   description: string;
   onPress: () => void;
+}
+
+interface Props {
+  onOpenMeetups: () => void;
+  onOpenChat: () => void;
 }
 
 function FeatureCard({
@@ -83,9 +87,7 @@ function FeatureCard({
   );
 }
 
-export function FeatureCards() {
-  const router = useRouter();
-
+export function FeatureCards({ onOpenMeetups, onOpenChat }: Props) {
   // Features
   const FEATURES: (FeatureCardProps & { delay: number })[] = [
     {
@@ -108,7 +110,7 @@ export function FeatureCards() {
       title: 'Community Meetups',
       description:
         "Schedule a local gathering\nand bring the neighborhood together",
-      onPress: () => router.push('/community/meetups'),
+      onPress: onOpenMeetups,
       delay: 160,
     },
     {
@@ -120,7 +122,7 @@ export function FeatureCards() {
       title: 'Offline Messages',
       description:
         'Direct chat over the SafeHaven\nmesh network — no Wi-Fi needed',
-      onPress: () => router.push('/community/chat'),
+      onPress: onOpenChat,
       delay: 320,
     },
     {

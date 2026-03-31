@@ -1,23 +1,40 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 import { LightVault } from '@/constants/theme';
 
-export default function ChatScreen() {
+interface Props {
+  onBack: () => void;
+}
+
+export function Chat({ onBack }: Props) {
   return (
     <View style={styles.root}>
-      <Text style={styles.title}>Community Chat</Text>
-      <Text style={styles.subtitle}>
-        Talk with everyone in your neighborhood
-      </Text>
+      {/* Header */}
+      <View style={styles.header}>
+        <Pressable onPress={onBack} style={styles.backBtn}>
+          <MaterialIcons name="arrow-back" size={22} color={LightVault.textPrimary} />
+        </Pressable>
+        <Text style={styles.title}>Community Chat</Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    padding: 24,
+    paddingHorizontal: 24,
+    gap: 12,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  backBtn: {
+    padding: 6,
+    borderRadius: 10,
+    backgroundColor: 'rgba(0,0,0,0.04)',
   },
   title: {
     fontSize: 28,
@@ -26,7 +43,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
   subtitle: {
-    marginTop: 6,
     fontSize: 14,
     color: LightVault.textSecondary,
   },

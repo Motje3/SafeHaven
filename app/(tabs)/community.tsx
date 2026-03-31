@@ -19,9 +19,9 @@ import { LightVault } from '@/constants/theme';
 
 // Prototype Community Features
 
-import { useRouter } from 'expo-router';
-
 import { FeatureCards } from '@/components/community/feature-cards';
+import { Meetups } from '@/components/community/meetups';
+import { Chat } from '@/components/community/chat';
 
 const SCREEN_W = Dimensions.get('window').width;
 
@@ -173,7 +173,8 @@ const SCREEN_W = Dimensions.get('window').width;
 
 export default function CommunityScreen() {
   const insets = useSafeAreaInsets();
-  const router = useRouter(); // 👈 Prototype Community Features
+
+  const [view, setView] = React.useState<'features' | 'meetups' | 'chat'>('features');
 
   // Features (OLD)
   // const FEATURES: (FeatureCardProps & { delay: number })[] = [
@@ -264,12 +265,14 @@ export default function CommunityScreen() {
           <Text style={styles.pageSubtitle}>Your neighborhood network</Text>
         </Animated.View>
 
-        {/* Section label */}
-        <Animated.View entering={FadeInDown.duration(400).delay(60).springify()}>
-          <Text style={styles.sectionLabel}>Features</Text>
-        </Animated.View>
+        {/* (OLD) */}
 
-        {/* Feature cards (OLD) */}
+        {/* Section label */}
+        {/* <Animated.View entering={FadeInDown.duration(400).delay(60).springify()}>
+          <Text style={styles.sectionLabel}>Features</Text>
+        </Animated.View> */}
+
+        {/* Feature cards */}
         {/* <View style={styles.cardList}>
           {FEATURES.map((f) => (
             <Animated.View
@@ -290,8 +293,42 @@ export default function CommunityScreen() {
           ))}
         </View> */}
 
-        {/* Feature cards */}
-        <FeatureCards />
+        {view === 'features' && (
+          <>
+            {/* Section label */}
+            <Animated.View entering={FadeInDown.duration(400).delay(60).springify()}>
+              <Text style={styles.sectionLabel}>Features</Text>
+            </Animated.View>
+
+            {/* Feature cards */}
+            <FeatureCards
+              onOpenMeetups={() => setView('meetups')}
+              onOpenChat={() => setView('chat')}
+            />
+          </>
+        )}
+
+        {/* ✅ MEETUPS */}
+        {view === 'meetups' && (
+          <>
+            <Animated.View entering={FadeInDown.duration(400).springify()}>
+              <Text style={styles.sectionLabel}>Meetups</Text>
+            </Animated.View>
+
+            <Meetups onBack={() => setView('features')} />
+          </>
+        )}
+
+        {/* ✅ CHAT */}
+        {view === 'chat' && (
+          <>
+            <Animated.View entering={FadeInDown.duration(400).springify()}>
+              <Text style={styles.sectionLabel}>Chat</Text>
+            </Animated.View>
+
+            <Chat onBack={() => setView('features')} />
+          </>
+        )}
       </Animated.ScrollView>
     </View>
   );
