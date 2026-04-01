@@ -151,21 +151,36 @@ export function FeatureCards({ onOpenMeetups, onOpenChat }: Props) {
     },
   ];
 
-  return (
-    <View style={styles.cardList}>
-      {FEATURES.map((f) => (
-        <Animated.View
-          key={f.title}
-          entering={FadeInDown.duration(500).delay(f.delay).springify()}
-        >
-          <FeatureCard {...f} />
-        </Animated.View>
-      ))}
-    </View>
+return (
+    <Animated.ScrollView
+      style={styles.scroll}
+      contentContainerStyle={[
+        styles.content,
+        { paddingBottom: 120 },
+      ]}
+      showsVerticalScrollIndicator={false}
+    >
+      <View style={styles.cardList}>
+        {FEATURES.map((f) => (
+          <Animated.View
+            key={f.title}
+            entering={FadeInDown.duration(500).delay(f.delay).springify()}
+          >
+            <FeatureCard {...f} />
+          </Animated.View>
+        ))}
+      </View>
+    </Animated.ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  scroll: {
+    flex: 1,
+  },
+  content: {
+    paddingHorizontal: 24,
+  },
   cardList: {
     gap: 14,
   },
