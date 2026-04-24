@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import React, { useEffect } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -12,12 +12,17 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { LOCKER_BASE_URL, LOCKER_REQUEST_TIMEOUT_MS } from '@/constants/locker';
 import { LightVault } from '@/constants/theme';
 
 export function ScanUnlockCard() {
   const pulseScale = useSharedValue(1);
   const pulseOpacity = useSharedValue(0.6);
   const cardScale = useSharedValue(1);
+
+  const [isLocked, setIsLocked] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     pulseScale.value = withRepeat(
@@ -55,9 +60,27 @@ export function ScanUnlockCard() {
     cardScale.value = withSpring(1.0, { damping: 20, stiffness: 300 });
   };
 
-  const handlePress = () => {
+  const handlePress = async () => {
+    if (isLoading) return;
+
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    // TODO: Navigate to scan screen or trigger QR scanner
+    setError(null);
+    setIsLoading(true);
+
+    const action = isLocked ? 'open' : 'close';
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), LOCKER_REQUEST_TIMEOUT_MS);
+
+    try {
+      const res = await fetch(`${LOCKER_BASE_URL}/${action}`, { signal: controller.signal });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setIsLocked((prev) => !prev);
+    } catch (e: any) {
+      setError(e?.name === 'AbortError' ? 'Locker timed out' : 'Could not reach locker');
+    } finally {
+      clearTimeout(timeout);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -84,26 +107,44 @@ export function ScanUnlockCard() {
             {/* Label */}
             <View style={styles.labelRow}>
               <View style={styles.activeDot} />
-              <Text style={styles.smallLabel}>UNLOCK CLOSET</Text>
+              <Text style={styles.smallLabel}>
+                {isLocked ? 'UNLOCK CLOSET' : 'LOCK CLOSET'}
+              </Text>
             </View>
 
             {/* Main text */}
             <View style={styles.mainText}>
-              <Text style={styles.scanTo}>Scan to</Text>
-              <Text style={styles.open}>Open</Text>
+              <Text style={styles.scanTo}>Tap to</Text>
+              <Text style={styles.open}>{isLocked ? 'Open' : 'Close'}</Text>
             </View>
 
             {/* Hint */}
             <View style={styles.hintRow}>
               <MaterialIcons name="sensors" size={15} color="rgba(255,255,255,0.55)" />
-              <Text style={styles.hintText}>Tap to connect</Text>
+              <Text style={styles.hintText}>
+                {isLoading
+                  ? 'Sending…'
+                  : error
+                    ? error
+                    : isLocked
+                      ? 'Locker is locked'
+                      : 'Locker is open'}
+              </Text>
             </View>
           </View>
 
-          {/* Right QR area */}
+          {/* Right status area */}
           <View style={styles.rightContent}>
             <View style={styles.qrFrame}>
-              <MaterialIcons name="qr-code-scanner" size={44} color="rgba(255,255,255,0.90)" />
+              {isLoading ? (
+                <ActivityIndicator size="large" color="rgba(255,255,255,0.90)" />
+              ) : (
+                <MaterialIcons
+                  name={isLocked ? 'lock' : 'lock-open'}
+                  size={44}
+                  color="rgba(255,255,255,0.90)"
+                />
+              )}
             </View>
           </View>
         </Pressable>
