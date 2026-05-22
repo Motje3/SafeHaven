@@ -3,44 +3,41 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { DoorStatusCard } from '@/components/home/door-status-card';
-import { HomeTopBar } from '@/components/home/home-top-bar';
-import { InUseCard } from '@/components/home/in-use-card';
-import { InventoryStatsRow } from '@/components/home/inventory-stats-row';
-import { StatusBannerCard } from '@/components/home/status-banner-card';
+import { BatteryStatusCard } from '@/components/energie/battery-status-card';
+import { ChargingIllustration } from '@/components/energie/charging-illustration';
+import { VoorzieningenSection } from '@/components/energie/voorzieningen-section';
+import { WeatherCard } from '@/components/energie/weather-card';
+import { ScreenTopBar } from '@/components/shared/screen-top-bar';
 
-export default function HomeScreen() {
+export default function EnergieScreen() {
   const insets = useSafeAreaInsets();
 
   return (
     <View style={styles.root}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[
-          styles.content,
-          { paddingTop: insets.top + 6, paddingBottom: 140 },
-        ]}
+        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
-          <HomeTopBar title="Home" lastUpdated="15:54" />
+          <ScreenTopBar title="Energie" showBack showAvatar avatarInitials="MV" reserveRightGutter />
         </Animated.View>
 
         <View style={styles.body}>
           <Animated.View entering={FadeInDown.duration(500).delay(80).springify()}>
-            <StatusBannerCard />
+            <WeatherCard />
           </Animated.View>
 
           <Animated.View entering={FadeInDown.duration(500).delay(160).springify()}>
-            <DoorStatusCard locked />
+            <ChargingIllustration />
           </Animated.View>
 
           <Animated.View entering={FadeInDown.duration(500).delay(240).springify()}>
-            <InventoryStatsRow />
+            <BatteryStatusCard />
           </Animated.View>
 
           <Animated.View entering={FadeInDown.duration(500).delay(320).springify()}>
-            <InUseCard />
+            <VoorzieningenSection />
           </Animated.View>
         </View>
       </ScrollView>
@@ -59,7 +56,7 @@ const styles = StyleSheet.create({
   content: {},
   body: {
     paddingHorizontal: 16,
-    paddingTop: 14,
+    paddingTop: 12,
     gap: 14,
   },
 });

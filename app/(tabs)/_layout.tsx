@@ -16,6 +16,8 @@ export default function TabLayout() {
         <Tabs.Screen name="marketplace" />
         <Tabs.Screen name="index" />
         <Tabs.Screen name="community" />
+        <Tabs.Screen name="energie" options={{ href: null }} />
+        <Tabs.Screen name="informatie" options={{ href: null }} />
         <Tabs.Screen name="profile" options={{ href: null }} />
       </Tabs>
       <MenuDrawer />
