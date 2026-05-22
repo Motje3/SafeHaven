@@ -1,111 +1,92 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import {
-  Dimensions,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import Animated, {
-  FadeInDown,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { LightVault } from '@/constants/theme';
-
-// Prototype Community Features
-
-import { FeatureCards } from '@/components/community/feature-cards';
-import { Meetups } from '@/components/community/meetups';
-import { Chat } from '@/components/community/chat';
+import { ActionCard, type ActionIconConfig } from '@/components/community/action-card';
+import { NotificationItem } from '@/components/community/notification-item';
+import { ScreenTopBar } from '@/components/shared/screen-top-bar';
 
 const SCREEN_W = Dimensions.get('window').width;
+const PAGE_PAD = 16;
+const GRID_GAP = 12;
+const CARD_W = (SCREEN_W - PAGE_PAD * 2 - GRID_GAP) / 2;
 
-// ─── Mesh Sync Bar ────────────────────────────────────────────────────────────
+type GridAction = {
+  label: string;
+  icon: ActionIconConfig;
+};
 
-// ─── Main Screen ──────────────────────────────────────────────────────────────
+const ACTIONS: GridAction[] = [
+  { label: 'Ik heb hulp nodig', icon: { lib: 'mc', name: 'shield-alert', color: '#0F172A', size: 44 } },
+  { label: 'Ik ben bij de kast', icon: { lib: 'material', name: 'home', color: '#EF4444', size: 44 } },
+  { label: 'Ik heb hulp nodig', icon: { lib: 'mc', name: 'shield-alert', color: '#0F172A', size: 36 } },
+  { label: 'Wie is er bij de\nkast?', icon: { lib: 'mc', name: 'shield-alert', color: '#0F172A', size: 48 } },
+];
 
 export default function CommunityScreen() {
   const insets = useSafeAreaInsets();
 
-  const [view, setView] = React.useState<'features' | 'meetups' | 'chat'>('features');
-
   return (
     <View style={styles.root}>
-      {/* Background — same gradient as home */}
-      <View style={StyleSheet.absoluteFill} pointerEvents="none">
-        <View style={styles.bgTop} />
-        <View style={styles.bgBottom} />
-        <View style={[styles.blob1, { left: SCREEN_W / 2 - 175 }]} />
-        <View style={styles.blob2} />
-      </View>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        showsVerticalScrollIndicator={false}
+      >
+        <Animated.View entering={FadeInDown.duration(400).springify()}>
+          <ScreenTopBar title="Community" showBack reserveRightGutter />
+        </Animated.View>
 
-      {/* Page header */}
-      <Animated.View entering={FadeInDown.duration(400).springify()} style={[styles.header, { paddingTop: insets.top + 14, paddingHorizontal: 24 }]}>
-        <View style={styles.titleRow}>
-          <Text style={styles.pageTitle}>Community</Text>
-          <View style={styles.activePill}>
-            <View style={styles.activeDot} />
-            <Text style={styles.activeText}>24 active</Text>
-          </View>
+        <View style={styles.body}>
+          <Animated.View entering={FadeInDown.duration(500).delay(80).springify()} style={styles.grid}>
+            {ACTIONS.map((a, i) => (
+              <ActionCard key={`${a.label}-${i}`} label={a.label} icon={a.icon} width={CARD_W} />
+            ))}
+          </Animated.View>
+
+          <Animated.View entering={FadeInDown.duration(500).delay(160).springify()}>
+            <View style={styles.notificationsCard}>
+              <View style={styles.notifHeader}>
+                <MaterialIcons name="notifications" size={20} color="#14342B" />
+                <Text style={styles.notifTitle}>Meldingen</Text>
+              </View>
+
+              <View style={styles.divider} />
+
+              <NotificationItem
+                variant="plain"
+                message="Gavin en 24 anderen zijn nu bij de noodkast"
+                timestamp="12:45"
+              />
+              <View style={styles.divider} />
+
+              <NotificationItem
+                variant="alert"
+                who="Frank"
+                location="beursplein 8"
+                timestamp="12:45"
+              />
+              <View style={styles.divider} />
+
+              <NotificationItem
+                variant="reply"
+                message="Lola vraagt wie er bij de kast is"
+                timestamp="12:45"
+              />
+              <View style={styles.divider} />
+
+              <NotificationItem
+                variant="alert"
+                who="Lola"
+                location="beursplein 8"
+                timestamp="12:45"
+              />
+            </View>
+          </Animated.View>
         </View>
-        <Text style={styles.pageSubtitle}>Your neighborhood network</Text>
-        
-        {/* Section label features */}
-        {view === 'features' && (
-          <Animated.View entering={FadeInDown.duration(400).delay(60).springify()}>
-            <View style={styles.sectionRow}>
-              <Text style={styles.sectionLabel}>Features</Text>
-            </View>
-          </Animated.View>
-        )}
-
-        {/* Section label meetups */}
-        {view === 'meetups' && (
-          <Animated.View entering={FadeInDown.duration(400).springify()}>
-            <View style={styles.sectionRow}>
-              <Pressable onPress={() => setView('features')} style={styles.backBtn}>
-                <MaterialIcons name="arrow-back" size={22} color={LightVault.textPrimary} />
-              </Pressable>
-              <Text style={styles.sectionLabel}>Meetups</Text>
-            </View>
-          </Animated.View>
-        )}
-
-        {/* Section label chat */}
-        {view === 'chat' && (
-          <Animated.View entering={FadeInDown.duration(400).springify()}>
-            <View style={styles.sectionRow}>
-              <Pressable onPress={() => setView('features')} style={styles.backBtn}>
-                <MaterialIcons name="arrow-back" size={22} color={LightVault.textPrimary} />
-              </Pressable>
-              <Text style={styles.sectionLabel}>Chat</Text>
-            </View>
-          </Animated.View>
-        )}
-      </Animated.View>
-
-      {/* Feature cards */}
-      {view === 'features' && (
-        <FeatureCards
-          onOpenMeetups={() => setView('meetups')}
-          onOpenChat={() => setView('chat')}
-        />
-      )}
-
-      {/* Meetups */}
-      {view === 'meetups' && (
-        <Meetups />
-      )}
-
-      {/* Chat */}
-      {view === 'chat' && (
-        <Chat />
-      )}
+      </ScrollView>
     </View>
   );
 }
@@ -113,101 +94,48 @@ export default function CommunityScreen() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F4F4F6',
   },
-  bgTop: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: '55%',
-    backgroundColor: '#FFFFFF',
+  scroll: {
+    flex: 1,
   },
-  bgBottom: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: '55%',
-    backgroundColor: '#EDE8FD',
+  content: {},
+  body: {
+    paddingHorizontal: PAGE_PAD,
+    paddingTop: 12,
+    gap: 16,
   },
-  blob1: {
-    position: 'absolute',
-    width: 350,
-    height: 350,
-    borderRadius: 175,
-    backgroundColor: 'rgba(124, 111, 224, 0.09)',
-    top: -100,
-  },
-  blob2: {
-    position: 'absolute',
-    width: 240,
-    height: 240,
-    borderRadius: 120,
-    backgroundColor: 'rgba(167, 139, 250, 0.07)',
-    bottom: 100,
-    right: -60,
-  },
-  header: {},
-  titleRow: {
+  grid: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
+    flexWrap: 'wrap',
+    gap: GRID_GAP,
   },
-  backBtn: {
-    padding: 6,
-    borderRadius: 10,
-    backgroundColor: 'rgba(0,0,0,0.04)',
+  notificationsCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 6,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    elevation: 2,
   },
-  pageTitle: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: LightVault.textPrimary,
-    letterSpacing: -0.8,
-  },
-  pageSubtitle: {
-    fontSize: 14,
-    color: LightVault.textSecondary,
-    fontWeight: '500',
-    marginTop: 2,
-  },
-  activePill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 12,
-    backgroundColor: 'rgba(34, 197, 94, 0.10)',
-    borderWidth: 1,
-    borderColor: 'rgba(34, 197, 94, 0.28)',
-  },
-  activeDot: {
-    width: 5,
-    height: 5,
-    borderRadius: 2.5,
-    backgroundColor: '#22C55E',
-  },
-  activeText: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: '#16A34A',
-  },
-  sectionRow: {
+  notifHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginTop: 24,
-    marginBottom: 12,
+    marginBottom: 14,
   },
-  sectionLabel: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: LightVault.textMuted,
-    letterSpacing: 0.5,
-    textTransform: 'uppercase',
+  notifTitle: {
+    fontSize: 17,
+    fontWeight: '800',
+    color: '#14342B',
+    letterSpacing: -0.3,
   },
-  cardList: {
-    gap: 14,
+  divider: {
+    height: 1,
+    backgroundColor: '#E5E7EB',
   },
 });

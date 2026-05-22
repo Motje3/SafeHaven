@@ -1,24 +1,41 @@
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React, { useRef, useState } from 'react';
-import { Animated, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const BLUE = '#7C6FE0';
-const DRAWER_WIDTH = 290;
+const DRAWER_WIDTH = Math.min(320, Dimensions.get('window').width * 0.82);
 
-const MENU_ITEMS: { icon: React.ComponentProps<typeof MaterialIcons>['name']; label: string }[] = [
-  { icon: 'person', label: 'Profile' },
-  { icon: 'monetization-on', label: 'SafeCoins' },
-  { icon: 'settings', label: 'Settings' },
-  { icon: 'help-outline', label: 'Help & Support' },
-  { icon: 'logout', label: 'Sign Out' },
+type IconName =
+  | { lib: 'material'; name: React.ComponentProps<typeof MaterialIcons>['name'] }
+  | { lib: 'mc'; name: React.ComponentProps<typeof MaterialCommunityIcons>['name'] };
+
+interface MenuItem {
+  icon: IconName;
+  label: string;
+  route?: string;
+}
+
+const MENU_ITEMS: MenuItem[] = [
+  { icon: { lib: 'material', name: 'person' }, label: 'Profiel', route: '/profile' },
+  { icon: { lib: 'material', name: 'location-on' }, label: 'Zoek mijn Noodkast' },
+  { icon: { lib: 'material', name: 'groups' }, label: 'Jouw buddy' },
+  { icon: { lib: 'mc', name: 'piggy-bank' }, label: 'Spaarpotje', route: '/spaarpotjes' },
+  { icon: { lib: 'material', name: 'settings' }, label: 'Instellingen' },
 ];
+
+function MenuIcon({ icon, color, size = 22 }: { icon: IconName; color: string; size?: number }) {
+  if (icon.lib === 'mc') {
+    return <MaterialCommunityIcons name={icon.name} size={size} color={color} />;
+  }
+  return <MaterialIcons name={icon.name} size={size} color={color} />;
+}
 
 export function MenuDrawer() {
   const [visible, setVisible] = useState(false);
-  const [emergencyVisible, setEmergencyVisible] = useState(false);
   const anim = useRef(new Animated.Value(0)).current;
   const insets = useSafeAreaInsets();
+  const router = useRouter();
 
   const open = () => {
     setVisible(true);
@@ -43,7 +60,7 @@ export function MenuDrawer() {
 
   const toggle = () => (visible ? close() : open());
 
-  // Burger → X line animations
+  // Burger → X animations
   const line1Style = {
     transform: [
       { translateY: anim.interpolate({ inputRange: [0, 1], outputRange: [0, 7] }) },
@@ -58,10 +75,9 @@ export function MenuDrawer() {
     ],
   };
 
-  // Drawer slide-in from right
   const drawerTranslateX = anim.interpolate({
     inputRange: [0, 1],
-    outputRange: [DRAWER_WIDTH, 0],
+    outputRange: [-DRAWER_WIDTH, 0],
   });
 
   const backdropOpacity = anim.interpolate({
@@ -69,9 +85,15 @@ export function MenuDrawer() {
     outputRange: [0, 0.55],
   });
 
+  const handleItemPress = (item: MenuItem) => {
+    close();
+    if (item.route) {
+      setTimeout(() => router.push(item.route as any), 220);
+    }
+  };
+
   return (
     <>
-      {/* Burger button */}
       <Pressable
         onPress={toggle}
         style={[styles.burgerBtn, { top: insets.top + 10 }]}
@@ -82,108 +104,65 @@ export function MenuDrawer() {
         <Animated.View style={[styles.line, line3Style]} />
       </Pressable>
 
-      {/* Overlay */}
       {visible && (
         <>
-          {/* Backdrop */}
           <Pressable style={StyleSheet.absoluteFill} onPress={close}>
-            <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop, { opacity: backdropOpacity }]} />
+            <Animated.View
+              style={[StyleSheet.absoluteFill, styles.backdrop, { opacity: backdropOpacity }]}
+            />
           </Pressable>
 
-          {/* Drawer panel */}
           <Animated.View
             style={[styles.drawer, { transform: [{ translateX: drawerTranslateX }] }]}
           >
-            <View style={[styles.drawerInner, { paddingTop: insets.top + 24 }]}>
-              {/* Avatar area */}
-              <View style={styles.avatarRow}>
-                <View style={styles.avatar}>
-                  <MaterialIcons name="person" size={36} color={BLUE} />
-                </View>
-                <View>
-                  <Text style={styles.userName}>SafeHaven</Text>
-                  <View style={styles.karmaBadge}>
-                    <MaterialIcons name="monetization-on" size={13} color={BLUE} />
-                    <Text style={styles.karmaText}>142 SafeCoins</Text>
+            <View style={[styles.drawerInner, { paddingTop: insets.top + 18, paddingBottom: insets.bottom + 16 }]}>
+              <Pressable onPress={close} hitSlop={8} style={styles.closeBtn}>
+                <MaterialIcons name="close" size={26} color="#0F172A" />
+              </Pressable>
+
+              <View style={styles.profileSection}>
+                <View style={styles.avatar} />
+                <Text style={styles.userName}>Gavin van der Berg</Text>
+                <Text style={styles.userSub}>Nummer 13B</Text>
+              </View>
+
+              <View style={styles.menuList}>
+                {MENU_ITEMS.map((item) => (
+                  <Pressable
+                    key={item.label}
+                    style={({ pressed }) => [styles.menuItem, pressed && styles.menuItemPressed]}
+                    onPress={() => handleItemPress(item)}
+                  >
+                    <MenuIcon icon={item.icon} color="#0F172A" />
+                    <Text style={styles.menuLabel}>{item.label}</Text>
+                  </Pressable>
+                ))}
+              </View>
+
+              <View style={styles.notifWrap}>
+                <View style={styles.notifAvatar} />
+                <View style={styles.notifBody}>
+                  <View style={styles.notifHeader}>
+                    <Text style={styles.notifUser}>mo</Text>
+                    <Text style={styles.notifTime}>2 days ago</Text>
                   </View>
+                  <Text style={styles.notifText}>
+                    Optie voor feedback geven over de app of de noodkast
+                  </Text>
                 </View>
               </View>
 
-              <View style={styles.divider} />
-
-              {/* Menu items */}
-              {MENU_ITEMS.map((item, i) => (
-                <Pressable
-                  key={item.label}
-                  style={({ pressed }) => [styles.menuItem, pressed && styles.menuItemPressed]}
-                  onPress={close}
-                >
-                  <View style={styles.menuIconWrap}>
-                    <MaterialIcons name={item.icon} size={20} color={BLUE} />
-                  </View>
-                  <Text style={styles.menuLabel}>{item.label}</Text>
-                  {i === MENU_ITEMS.length - 1 ? null : (
-                    <MaterialIcons name="chevron-right" size={18} color="#CCC" style={styles.menuChevron} />
-                  )}
-                </Pressable>
-              ))}
-
-              {/* Emergency button */}
-              <View style={styles.emergencyWrap}>
-                <Pressable
-                  style={({ pressed }) => [styles.emergencyBtn, pressed && { opacity: 0.85 }]}
-                  onPress={() => setEmergencyVisible(true)}
-                >
-                  <MaterialIcons name="crisis-alert" size={20} color="#fff" />
-                  <Text style={styles.emergencyText}>I Need Help Now</Text>
-                </Pressable>
-              </View>
+              <Pressable
+                style={({ pressed }) => [styles.logoutBtn, pressed && { opacity: 0.7 }]}
+                onPress={close}
+              >
+                <MaterialIcons name="logout" size={22} color="#0F172A" />
+                <Text style={styles.logoutText}>Uitloggen</Text>
+              </Pressable>
             </View>
           </Animated.View>
         </>
       )}
-      {/* Emergency confirmation modal */}
-      <Modal
-        visible={emergencyVisible}
-        transparent
-        animationType="fade"
-        statusBarTranslucent
-        onRequestClose={() => setEmergencyVisible(false)}
-      >
-        <Pressable style={styles.modalBackdrop} onPress={() => setEmergencyVisible(false)}>
-          <Pressable style={styles.modalCard} onPress={() => {}}>
-            {/* Icon */}
-            <View style={styles.modalIconWrap}>
-              <MaterialIcons name="crisis-alert" size={36} color="#EF4444" />
-            </View>
-
-            {/* Text */}
-            <Text style={styles.modalTitle}>Send Emergency Alert?</Text>
-            <Text style={styles.modalBody}>
-              This will notify nearby SafeHaven members that you need immediate help.
-            </Text>
-
-            {/* Buttons */}
-            <Pressable
-              style={({ pressed }) => [styles.modalSendBtn, pressed && { opacity: 0.85 }]}
-              onPress={() => {
-                setEmergencyVisible(false);
-                // TODO: broadcast emergency over mesh
-              }}
-            >
-              <MaterialIcons name="crisis-alert" size={18} color="#fff" />
-              <Text style={styles.modalSendText}>Send Alert</Text>
-            </Pressable>
-
-            <Pressable
-              style={({ pressed }) => [styles.modalCancelBtn, pressed && { opacity: 0.7 }]}
-              onPress={() => setEmergencyVisible(false)}
-            >
-              <Text style={styles.modalCancelText}>Cancel</Text>
-            </Pressable>
-          </Pressable>
-        </Pressable>
-      </Modal>
     </>
   );
 }
@@ -218,195 +197,126 @@ const styles = StyleSheet.create({
   drawer: {
     position: 'absolute',
     top: 0,
-    right: 0,
+    left: 0,
     bottom: 0,
     width: DRAWER_WIDTH,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     zIndex: 99,
     shadowColor: '#000',
-    shadowOffset: { width: -6, height: 0 },
+    shadowOffset: { width: 6, height: 0 },
     shadowOpacity: 0.12,
     shadowRadius: 24,
     elevation: 24,
-    borderTopLeftRadius: 28,
-    borderBottomLeftRadius: 28,
+    borderTopRightRadius: 24,
+    borderBottomRightRadius: 24,
   },
   drawerInner: {
     flex: 1,
-    paddingHorizontal: 24,
+    paddingHorizontal: 22,
   },
-  avatarRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 14,
-    paddingBottom: 20,
-  },
-  avatar: {
-    width: 68,
-    height: 68,
-    borderRadius: 34,
-    backgroundColor: '#EEF2FF',
+  closeBtn: {
+    alignSelf: 'flex-end',
+    width: 32,
+    height: 32,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  profileSection: {
+    alignItems: 'center',
+    marginTop: 4,
+    marginBottom: 22,
+  },
+  avatar: {
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+    backgroundColor: '#86CFA1',
+    marginBottom: 12,
+  },
   userName: {
     fontSize: 17,
-    fontWeight: '700',
-    color: '#111',
-    marginBottom: 4,
+    fontWeight: '800',
+    color: '#0F172A',
+    letterSpacing: -0.3,
   },
-  karmaBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 3,
-    backgroundColor: '#EEF2FF',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 20,
-    alignSelf: 'flex-start',
+  userSub: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginTop: 2,
   },
-  karmaText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: BLUE,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: '#F0F0F0',
-    marginBottom: 8,
+  menuList: {
+    gap: 6,
   },
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
-    paddingVertical: 13,
-    borderRadius: 12,
+    gap: 16,
+    paddingVertical: 12,
     paddingHorizontal: 6,
+    borderRadius: 10,
   },
   menuItemPressed: {
-    backgroundColor: '#F5F7FF',
-  },
-  menuIconWrap: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    backgroundColor: '#EEF2FF',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#F5F5F7',
   },
   menuLabel: {
-    flex: 1,
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#1A1A1A',
-  },
-  menuChevron: {
-    marginLeft: 'auto',
-  },
-  emergencyWrap: {
-    marginTop: 'auto',
-    paddingTop: 20,
-    paddingBottom: 12,
-  },
-  emergencyBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
-    backgroundColor: '#EF4444',
-    borderRadius: 18,
-    paddingVertical: 16,
-    shadowColor: '#EF4444',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.35,
-    shadowRadius: 16,
-    elevation: 8,
-  },
-  emergencyText: {
     fontSize: 16,
-    fontWeight: '700',
-    color: '#fff',
+    fontWeight: '600',
+    color: '#0F172A',
     letterSpacing: -0.2,
   },
-
-  // Emergency modal
-  modalBackdrop: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.45)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 28,
-  },
-  modalCard: {
-    width: '100%',
+  notifWrap: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 'auto',
+    marginBottom: 22,
     backgroundColor: '#FFFFFF',
-    borderRadius: 28,
-    paddingHorizontal: 28,
-    paddingVertical: 32,
-    alignItems: 'center',
+    borderRadius: 14,
+    padding: 12,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 20 },
-    shadowOpacity: 0.15,
-    shadowRadius: 40,
-    elevation: 20,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.12,
+    shadowRadius: 14,
+    elevation: 6,
   },
-  modalIconWrap: {
-    width: 72,
-    height: 72,
-    borderRadius: 24,
-    backgroundColor: 'rgba(239,68,68,0.10)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(239,68,68,0.20)',
+  notifAvatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#D1D5DB',
   },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#1A1A2E',
-    textAlign: 'center',
-    letterSpacing: -0.4,
-    marginBottom: 10,
+  notifBody: {
+    flex: 1,
   },
-  modalBody: {
+  notifHeader: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 6,
+    marginBottom: 2,
+  },
+  notifUser: {
     fontSize: 14,
-    color: 'rgba(26,26,46,0.55)',
-    textAlign: 'center',
-    lineHeight: 21,
-    marginBottom: 28,
+    fontWeight: '700',
+    color: '#0F172A',
   },
-  modalSendBtn: {
+  notifTime: {
+    fontSize: 12,
+    color: '#6B7280',
+  },
+  notifText: {
+    fontSize: 13,
+    color: '#0F172A',
+    lineHeight: 18,
+  },
+  logoutBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    width: '100%',
-    paddingVertical: 16,
-    borderRadius: 18,
-    backgroundColor: '#EF4444',
-    shadowColor: '#EF4444',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.30,
-    shadowRadius: 16,
-    elevation: 8,
-    marginBottom: 12,
+    gap: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 4,
   },
-  modalSendText: {
+  logoutText: {
     fontSize: 16,
-    fontWeight: '700',
-    color: '#fff',
-  },
-  modalCancelBtn: {
-    width: '100%',
-    paddingVertical: 14,
-    borderRadius: 18,
-    backgroundColor: 'rgba(26,26,46,0.06)',
-    alignItems: 'center',
-  },
-  modalCancelText: {
-    fontSize: 15,
     fontWeight: '600',
-    color: 'rgba(26,26,46,0.50)',
+    color: '#0F172A',
   },
 });
