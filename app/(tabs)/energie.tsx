@@ -5,8 +5,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BatteryStatusCard } from '@/components/energie/battery-status-card';
 import { ChargingIllustration } from '@/components/energie/charging-illustration';
+import { OpbrengstpiekCard } from '@/components/energie/opbrengstpiek-card';
+import { TipsCard } from '@/components/energie/tips-card';
 import { VoorzieningenSection } from '@/components/energie/voorzieningen-section';
-import { WeatherCard } from '@/components/energie/weather-card';
 import { ScreenTopBar } from '@/components/shared/screen-top-bar';
 
 export default function EnergieScreen() {
@@ -25,19 +26,23 @@ export default function EnergieScreen() {
 
         <View style={styles.body}>
           <Animated.View entering={FadeInDown.duration(500).delay(80).springify()}>
-            <WeatherCard />
-          </Animated.View>
-
-          <Animated.View entering={FadeInDown.duration(500).delay(160).springify()}>
             <ChargingIllustration />
           </Animated.View>
 
-          <Animated.View entering={FadeInDown.duration(500).delay(240).springify()}>
+          <Animated.View entering={FadeInDown.duration(500).delay(160).springify()}>
             <BatteryStatusCard />
+          </Animated.View>
+
+          <Animated.View entering={FadeInDown.duration(500).delay(240).springify()}>
+            <OpbrengstpiekCard />
           </Animated.View>
 
           <Animated.View entering={FadeInDown.duration(500).delay(320).springify()}>
             <VoorzieningenSection />
+          </Animated.View>
+
+          <Animated.View entering={FadeInDown.duration(500).delay(400).springify()}>
+            <TipsCard />
           </Animated.View>
         </View>
       </ScrollView>

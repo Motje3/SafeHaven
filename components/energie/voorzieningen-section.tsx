@@ -4,8 +4,25 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 const FILTERS = ['Alles', 'Beschikbaar'];
 
+type Station = {
+  id: string;
+  name: string;
+  subtitle: string;
+  location: string;
+  status: 'available' | 'full';
+};
+
+const STATIONS: Station[] = [
+  { id: '1', name: 'Powerbank station', subtitle: '3 oplaadplekken beschikbaar', location: '10 A', status: 'available' },
+  { id: '2', name: 'Laptop laden', subtitle: '0x laptop laden aankomend uur', location: '', status: 'full' },
+  { id: '3', name: 'Powerbank station', subtitle: '3 oplaadplekken beschikbaar', location: '10 B', status: 'available' },
+];
+
 export function VoorzieningenSection() {
   const [active, setActive] = useState(0);
+  const [expanded, setExpanded] = useState(false);
+
+  const visible = active === 1 ? STATIONS.filter((s) => s.status === 'available') : STATIONS;
 
   return (
     <View style={styles.card}>
@@ -27,13 +44,44 @@ export function VoorzieningenSection() {
                 pressed && !isActive && { opacity: 0.75 },
               ]}
             >
-              <Text style={[styles.pillText, isActive ? styles.pillTextActive : styles.pillTextInactive]}>
-                {label}
-              </Text>
+              <Text style={styles.pillText}>{label}</Text>
             </Pressable>
           );
         })}
       </View>
+
+      <View style={styles.list}>
+        {visible.map((station, i) => (
+          <View key={station.id}>
+            <View style={styles.stationRow}>
+              <View style={styles.stationCol}>
+                <Text style={styles.stationName}>{station.name}</Text>
+                <Text style={styles.stationSubtitle}>{station.subtitle}</Text>
+                {station.location ? <Text style={styles.stationLocation}>{station.location}</Text> : null}
+              </View>
+
+              {station.status === 'available' ? (
+                <Pressable style={({ pressed }) => [styles.claimBtn, pressed && { opacity: 0.85 }]}>
+                  <Text style={styles.claimText}>Claim</Text>
+                </Pressable>
+              ) : (
+                <View style={styles.fullBadge}>
+                  <Text style={styles.fullText}>Vol</Text>
+                </View>
+              )}
+            </View>
+            {i < visible.length - 1 && <View style={styles.divider} />}
+          </View>
+        ))}
+      </View>
+
+      <Pressable
+        onPress={() => setExpanded((v) => !v)}
+        style={({ pressed }) => [styles.expandBtn, pressed && { opacity: 0.6 }]}
+        hitSlop={8}
+      >
+        <MaterialIcons name={expanded ? 'expand-less' : 'expand-more'} size={24} color="#0F172A" />
+      </Pressable>
     </View>
   );
 }
@@ -65,6 +113,7 @@ const styles = StyleSheet.create({
   pillRow: {
     flexDirection: 'row',
     gap: 10,
+    marginBottom: 6,
   },
   pill: {
     paddingHorizontal: 22,
@@ -83,11 +132,68 @@ const styles = StyleSheet.create({
   pillText: {
     fontSize: 14,
     fontWeight: '600',
-  },
-  pillTextActive: {
     color: '#0F172A',
   },
-  pillTextInactive: {
+  list: {
+    marginTop: 4,
+  },
+  stationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    gap: 12,
+  },
+  stationCol: {
+    flex: 1,
+    gap: 2,
+  },
+  stationName: {
+    fontSize: 15,
+    fontWeight: '700',
     color: '#0F172A',
+  },
+  stationSubtitle: {
+    fontSize: 13,
+    fontStyle: 'italic',
+    color: '#6B7280',
+  },
+  stationLocation: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#0F172A',
+    marginTop: 2,
+  },
+  claimBtn: {
+    backgroundColor: '#22C55E',
+    paddingHorizontal: 22,
+    paddingVertical: 9,
+    borderRadius: 10,
+  },
+  claimText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 14,
+  },
+  fullBadge: {
+    paddingHorizontal: 22,
+    paddingVertical: 9,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#EF4444',
+    backgroundColor: '#FFFFFF',
+  },
+  fullText: {
+    color: '#EF4444',
+    fontWeight: '700',
+    fontSize: 14,
+  },
+  divider: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: '#E5E7EB',
+  },
+  expandBtn: {
+    alignSelf: 'center',
+    marginTop: 8,
+    paddingHorizontal: 12,
   },
 });

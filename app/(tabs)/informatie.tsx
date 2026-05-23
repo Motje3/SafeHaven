@@ -17,7 +17,11 @@ import { ContactCard } from '@/components/informatie/contact-card';
 import { PaginationDots } from '@/components/informatie/pagination-dots';
 import { RuleSlide } from '@/components/informatie/rule-slide';
 import { VideoCard } from '@/components/informatie/video-card';
+import { ActionStepsCard } from '@/components/noodupdates/action-steps-card';
+import { EmergencyStatusCard } from '@/components/noodupdates/emergency-status-card';
+import { GovernmentUpdatesCard } from '@/components/noodupdates/government-updates-card';
 import { ScreenTopBar } from '@/components/shared/screen-top-bar';
+import { useEmergency } from '@/hooks/use-emergency';
 
 const SCREEN_W = Dimensions.get('window').width;
 const PAGE_H_PADDING = 16;
@@ -99,9 +103,40 @@ export default function InformatieScreen() {
   const insets = useSafeAreaInsets();
   const contactScroll = useSnapPage(CONTACT_CARD_W, CONTACT_GAP);
   const rulesScroll = useSnapPage(RULES_SLIDE_W, RULES_GAP);
+  const { emergency } = useEmergency();
 
   const gridGap = 10;
   const gridItemW = (SCREEN_W - PAGE_H_PADDING * 2 - CARD_INNER_PADDING * 2 - gridGap) / 2;
+
+  if (emergency) {
+    return (
+      <View style={styles.root}>
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+          showsVerticalScrollIndicator={false}
+        >
+          <Animated.View entering={FadeInDown.duration(400).springify()}>
+            <ScreenTopBar title="Noodupdates" showBack showAvatar avatarInitials="MV" reserveRightGutter />
+          </Animated.View>
+
+          <View style={styles.body}>
+            <Animated.View entering={FadeInDown.duration(500).delay(80).springify()}>
+              <EmergencyStatusCard />
+            </Animated.View>
+
+            <Animated.View entering={FadeInDown.duration(500).delay(160).springify()}>
+              <GovernmentUpdatesCard />
+            </Animated.View>
+
+            <Animated.View entering={FadeInDown.duration(500).delay(240).springify()}>
+              <ActionStepsCard />
+            </Animated.View>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.root}>

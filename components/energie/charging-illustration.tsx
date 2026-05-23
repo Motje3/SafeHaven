@@ -80,7 +80,7 @@ export function ChargingIllustration({ title = 'Aan het oplading..' }: ChargingI
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#14342B',
     borderRadius: 18,
     paddingHorizontal: 14,
     paddingTop: 14,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 17,
     fontWeight: '700',
-    color: '#0F172A',
+    color: '#FFFFFF',
     letterSpacing: -0.3,
   },
   illustrationBox: {

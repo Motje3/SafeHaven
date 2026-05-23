@@ -11,9 +11,11 @@ const ICON_INACTIVE = '#8E8EAA';
 const CENTER_BORDER = '#1A1A2E';
 
 const TAB_CONFIGS: Record<string, { icon: React.ComponentProps<typeof MaterialIcons>['name']; center?: boolean }> = {
-  marketplace: { icon: 'location-on' },
-  index:        { icon: 'home', center: true },
-  community:    { icon: 'groups' },
+  marketplace: { icon: 'inventory-2' },
+  community:   { icon: 'groups' },
+  index:       { icon: 'home', center: true },
+  energie:     { icon: 'bolt' },
+  informatie:  { icon: 'info-outline' },
 };
 
 function TabIcon({

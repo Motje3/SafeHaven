@@ -7,23 +7,37 @@ interface StatusBannerCardProps {
   subtitle?: string;
   pageCount?: number;
   activePage?: number;
+  variant?: 'ok' | 'alert';
 }
 
 export function StatusBannerCard({
-  title = 'Status: alles op orde',
-  subtitle = 'Er zijn geen (mogelijke) storingen gemeten.',
+  title,
+  subtitle,
   pageCount = 3,
   activePage = 0,
+  variant = 'ok',
 }: StatusBannerCardProps) {
+  const isAlert = variant === 'alert';
+  const resolvedTitle = title ?? (isAlert ? 'Status: Stroomstoring' : 'Status: alles op orde');
+  const resolvedSubtitle =
+    subtitle ??
+    (isAlert
+      ? 'Er is momenteel een storing. U krijgt zo snel mogelijk meer informatie...'
+      : 'Er zijn geen (mogelijke) storingen gemeten.');
+
   return (
     <View style={styles.card}>
       <View style={styles.headerRow}>
-        <View style={styles.checkBubble}>
-          <MaterialIcons name="check" size={14} color="#FFFFFF" />
-        </View>
-        <Text style={styles.title}>{title}</Text>
+        {isAlert ? (
+          <MaterialIcons name="warning" size={20} color="#DC2626" />
+        ) : (
+          <View style={styles.checkBubble}>
+            <MaterialIcons name="check" size={14} color="#FFFFFF" />
+          </View>
+        )}
+        <Text style={styles.title}>{resolvedTitle}</Text>
       </View>
-      <Text style={styles.subtitle}>{subtitle}</Text>
+      <Text style={styles.subtitle}>{resolvedSubtitle}</Text>
 
       <View style={styles.dots}>
         {Array.from({ length: pageCount }).map((_, i) => (

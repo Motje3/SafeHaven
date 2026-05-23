@@ -14,10 +14,10 @@ export default function TabLayout() {
         sceneContainerStyle={{ backgroundColor: 'transparent' }}
       >
         <Tabs.Screen name="marketplace" />
-        <Tabs.Screen name="index" />
         <Tabs.Screen name="community" />
-        <Tabs.Screen name="energie" options={{ href: null }} />
-        <Tabs.Screen name="informatie" options={{ href: null }} />
+        <Tabs.Screen name="index" />
+        <Tabs.Screen name="energie" />
+        <Tabs.Screen name="informatie" />
         <Tabs.Screen name="agenda" options={{ href: null }} />
         <Tabs.Screen name="spaarpotjes" options={{ href: null }} />
         <Tabs.Screen name="spaarpotje" options={{ href: null }} />

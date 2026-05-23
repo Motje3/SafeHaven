@@ -21,6 +21,7 @@ const MENU_ITEMS: MenuItem[] = [
   { icon: { lib: 'material', name: 'location-on' }, label: 'Zoek mijn Noodkast' },
   { icon: { lib: 'material', name: 'groups' }, label: 'Jouw buddy' },
   { icon: { lib: 'mc', name: 'piggy-bank' }, label: 'Spaarpotje', route: '/spaarpotjes' },
+  { icon: { lib: 'material', name: 'forum' }, label: 'Feedback' },
   { icon: { lib: 'material', name: 'settings' }, label: 'Instellingen' },
 ];
 
@@ -139,18 +140,7 @@ export function MenuDrawer() {
                 ))}
               </View>
 
-              <View style={styles.notifWrap}>
-                <View style={styles.notifAvatar} />
-                <View style={styles.notifBody}>
-                  <View style={styles.notifHeader}>
-                    <Text style={styles.notifUser}>mo</Text>
-                    <Text style={styles.notifTime}>2 days ago</Text>
-                  </View>
-                  <Text style={styles.notifText}>
-                    Optie voor feedback geven over de app of de noodkast
-                  </Text>
-                </View>
-              </View>
+              <View style={{ flex: 1 }} />
 
               <Pressable
                 style={({ pressed }) => [styles.logoutBtn, pressed && { opacity: 0.7 }]}
@@ -263,49 +253,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#0F172A',
     letterSpacing: -0.2,
-  },
-  notifWrap: {
-    flexDirection: 'row',
-    gap: 10,
-    marginTop: 'auto',
-    marginBottom: 22,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 14,
-    padding: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.12,
-    shadowRadius: 14,
-    elevation: 6,
-  },
-  notifAvatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#D1D5DB',
-  },
-  notifBody: {
-    flex: 1,
-  },
-  notifHeader: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 6,
-    marginBottom: 2,
-  },
-  notifUser: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#0F172A',
-  },
-  notifTime: {
-    fontSize: 12,
-    color: '#6B7280',
-  },
-  notifText: {
-    fontSize: 13,
-    color: '#0F172A',
-    lineHeight: 18,
   },
   logoutBtn: {
     flexDirection: 'row',

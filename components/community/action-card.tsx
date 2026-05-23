@@ -11,10 +11,11 @@ interface ActionCardProps {
   icon: ActionIconConfig;
   width: number;
   height?: number;
+  active?: boolean;
   onPress?: () => void;
 }
 
-export function ActionCard({ label, icon, width, height = 170, onPress }: ActionCardProps) {
+export function ActionCard({ label, icon, width, height = 170, active, onPress }: ActionCardProps) {
   const renderIcon = () => {
     const color = icon.color ?? '#0F172A';
     const size = icon.size ?? 44;
@@ -25,10 +26,15 @@ export function ActionCard({ label, icon, width, height = 170, onPress }: Action
   return (
     <Pressable
       onPress={onPress}
-      style={({ pressed }) => [styles.card, { width, height }, pressed && { opacity: 0.88 }]}
+      style={({ pressed }) => [
+        styles.card,
+        { width, height },
+        active && styles.cardActive,
+        pressed && { opacity: 0.88 },
+      ]}
     >
       <View style={styles.iconWrap}>{renderIcon()}</View>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, active && styles.labelActive]}>{label}</Text>
     </Pressable>
   );
 }
@@ -48,6 +54,10 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 2,
   },
+  cardActive: {
+    borderWidth: 2,
+    borderColor: '#EF2A2A',
+  },
   iconWrap: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -59,5 +69,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     letterSpacing: -0.3,
     lineHeight: 21,
+  },
+  labelActive: {
+    color: '#EF2A2A',
   },
 });

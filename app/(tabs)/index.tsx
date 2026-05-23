@@ -1,16 +1,24 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { DoorStatusCard } from '@/components/home/door-status-card';
+import { EmergencyAlertModal } from '@/components/home/emergency-alert-modal';
+import { DirectHelpCard } from '@/components/home/emergency/direct-help-card';
+import { EmergencyStatsRow } from '@/components/home/emergency/emergency-stats-row';
+import { NeighborhoodAlertsCard } from '@/components/home/emergency/neighborhood-alerts-card';
 import { HomeTopBar } from '@/components/home/home-top-bar';
 import { InUseCard } from '@/components/home/in-use-card';
 import { InventoryStatsRow } from '@/components/home/inventory-stats-row';
 import { StatusBannerCard } from '@/components/home/status-banner-card';
+import { useEmergency } from '@/hooks/use-emergency';
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const { emergency, showModal, acknowledge } = useEmergency();
 
   return (
     <View style={styles.root}>
@@ -28,22 +36,36 @@ export default function HomeScreen() {
 
         <View style={styles.body}>
           <Animated.View entering={FadeInDown.duration(500).delay(80).springify()}>
-            <StatusBannerCard />
+            <StatusBannerCard variant={emergency ? 'alert' : 'ok'} />
           </Animated.View>
 
           <Animated.View entering={FadeInDown.duration(500).delay(160).springify()}>
-            <DoorStatusCard locked />
+            {emergency ? <DirectHelpCard /> : <DoorStatusCard locked />}
           </Animated.View>
 
           <Animated.View entering={FadeInDown.duration(500).delay(240).springify()}>
-            <InventoryStatsRow />
+            {emergency ? (
+              <EmergencyStatsRow onPressActions={() => router.push('/informatie')} />
+            ) : (
+              <InventoryStatsRow />
+            )}
           </Animated.View>
 
           <Animated.View entering={FadeInDown.duration(500).delay(320).springify()}>
-            <InUseCard />
+            {emergency ? <NeighborhoodAlertsCard /> : <InUseCard />}
           </Animated.View>
         </View>
       </ScrollView>
+
+      {emergency && (
+        <EmergencyAlertModal
+          visible={showModal}
+          title={emergency.title}
+          timestamp={emergency.timestamp}
+          message={emergency.message}
+          onAcknowledge={acknowledge}
+        />
+      )}
     </View>
   );
 }

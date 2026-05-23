@@ -1,12 +1,14 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import React from 'react';
+import React, { useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ActionCard, type ActionIconConfig } from '@/components/community/action-card';
+import { EmergencyBadge } from '@/components/community/emergency-badge';
 import { NotificationItem } from '@/components/community/notification-item';
 import { ScreenTopBar } from '@/components/shared/screen-top-bar';
+import { useEmergency } from '@/hooks/use-emergency';
 
 const SCREEN_W = Dimensions.get('window').width;
 const PAGE_PAD = 16;
@@ -25,8 +27,52 @@ const ACTIONS: GridAction[] = [
   { label: 'Wie is er bij de\nkast?', icon: { lib: 'mc', name: 'shield-alert', color: '#0F172A', size: 48 } },
 ];
 
+const EMERGENCY_ACTIONS: GridAction[] = [
+  { label: 'Ik heb hulp nodig', icon: { lib: 'mc', name: 'shield-alert', color: '#EF2A2A', size: 44 } },
+  { label: 'Ik ben bij de kast', icon: { lib: 'material', name: 'home', color: '#EF2A2A', size: 44 } },
+  { label: 'Ik ben veilig', icon: { lib: 'material', name: 'favorite', color: '#EF2A2A', size: 44 } },
+  { label: 'Wie is er bij de\nkast?', icon: { lib: 'mc', name: 'account-question', color: '#EF2A2A', size: 44 } },
+];
+
 export default function CommunityScreen() {
   const insets = useSafeAreaInsets();
+  const { emergency } = useEmergency();
+  const [activeStatus, setActiveStatus] = useState<number | null>(emergency ? 0 : null);
+
+  if (emergency) {
+    return (
+      <View style={styles.root}>
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+          showsVerticalScrollIndicator={false}
+        >
+          <Animated.View entering={FadeInDown.duration(400).springify()}>
+            <ScreenTopBar title="Community" showBack reserveRightGutter />
+          </Animated.View>
+
+          <Animated.View entering={FadeInDown.duration(500).delay(60).springify()} style={styles.badgeWrap}>
+            <EmergencyBadge />
+          </Animated.View>
+
+          <View style={styles.body}>
+            <Animated.View entering={FadeInDown.duration(500).delay(120).springify()} style={styles.grid}>
+              {EMERGENCY_ACTIONS.map((a, i) => (
+                <ActionCard
+                  key={`${a.label}-${i}`}
+                  label={a.label}
+                  icon={a.icon}
+                  width={CARD_W}
+                  active={activeStatus === i}
+                  onPress={() => setActiveStatus(i)}
+                />
+              ))}
+            </Animated.View>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.root}>
@@ -104,6 +150,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: PAGE_PAD,
     paddingTop: 12,
     gap: 16,
+  },
+  badgeWrap: {
+    alignItems: 'center',
+    marginTop: 4,
+    marginBottom: 4,
   },
   grid: {
     flexDirection: 'row',
