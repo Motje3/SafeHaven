@@ -84,8 +84,6 @@ export default function WinkelmandjeScreen() {
           <ScreenTopBar
             title={view === 'cart' ? 'Voorraadbeheer' : 'Voorraadbeheer'}
             showBack
-            showAvatar
-            avatarInitials="MV"
             reserveRightGutter
           />
         </Animated.View>

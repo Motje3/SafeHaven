@@ -36,7 +36,7 @@ export default function SpaarpotjesScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
-          <ScreenTopBar title="Spaarpotjes" showBack showAvatar avatarInitials="MV" reserveRightGutter />
+          <ScreenTopBar title="Spaarpotjes" showBack reserveRightGutter />
         </Animated.View>
 
         <View style={styles.body}>

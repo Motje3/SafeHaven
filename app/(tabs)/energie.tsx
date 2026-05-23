@@ -21,7 +21,7 @@ export default function EnergieScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
-          <ScreenTopBar title="Energie" showBack showAvatar avatarInitials="MV" reserveRightGutter />
+          <ScreenTopBar title="Energie" showBack reserveRightGutter />
         </Animated.View>
 
         <View style={styles.body}>

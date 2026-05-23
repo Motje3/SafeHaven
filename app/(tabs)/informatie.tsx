@@ -117,7 +117,7 @@ export default function InformatieScreen() {
           showsVerticalScrollIndicator={false}
         >
           <Animated.View entering={FadeInDown.duration(400).springify()}>
-            <ScreenTopBar title="Noodupdates" showBack showAvatar avatarInitials="MV" reserveRightGutter />
+            <ScreenTopBar title="Noodupdates" showBack reserveRightGutter />
           </Animated.View>
 
           <View style={styles.body}>
@@ -146,7 +146,7 @@ export default function InformatieScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
-          <ScreenTopBar title="Informatie" showBack showAvatar avatarInitials="MV" reserveRightGutter />
+          <ScreenTopBar title="Informatie" showBack reserveRightGutter />
         </Animated.View>
 
         <View style={styles.body}>

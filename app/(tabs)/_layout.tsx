@@ -23,6 +23,10 @@ export default function TabLayout() {
         <Tabs.Screen name="spaarpotje" options={{ href: null }} />
         <Tabs.Screen name="winkelmandje" options={{ href: null }} />
         <Tabs.Screen name="profile" options={{ href: null }} />
+        <Tabs.Screen name="zoek-noodkast" options={{ href: null }} />
+        <Tabs.Screen name="buddy" options={{ href: null }} />
+        <Tabs.Screen name="feedback" options={{ href: null }} />
+        <Tabs.Screen name="instellingen" options={{ href: null }} />
       </Tabs>
       <MenuDrawer />
     </View>

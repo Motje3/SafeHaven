@@ -18,11 +18,11 @@ interface MenuItem {
 
 const MENU_ITEMS: MenuItem[] = [
   { icon: { lib: 'material', name: 'person' }, label: 'Profiel', route: '/profile' },
-  { icon: { lib: 'material', name: 'location-on' }, label: 'Zoek mijn Noodkast' },
-  { icon: { lib: 'material', name: 'groups' }, label: 'Jouw buddy' },
+  { icon: { lib: 'material', name: 'location-on' }, label: 'Zoek mijn Noodkast', route: '/zoek-noodkast' },
+  { icon: { lib: 'material', name: 'groups' }, label: 'Jouw buddy', route: '/buddy' },
   { icon: { lib: 'mc', name: 'piggy-bank' }, label: 'Spaarpotje', route: '/spaarpotjes' },
-  { icon: { lib: 'material', name: 'forum' }, label: 'Feedback' },
-  { icon: { lib: 'material', name: 'settings' }, label: 'Instellingen' },
+  { icon: { lib: 'material', name: 'forum' }, label: 'Feedback', route: '/feedback' },
+  { icon: { lib: 'material', name: 'settings' }, label: 'Instellingen', route: '/instellingen' },
 ];
 
 function MenuIcon({ icon, color, size = 22 }: { icon: IconName; color: string; size?: number }) {
@@ -117,10 +117,6 @@ export function MenuDrawer() {
             style={[styles.drawer, { transform: [{ translateX: drawerTranslateX }] }]}
           >
             <View style={[styles.drawerInner, { paddingTop: insets.top + 18, paddingBottom: insets.bottom + 16 }]}>
-              <Pressable onPress={close} hitSlop={8} style={styles.closeBtn}>
-                <MaterialIcons name="close" size={26} color="#0F172A" />
-              </Pressable>
-
               <View style={styles.profileSection}>
                 <View style={styles.avatar} />
                 <Text style={styles.userName}>Gavin van der Berg</Text>
@@ -146,7 +142,7 @@ export function MenuDrawer() {
                 style={({ pressed }) => [styles.logoutBtn, pressed && { opacity: 0.7 }]}
                 onPress={close}
               >
-                <MaterialIcons name="logout" size={22} color="#0F172A" />
+                <MaterialIcons name="logout" size={22} color="#EF2A2A" />
                 <Text style={styles.logoutText}>Uitloggen</Text>
               </Pressable>
             </View>
@@ -160,7 +156,7 @@ export function MenuDrawer() {
 const styles = StyleSheet.create({
   burgerBtn: {
     position: 'absolute',
-    right: 20,
+    left: 20,
     zIndex: 100,
     width: 44,
     height: 44,
@@ -203,13 +199,6 @@ const styles = StyleSheet.create({
   drawerInner: {
     flex: 1,
     paddingHorizontal: 22,
-  },
-  closeBtn: {
-    alignSelf: 'flex-end',
-    width: 32,
-    height: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   profileSection: {
     alignItems: 'center',
@@ -264,6 +253,6 @@ const styles = StyleSheet.create({
   logoutText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#0F172A',
+    color: '#EF2A2A',
   },
 });

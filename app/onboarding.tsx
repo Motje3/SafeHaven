@@ -341,14 +341,6 @@ export default function OnboardingScreen() {
           <View style={styles.centeredBlock}>
             <Text style={styles.question}>Uit hoeveel mensen bestaat jouw huishouden?</Text>
             <Counter value={data.household} onChange={(v) => update('household', v)} />
-
-            <View style={styles.householdPinWrap}>
-              <View style={styles.householdPinOuter}>
-                <View style={styles.householdPinInner}>
-                  <Text style={styles.householdPinText}>E</Text>
-                </View>
-              </View>
-            </View>
           </View>
         </OnboardingChrome>
       );
@@ -477,31 +469,6 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     letterSpacing: -0.2,
   },
-  householdPinWrap: {
-    marginTop: 4,
-  },
-  householdPinOuter: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
-    backgroundColor: '#3B82F6',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  householdPinInner: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#F5C842',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  householdPinText: {
-    fontSize: 15,
-    fontWeight: '800',
-    color: '#0F172A',
-  },
-
   // Done screen
   doneRoot: {
     flex: 1,

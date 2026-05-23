@@ -1,0 +1,9 @@
+{
+  "emergency": {
+    "title": "Waarschuwing",
+    "timestamp": "24-05-2026 00:08",
+    "message": "test",
+    "bannerTitle": "Status: Stroomstoring",
+    "bannerSubtitle": "Er is momenteel een storing. U krijgt zo snel mogelijk meer informatie..."
+  }
+}

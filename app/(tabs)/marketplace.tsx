@@ -72,7 +72,7 @@ export default function MarketplaceScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
-          <ScreenTopBar title="Voorraadbeheer" showAvatar avatarInitials="MV" reserveRightGutter />
+          <ScreenTopBar title="Voorraadbeheer" reserveRightGutter />
         </Animated.View>
 
         <View style={styles.body}>

@@ -88,7 +88,7 @@ export default function AgendaScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
-          <ScreenTopBar title="Agenda" showBack showAvatar avatarInitials="MV" reserveRightGutter />
+          <ScreenTopBar title="Agenda" showBack reserveRightGutter />
         </Animated.View>
 
         <View style={styles.body}>

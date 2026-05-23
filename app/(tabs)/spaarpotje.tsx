@@ -36,7 +36,7 @@ export default function SpaarpotjeScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
-          <ScreenTopBar title="Noodradio" showBack showAvatar avatarInitials="MV" reserveRightGutter />
+          <ScreenTopBar title="Noodradio" showBack reserveRightGutter />
         </Animated.View>
 
         <View style={styles.body}>

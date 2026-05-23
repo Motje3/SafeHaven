@@ -5,7 +5,6 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ActionCard, type ActionIconConfig } from '@/components/community/action-card';
-import { EmergencyBadge } from '@/components/community/emergency-badge';
 import { NotificationItem } from '@/components/community/notification-item';
 import { ScreenTopBar } from '@/components/shared/screen-top-bar';
 import { useEmergency } from '@/hooks/use-emergency';
@@ -49,10 +48,6 @@ export default function CommunityScreen() {
         >
           <Animated.View entering={FadeInDown.duration(400).springify()}>
             <ScreenTopBar title="Community" showBack reserveRightGutter />
-          </Animated.View>
-
-          <Animated.View entering={FadeInDown.duration(500).delay(60).springify()} style={styles.badgeWrap}>
-            <EmergencyBadge />
           </Animated.View>
 
           <View style={styles.body}>
@@ -150,11 +145,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: PAGE_PAD,
     paddingTop: 12,
     gap: 16,
-  },
-  badgeWrap: {
-    alignItems: 'center',
-    marginTop: 4,
-    marginBottom: 4,
   },
   grid: {
     flexDirection: 'row',

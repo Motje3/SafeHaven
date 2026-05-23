@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import Constants from 'expo-constants';
+import { useEffect, useState } from 'react';
 
 export interface Emergency {
   title: string;
@@ -8,25 +9,54 @@ export interface Emergency {
   bannerSubtitle: string;
 }
 
-// Placeholder until the dashboard / backend feed is wired up.
-const ACTIVE_EMERGENCY: Emergency | null = {
-  title: 'Waarschuwing',
-  timestamp: '21-05-2026 11:11',
-  message:
-    'De stroom is uitgevallen in meerdere wijken van Rotterdam. Onbekend hoe lang het gaat duren. Controleer of buren hulp nodig hebben en houdt de app in de gate voor meer informatie.',
-  bannerTitle: 'Status: Stroomstoring',
-  bannerSubtitle:
-    'Er is momenteel een storing. U krijgt zo snel mogelijk meer informatie...',
-};
+const SYNC_PORT = 3001;
+const POLL_INTERVAL_MS = 3000;
+
+function resolveSyncUrl(): string {
+  const hostUri =
+    Constants.expoConfig?.hostUri ?? (Constants as unknown as { expoGoConfig?: { debuggerHost?: string } }).expoGoConfig?.debuggerHost ?? '';
+  const host = hostUri.split(':')[0];
+  if (host) return `http://${host}:${SYNC_PORT}/api/emergency`;
+  return `http://localhost:${SYNC_PORT}/api/emergency`;
+}
+
+const SYNC_URL = resolveSyncUrl();
 
 export function useEmergency() {
-  const [emergency, setEmergency] = useState<Emergency | null>(ACTIVE_EMERGENCY);
-  const [acknowledged, setAcknowledged] = useState(false);
+  const [emergency, setEmergency] = useState<Emergency | null>(null);
+  const [acknowledgedId, setAcknowledgedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function fetchState() {
+      try {
+        const res = await fetch(SYNC_URL);
+        if (!res.ok) return;
+        const data = (await res.json()) as { emergency: Emergency | null };
+        if (cancelled) return;
+        setEmergency(data.emergency);
+      } catch {
+        // server offline — leave current state as-is
+      }
+    }
+
+    fetchState();
+    const id = setInterval(fetchState, POLL_INTERVAL_MS);
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+    };
+  }, []);
+
+  const emergencyKey = emergency
+    ? `${emergency.bannerTitle}|${emergency.timestamp}`
+    : null;
 
   return {
     emergency,
-    showModal: emergency !== null && !acknowledged,
-    acknowledge: () => setAcknowledged(true),
+    showModal: emergency !== null && acknowledgedId !== emergencyKey,
+    acknowledge: () => setAcknowledgedId(emergencyKey),
     clear: () => setEmergency(null),
   };
 }
