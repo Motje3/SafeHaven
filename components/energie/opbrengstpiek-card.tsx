@@ -42,7 +42,7 @@ export function OpbrengstpiekCard({
       <View style={styles.topRow}>
         <View style={styles.titleCol}>
           <View style={styles.titleRow}>
-            <MaterialCommunityIcons name="weather-sunny-alert" size={20} color="#0F172A" />
+            <MaterialCommunityIcons name="weather-sunny" size={20} color="#0F172A" />
             <Text style={styles.title}>Opbrengstpiek</Text>
           </View>
           <Text style={styles.subtitle}>Zonne-opbrengst aankomende 72 uur</Text>

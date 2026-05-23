@@ -18,9 +18,6 @@ type YesNo = 'ja' | 'nee' | null;
 type FormData = {
   firstName: string;
   lastName: string;
-  day: string;
-  month: string;
-  year: string;
   phone: string;
   email: string;
   street: string;
@@ -38,9 +35,6 @@ type FormData = {
 const INITIAL_DATA: FormData = {
   firstName: '',
   lastName: '',
-  day: '',
-  month: '',
-  year: '',
   phone: '',
   email: '',
   street: '',
@@ -259,45 +253,6 @@ export default function OnboardingScreen() {
               placeholder="van den Berg"
             />
 
-            <View style={styles.dateRow}>
-              <View style={styles.dateField}>
-                <FormField
-                  label="Dag"
-                  required
-                  compact
-                  value={data.day}
-                  onChangeText={(t) => update('day', t)}
-                  keyboardType="number-pad"
-                  maxLength={2}
-                  placeholder="00"
-                />
-              </View>
-              <View style={styles.dateField}>
-                <FormField
-                  label="Maand"
-                  required
-                  compact
-                  value={data.month}
-                  onChangeText={(t) => update('month', t)}
-                  keyboardType="number-pad"
-                  maxLength={2}
-                  placeholder="00"
-                />
-              </View>
-              <View style={styles.dateField}>
-                <FormField
-                  label="Jaar"
-                  required
-                  compact
-                  value={data.year}
-                  onChangeText={(t) => update('year', t)}
-                  keyboardType="number-pad"
-                  maxLength={4}
-                  placeholder="0000"
-                />
-              </View>
-            </View>
-
             <FormField
               label="Telefoonnummer"
               required
@@ -476,13 +431,6 @@ const styles = StyleSheet.create({
   },
   fieldsCol: {
     gap: 10,
-  },
-  dateRow: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  dateField: {
-    flex: 1,
   },
   illustrationWrap: {
     marginBottom: 22,
