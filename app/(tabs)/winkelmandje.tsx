@@ -1,4 +1,5 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
@@ -65,6 +66,7 @@ const INITIAL_ITEMS: CartItem[] = [
 
 export default function WinkelmandjeScreen() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const [view, setView] = useState<'cart' | 'delivery'>('cart');
   const [items, setItems] = useState(INITIAL_ITEMS);
   const [showTutorial, setShowTutorial] = useState(!voorraadTutorialSeen);
@@ -165,11 +167,16 @@ export default function WinkelmandjeScreen() {
                 </View>
 
                 <View style={styles.stepsList}>
-                  <StepCard
-                    icon={{ kind: 'qr' }}
-                    title="1. Scan bij jouw noodkast"
-                    body="Laat deze QR-code scannen bij het inleverpunt om je bijdrage compleet te maken."
-                  />
+                  <Pressable
+                    onPress={() => router.push('/qr-code' as any)}
+                    style={({ pressed }) => pressed && { opacity: 0.85 }}
+                  >
+                    <StepCard
+                      icon={{ kind: 'qr' }}
+                      title="1. Scan bij jouw noodkast"
+                      body="Laat deze QR-code scannen bij het inleverpunt om je bijdrage compleet te maken."
+                    />
+                  </Pressable>
                   <StepCard
                     icon={{ kind: 'bin' }}
                     title="2. Doe de items in de bak"

@@ -99,13 +99,21 @@ export default function WelcomeScreen() {
           style={styles.bottomSection}
           entering={FadeInUp.duration(600).delay(700).springify()}
         >
-          {/* CTA Button */}
+          {/* Sign up — primary */}
           <Pressable
             style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.88 }]}
+            onPress={() => router.push('/onboarding')}
+          >
+            <Text style={styles.ctaText}>Sign up</Text>
+            <Text style={styles.ctaArrow}>→</Text>
+          </Pressable>
+
+          {/* Sign in — secondary */}
+          <Pressable
+            style={({ pressed }) => [styles.secondaryButton, pressed && { opacity: 0.7 }]}
             onPress={() => router.replace('/(tabs)')}
           >
-            <Text style={styles.ctaText}>Get Started</Text>
-            <Text style={styles.ctaArrow}>→</Text>
+            <Text style={styles.secondaryText}>Sign in</Text>
           </Pressable>
 
           <Text style={styles.footerNote}>Power out. Community in.</Text>
@@ -229,6 +237,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'rgba(255,255,255,0.75)',
     fontWeight: '400',
+  },
+  secondaryButton: {
+    width: '100%',
+    height: 54,
+    borderRadius: 20,
+    backgroundColor: 'transparent',
+    borderWidth: 1.5,
+    borderColor: 'rgba(124,111,224,0.40)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  secondaryText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#7C6FE0',
+    letterSpacing: -0.2,
   },
   footerNote: {
     fontSize: 12,

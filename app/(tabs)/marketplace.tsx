@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScreenTopBar } from '@/components/shared/screen-top-bar';
 import { ChatFab } from '@/components/voorraad/chat-fab';
 import { DonutProgressCard } from '@/components/voorraad/donut-progress-card';
+import { FilterModal, type FilterCategory } from '@/components/voorraad/filter-modal';
 import { InventoryItemCard } from '@/components/voorraad/inventory-item-card';
 import { SegmentedTabs } from '@/components/voorraad/segmented-tabs';
 
@@ -63,6 +64,8 @@ const ITEMS: Item[] = [
 export default function MarketplaceScreen() {
   const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState(0);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState<FilterCategory[]>(['voedsel']);
 
   return (
     <View style={styles.root}>
@@ -96,10 +99,16 @@ export default function MarketplaceScreen() {
                 </View>
 
                 <Pressable
+                  onPress={() => setFilterOpen(true)}
                   style={({ pressed }) => [styles.filterBtn, pressed && { opacity: 0.7 }]}
                 >
                   <MaterialIcons name="tune" size={16} color="#0F172A" />
                   <Text style={styles.filterText}>Filter</Text>
+                  {selectedFilters.length > 0 && (
+                    <View style={styles.filterCountDot}>
+                      <Text style={styles.filterCountText}>{selectedFilters.length}</Text>
+                    </View>
+                  )}
                 </Pressable>
               </View>
 
@@ -126,6 +135,13 @@ export default function MarketplaceScreen() {
       <View style={[styles.fabWrap, { bottom: insets.bottom + 100 }]}>
         <ChatFab count={3} />
       </View>
+
+      <FilterModal
+        visible={filterOpen}
+        selected={selectedFilters}
+        onClose={() => setFilterOpen(false)}
+        onApply={setSelectedFilters}
+      />
     </View>
   );
 }
@@ -194,6 +210,21 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
     color: '#0F172A',
+  },
+  filterCountDot: {
+    minWidth: 18,
+    height: 18,
+    borderRadius: 9,
+    paddingHorizontal: 5,
+    backgroundColor: '#22C55E',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 2,
+  },
+  filterCountText: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#FFFFFF',
   },
   itemsList: {
     gap: 10,
