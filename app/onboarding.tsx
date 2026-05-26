@@ -4,26 +4,34 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Counter } from '@/components/onboarding/counter';
+import { AGE_CATEGORIES, AgeSelectModal, type AgeCategory } from '@/components/onboarding/age-select-modal';
 import { FormField } from '@/components/onboarding/form-field';
 import { ImagePlaceholder } from '@/components/onboarding/image-placeholder';
 import { OnboardingChrome } from '@/components/onboarding/onboarding-chrome';
+import { PasswordField } from '@/components/onboarding/password-field';
 import { PillToggle } from '@/components/onboarding/pill-toggle';
 import { YesNoButtons } from '@/components/onboarding/yes-no-buttons';
 
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 8;
 
 type YesNo = 'ja' | 'nee' | null;
+
+type Bewoner = {
+  id: string;
+  category: AgeCategory;
+};
 
 type FormData = {
   firstName: string;
   lastName: string;
   phone: string;
   email: string;
+  password: string;
+  passwordConfirm: string;
   street: string;
   postcode: string;
   city: string;
-  household: number;
+  bewoners: Bewoner[];
   meds: YesNo;
   health: YesNo;
   healthHelp: string[];
@@ -37,10 +45,12 @@ const INITIAL_DATA: FormData = {
   lastName: '',
   phone: '',
   email: '',
+  password: '',
+  passwordConfirm: '',
   street: '',
   postcode: '',
   city: '',
-  household: 0,
+  bewoners: [{ id: 'init-1', category: 'volwassene' }],
   meds: null,
   health: null,
   healthHelp: [],
@@ -49,8 +59,16 @@ const INITIAL_DATA: FormData = {
   helpWith: [],
 };
 
+function categoryLabel(key: AgeCategory) {
+  return AGE_CATEGORIES.find((c) => c.key === key)?.label ?? '';
+}
+function categoryRange(key: AgeCategory) {
+  return AGE_CATEGORIES.find((c) => c.key === key)?.range ?? '';
+}
+
 type Page =
   | { type: 'profile-form'; step: number }
+  | { type: 'password-form'; step: number }
   | { type: 'address-form'; step: number }
   | { type: 'map'; step: number }
   | { type: 'household'; step: number }
@@ -60,26 +78,27 @@ type Page =
 
 const PAGES: Page[] = [
   { type: 'profile-form', step: 0 },
-  { type: 'address-form', step: 1 },
-  { type: 'map', step: 2 },
-  { type: 'household', step: 3 },
+  { type: 'password-form', step: 1 },
+  { type: 'address-form', step: 2 },
+  { type: 'map', step: 3 },
+  { type: 'household', step: 4 },
   {
     type: 'yesno',
-    step: 4,
+    step: 5,
     key: 'meds',
     title: 'Extra benodigheden',
     question: 'Gebruikt u medische middelen die te allen tijde gekoeld moet blijven?',
   },
   {
     type: 'yesno',
-    step: 5,
+    step: 6,
     key: 'health',
     title: 'Extra benodigheden',
     question: 'Is er iets belangrijks rondom uw gezondheid of veiligheid waarvan je wilt dat wij op de hoogte zijn?',
   },
   {
     type: 'pills',
-    step: 5,
+    step: 6,
     key: 'healthHelp',
     title: 'Extra benodigheden',
     question: 'Ik heb hulp nodig bij:',
@@ -88,14 +107,14 @@ const PAGES: Page[] = [
   },
   {
     type: 'yesno',
-    step: 6,
+    step: 7,
     key: 'support',
     title: 'Buddy systeem',
     question: 'Ben je in staat om kwetsbare buren te ondersteunen?',
   },
   {
     type: 'yesno',
-    step: 6,
+    step: 7,
     key: 'wantBuddy',
     title: 'Buddy systeem',
     question: 'Wil gekoppeld worden aan een buddy?',
@@ -103,7 +122,7 @@ const PAGES: Page[] = [
   },
   {
     type: 'pills',
-    step: 6,
+    step: 7,
     key: 'helpWith',
     title: 'Buddy systeem',
     question: 'Ik kan helpen bij:',
@@ -152,11 +171,26 @@ export default function OnboardingScreen() {
   const insets = useSafeAreaInsets();
   const [pageIndex, setPageIndex] = useState(0);
   const [data, setData] = useState<FormData>(INITIAL_DATA);
+  const [ageModalFor, setAgeModalFor] = useState<string | 'new' | null>(null);
 
   const page = PAGES[pageIndex];
 
   const update = <K extends keyof FormData>(key: K, value: FormData[K]) =>
     setData((prev) => ({ ...prev, [key]: value }));
+
+  const addBewoner = (category: AgeCategory) => {
+    setData((prev) => ({
+      ...prev,
+      bewoners: [...prev.bewoners, { id: `b-${Date.now()}`, category }],
+    }));
+  };
+
+  const updateBewoner = (id: string, category: AgeCategory) => {
+    setData((prev) => ({
+      ...prev,
+      bewoners: prev.bewoners.map((b) => (b.id === id ? { ...b, category } : b)),
+    }));
+  };
 
   const togglePill = (key: 'healthHelp' | 'helpWith') => (option: string) =>
     setData((prev) => {
@@ -273,27 +307,56 @@ export default function OnboardingScreen() {
         </OnboardingChrome>
       );
 
+    case 'password-form':
+      return (
+        <OnboardingChrome
+          totalSteps={TOTAL_STEPS}
+          activeStepIndex={page.step}
+          title="Wachtwoord instellen"
+          subtitle="Stel een wachtwoord in"
+          onBack={canGoBack ? goPrev : undefined}
+          onNext={goNext}
+        >
+          <View style={styles.fieldsCol}>
+            <PasswordField
+              label="Wachtwoord"
+              required
+              value={data.password}
+              onChangeText={(t) => update('password', t)}
+              placeholder="••••••••••••"
+            />
+            <PasswordField
+              label="Wachtwoord bevestigen"
+              required
+              value={data.passwordConfirm}
+              onChangeText={(t) => update('passwordConfirm', t)}
+              placeholder="••••••••••••"
+            />
+          </View>
+        </OnboardingChrome>
+      );
+
     case 'address-form':
       return (
         <OnboardingChrome
           totalSteps={TOTAL_STEPS}
           activeStepIndex={page.step}
           title="Adresgegevens"
+          subtitle="Vul je adresgegevens in"
           onBack={canGoBack ? goPrev : undefined}
           onNext={goNext}
         >
-          <View style={styles.illustrationWrap}>
-            <ImagePlaceholder label="img" height={220} rounded={28} />
-          </View>
           <View style={styles.fieldsCol}>
             <FormField
               label="Straat + huisnummer"
+              required
               value={data.street}
               onChangeText={(t) => update('street', t)}
               placeholder="Waterleliekade 5"
             />
             <FormField
               label="Postcode"
+              required
               value={data.postcode}
               onChangeText={(t) => update('postcode', t)}
               placeholder="1234 AB"
@@ -321,6 +384,10 @@ export default function OnboardingScreen() {
         >
           <View style={styles.mapWrap}>
             <ImagePlaceholder label="img" height={340} rounded={16} variant="card" />
+            <View style={styles.mapWrongPill}>
+              <MaterialIcons name="error-outline" size={14} color="#0F172A" />
+              <Text style={styles.mapWrongText}>Deze locatie klopt niet</Text>
+            </View>
             <View style={styles.walkingPill}>
               <MaterialIcons name="directions-walk" size={16} color="#0F172A" />
               <Text style={styles.walkingText}>5 minuten lopen</Text>
@@ -338,10 +405,45 @@ export default function OnboardingScreen() {
           onBack={canGoBack ? goPrev : undefined}
           onNext={goNext}
         >
-          <View style={styles.centeredBlock}>
+          <View style={styles.householdBlock}>
             <Text style={styles.question}>Uit hoeveel mensen bestaat jouw huishouden?</Text>
-            <Counter value={data.household} onChange={(v) => update('household', v)} />
+
+            <View style={styles.bewonersList}>
+              {data.bewoners.map((b, i) => (
+                <Pressable
+                  key={b.id}
+                  onPress={() => setAgeModalFor(b.id)}
+                  style={({ pressed }) => [styles.bewonerRow, pressed && { opacity: 0.85 }]}
+                >
+                  <Text style={styles.bewonerText}>
+                    {i + 1}. {categoryLabel(b.category)} ({categoryRange(b.category)})
+                  </Text>
+                  <MaterialIcons name="edit" size={18} color="#6B6357" />
+                </Pressable>
+              ))}
+            </View>
+
+            <Pressable
+              onPress={() => setAgeModalFor('new')}
+              hitSlop={8}
+              style={({ pressed }) => [styles.addBewonerBtn, pressed && { opacity: 0.7 }]}
+            >
+              <MaterialIcons name="add" size={18} color="#FFFFFF" />
+              <Text style={styles.addBewonerText}>Bewoner toevoegen</Text>
+            </Pressable>
           </View>
+
+          <AgeSelectModal
+            visible={ageModalFor !== null}
+            onClose={() => setAgeModalFor(null)}
+            onSelect={(cat) => {
+              if (ageModalFor === 'new') {
+                addBewoner(cat);
+              } else if (ageModalFor) {
+                updateBewoner(ageModalFor, cat);
+              }
+            }}
+          />
         </OnboardingChrome>
       );
 
@@ -453,6 +555,28 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#0F172A',
   },
+  mapWrongPill: {
+    position: 'absolute',
+    top: 12,
+    left: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  mapWrongText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#0F172A',
+  },
   centeredBlock: {
     flex: 1,
     alignItems: 'center',
@@ -460,6 +584,43 @@ const styles = StyleSheet.create({
     gap: 28,
     paddingHorizontal: 8,
     minHeight: 320,
+  },
+  householdBlock: {
+    flex: 1,
+    paddingTop: 8,
+    paddingHorizontal: 4,
+  },
+  bewonersList: {
+    gap: 10,
+    marginTop: 22,
+  },
+  bewonerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#F0EDE0',
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+  },
+  bewonerText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#0F172A',
+    flex: 1,
+  },
+  addBewonerBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    paddingVertical: 14,
+    marginTop: 6,
+  },
+  addBewonerText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#FFFFFF',
   },
   question: {
     fontSize: 16,
