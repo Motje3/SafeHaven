@@ -7,6 +7,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScreenTopBar } from '@/components/shared/screen-top-bar';
 import { CartItemRow } from '@/components/winkelmandje/cart-item-row';
 import { StepCard } from '@/components/winkelmandje/step-card';
+import { VoorraadTutorial } from '@/components/winkelmandje/voorraad-tutorial';
+
+let voorraadTutorialSeen = false;
 
 type CartItem = {
   id: string;
@@ -64,6 +67,12 @@ export default function WinkelmandjeScreen() {
   const insets = useSafeAreaInsets();
   const [view, setView] = useState<'cart' | 'delivery'>('cart');
   const [items, setItems] = useState(INITIAL_ITEMS);
+  const [showTutorial, setShowTutorial] = useState(!voorraadTutorialSeen);
+
+  const dismissTutorial = () => {
+    voorraadTutorialSeen = true;
+    setShowTutorial(false);
+  };
 
   const updateQty = (id: string, delta: number) => {
     setItems((prev) =>
@@ -186,6 +195,8 @@ export default function WinkelmandjeScreen() {
           </View>
         </View>
       </ScrollView>
+
+      {showTutorial && <VoorraadTutorial onClose={dismissTutorial} />}
     </View>
   );
 }
