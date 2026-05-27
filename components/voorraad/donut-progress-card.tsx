@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   percent: {
-    fontSize: 26,
+    fontSize: 20,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.6,
@@ -118,13 +118,13 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   headline: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   subtext: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#6B7280',
     lineHeight: 18,
     marginBottom: 6,
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   legendText: {
-    fontSize: 13,
+    fontSize: 10,
     fontStyle: 'italic',
     color: '#0F172A',
     fontWeight: '500',

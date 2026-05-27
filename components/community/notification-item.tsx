@@ -102,13 +102,13 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   plainItalic: {
-    fontSize: 14,
+    fontSize: 11,
     fontStyle: 'italic',
     color: '#0F172A',
     lineHeight: 20,
   },
   alertBold: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '700',
     color: '#0F172A',
     lineHeight: 20,
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     color: '#0F172A',
   },
   alertSub: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#0F172A',
     lineHeight: 18,
   },
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   boldMessage: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '700',
     color: '#0F172A',
     lineHeight: 20,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   replyLabel: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#0F172A',
     fontWeight: '500',
   },
@@ -152,12 +152,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   replyBtnText: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#6B7280',
     fontWeight: '600',
   },
   time: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#6B7280',
     fontWeight: '500',
   },

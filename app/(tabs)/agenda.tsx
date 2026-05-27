@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   agendaTitle: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.3,
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
   },
   dayLabel: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,

@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   headerLabel: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: '700',
     color: '#0F172A',
     fontStyle: 'italic',
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   weekday: {
     flex: 1,
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: 0.5,
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cellText: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '600',
     color: '#0F172A',
   },
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   legendLabel: {
-    fontSize: 12,
+    fontSize: 9,
     color: '#6B7280',
     fontWeight: '600',
   },
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   legendText: {
-    fontSize: 12,
+    fontSize: 9,
     fontStyle: 'italic',
     color: '#0F172A',
     fontWeight: '500',

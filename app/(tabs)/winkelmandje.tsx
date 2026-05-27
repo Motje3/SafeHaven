@@ -88,8 +88,9 @@ export default function WinkelmandjeScreen() {
     <View style={styles.root}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar
@@ -251,14 +252,14 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   sheetTitle: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
     flex: 1,
   },
   sheetSubtitle: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#0F172A',
     marginTop: 6,
     marginLeft: 28,
@@ -299,12 +300,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   totalLabel: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#0F172A',
     fontWeight: '500',
   },
   totalValue: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#0F172A',
     fontWeight: '600',
   },
@@ -319,7 +320,7 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   deliverBtnText: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.2,
@@ -336,7 +337,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   backLinkText: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '600',
     color: '#0F172A',
   },

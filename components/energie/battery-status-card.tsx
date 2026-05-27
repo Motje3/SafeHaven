@@ -69,13 +69,13 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   title: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   percent: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '700',
     color: '#0F172A',
   },
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   subText: {
-    fontSize: 12,
+    fontSize: 9,
     color: '#6B7280',
   },
   blockRow: {

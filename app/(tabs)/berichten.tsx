@@ -32,8 +32,9 @@ export default function BerichtenScreen() {
     <View style={styles.root}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar title="Berichten" showBack reserveRightGutter />
@@ -129,13 +130,13 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   alertTitle: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.3,
   },
   alertBody: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#E5E7EB',
     lineHeight: 19,
   },
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   listTitle: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
@@ -203,13 +204,13 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   rowWho: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.2,
   },
   rowPreview: {
-    fontSize: 13,
+    fontSize: 10,
     fontStyle: 'italic',
     color: '#6B7280',
   },
@@ -219,7 +220,7 @@ const styles = StyleSheet.create({
     minWidth: 44,
   },
   rowTime: {
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: '600',
     color: '#6B7280',
   },
@@ -236,7 +237,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   unreadDotText: {
-    fontSize: 11,
+    fontSize: 9,
     fontWeight: '800',
     color: '#FFFFFF',
   },

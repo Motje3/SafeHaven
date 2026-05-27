@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   title: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.2,
@@ -109,12 +109,12 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E5E7EB',
   },
   rowLabel: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
   },
   rowRange: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#6B7280',
   },
 });

@@ -32,8 +32,9 @@ export default function SpaarpotjeScreen() {
     <View style={styles.root}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar title="Noodradio" showBack reserveRightGutter />
@@ -157,13 +158,13 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   title: {
-    fontSize: 22,
+    fontSize: 17,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.4,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#0F172A',
     marginTop: 4,
   },
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   dateText: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#6B7280',
   },
   amountRow: {
@@ -190,13 +191,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   amountValue: {
-    fontSize: 32,
+    fontSize: 25,
     fontWeight: '900',
     color: '#0F172A',
     letterSpacing: -1.0,
   },
   amountLabel: {
-    fontSize: 13,
+    fontSize: 10,
     fontStyle: 'italic',
     color: '#6B7280',
   },
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
   },
   remainingText: {
     alignSelf: 'flex-end',
-    fontSize: 14,
+    fontSize: 11,
     fontStyle: 'italic',
     fontWeight: '600',
     color: '#0F172A',
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   addBtnText: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.2,
@@ -256,7 +257,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   txTitle: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
@@ -269,12 +270,12 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   txLabel: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#0F172A',
     fontWeight: '500',
   },
   txAmount: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '800',
     color: '#22C55E',
   },

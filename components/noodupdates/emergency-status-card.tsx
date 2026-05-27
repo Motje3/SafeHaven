@@ -64,13 +64,13 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   title: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: -0.3,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#D1D5DB',
     marginTop: 8,
     lineHeight: 20,
@@ -90,13 +90,13 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   statValue: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.5,
   },
   statLabel: {
-    fontSize: 12,
+    fontSize: 9,
     color: '#6B7280',
     textAlign: 'center',
   },

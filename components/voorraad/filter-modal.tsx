@@ -141,13 +141,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   title: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#0F172A',
     marginTop: 4,
     marginLeft: 30,
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
   rowLabel: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.2,
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   applyText: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.2,

@@ -17,8 +17,9 @@ export default function EnergieScreen() {
     <View style={styles.root}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar title="Energie" showBack reserveRightGutter />

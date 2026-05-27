@@ -14,11 +14,15 @@ export default function QrCodeScreen() {
       <ScrollView
         contentContainerStyle={[
           styles.content,
-          { paddingTop: insets.top + 4, paddingBottom: insets.bottom + 120 },
+          { paddingBottom: insets.bottom + 120 },
         ]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
-        <Animated.View entering={FadeInDown.duration(380).springify()} style={styles.topBar}>
+        <Animated.View
+          entering={FadeInDown.duration(380).springify()}
+          style={[styles.topBar, { paddingTop: insets.top + 4 }]}
+        >
           <Pressable
             onPress={() => router.back()}
             hitSlop={10}
@@ -53,7 +57,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingBottom: 8,
+    backgroundColor: '#F4F4F6',
   },
   backBtn: {
     width: 36,
@@ -62,7 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,

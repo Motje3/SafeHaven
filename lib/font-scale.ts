@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput } from 'react-native';
 
 // Globally shrink every Text/TextInput fontSize by this factor.
 // Tweak this single value to make the whole app's typography larger or smaller.
-const FONT_SCALE = 0.85;
+const FONT_SCALE = 0.78;
 
 type AnyComponent = { render?: (...args: unknown[]) => React.ReactElement };
 

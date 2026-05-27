@@ -26,9 +26,10 @@ export default function HomeScreen() {
         style={styles.scroll}
         contentContainerStyle={[
           styles.content,
-          { paddingTop: insets.top + 6, paddingBottom: 140 },
+          { paddingBottom: 140 },
         ]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <HomeTopBar title="Home" lastUpdated="15:54" />

@@ -1,6 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface HomeTopBarProps {
   title?: string;
@@ -8,8 +9,9 @@ interface HomeTopBarProps {
 }
 
 export function HomeTopBar({ title = 'Home', lastUpdated = '15:54' }: HomeTopBarProps) {
+  const insets = useSafeAreaInsets();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top + 6 }]}>
       <View style={styles.titleRow}>
         <Text style={styles.title}>{title}</Text>
       </View>
@@ -24,7 +26,8 @@ export function HomeTopBar({ title = 'Home', lastUpdated = '15:54' }: HomeTopBar
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    paddingTop: 6,
+    paddingBottom: 8,
+    backgroundColor: '#F4F4F6',
   },
   titleRow: {
     alignItems: 'center',
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 52,
   },
   title: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   refreshText: {
-    fontSize: 13,
+    fontSize: 10,
     fontStyle: 'italic',
     color: '#6B7280',
     fontWeight: '500',

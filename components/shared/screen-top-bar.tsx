@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   title: {
     flex: 1,
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,

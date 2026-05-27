@@ -96,13 +96,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   title: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: -0.3,
   },
   body: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#D1D5DB',
     lineHeight: 20,
   },

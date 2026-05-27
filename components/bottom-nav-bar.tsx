@@ -18,6 +18,15 @@ const TAB_CONFIGS: Record<string, { icon: React.ComponentProps<typeof MaterialIc
   informatie:  { icon: 'info-outline' },
 };
 
+// Sub-routes that should keep their parent tab highlighted in the nav bar.
+const CHILD_TO_PARENT_TAB: Record<string, string> = {
+  agenda: 'community',
+  berichten: 'community',
+  spaarpotjes: 'community',
+  spaarpotje: 'community',
+  winkelmandje: 'marketplace',
+};
+
 function TabIcon({
   icon,
   isActive,
@@ -77,7 +86,10 @@ function TabIcon({
 export function BottomNavBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const visibleRoutes = state.routes.filter((route) => TAB_CONFIGS[route.name]);
-  const activeFilteredIndex = visibleRoutes.findIndex((r) => r.key === state.routes[state.index]?.key);
+  const currentRouteName = state.routes[state.index]?.name;
+  const highlightedTabName =
+    (currentRouteName && CHILD_TO_PARENT_TAB[currentRouteName]) ?? currentRouteName;
+  const activeFilteredIndex = visibleRoutes.findIndex((r) => r.name === highlightedTabName);
 
   const [tabCenters, setTabCenters] = useState<number[]>([]);
   const bumpX = useRef(new Animated.Value(0)).current;

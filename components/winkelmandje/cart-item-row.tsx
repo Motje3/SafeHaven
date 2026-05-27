@@ -105,14 +105,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
   },
   thumbLabel: {
-    fontSize: 11,
+    fontSize: 9,
     fontWeight: '900',
     color: '#FFFFFF',
     letterSpacing: 0.5,
     textTransform: 'uppercase',
   },
   thumbSubLabel: {
-    fontSize: 9,
+    fontSize: 7,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: 0.3,
@@ -130,13 +130,13 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   name: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   meta: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#6B7280',
   },
   countBadge: {
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   countText: {
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: '700',
     color: '#FFFFFF',
   },
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#22C55E',
   },
   qtyValue: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
     minWidth: 22,

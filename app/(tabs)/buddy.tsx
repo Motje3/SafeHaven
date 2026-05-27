@@ -12,8 +12,9 @@ export default function BuddyScreen() {
   return (
     <View style={styles.root}>
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar title="Jouw buddy" showBack reserveRightGutter />
@@ -98,8 +99,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   avatar: { width: 68, height: 68, borderRadius: 34, backgroundColor: '#F5D38A' },
-  buddyName: { fontSize: 17, fontWeight: '800', color: '#0F172A', letterSpacing: -0.3 },
-  buddySub: { fontSize: 13, color: '#6B7280', marginTop: 2 },
+  buddyName: { fontSize: 13, fontWeight: '800', color: '#0F172A', letterSpacing: -0.3 },
+  buddySub: { fontSize: 10, color: '#6B7280', marginTop: 2 },
   statusPill: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#22C55E' },
-  statusText: { fontSize: 12, fontWeight: '600', color: '#166534' },
+  statusText: { fontSize: 9, fontWeight: '600', color: '#166534' },
   card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
@@ -124,12 +125,12 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 2,
   },
-  cardTitle: { fontSize: 15, fontWeight: '700', color: '#0F172A', marginBottom: 12 },
+  cardTitle: { fontSize: 12, fontWeight: '700', color: '#0F172A', marginBottom: 12 },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   chip: { paddingHorizontal: 10, paddingVertical: 6, backgroundColor: '#F4F4F6', borderRadius: 8 },
-  chipText: { fontSize: 12, fontWeight: '600', color: '#0F172A' },
+  chipText: { fontSize: 9, fontWeight: '600', color: '#0F172A' },
   chipMine: { backgroundColor: '#14342B' },
-  chipMineText: { fontSize: 12, fontWeight: '600', color: '#FFFFFF' },
+  chipMineText: { fontSize: 9, fontWeight: '600', color: '#FFFFFF' },
   actions: { flexDirection: 'row', gap: 10 },
   primaryBtn: {
     flex: 1,
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 12,
   },
-  primaryBtnText: { color: '#FFFFFF', fontWeight: '700', fontSize: 14 },
+  primaryBtnText: { color: '#FFFFFF', fontWeight: '700', fontSize: 11 },
   secondaryBtn: {
     flex: 1,
     flexDirection: 'row',
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#14342B',
   },
-  secondaryBtnText: { color: '#14342B', fontWeight: '700', fontSize: 14 },
+  secondaryBtnText: { color: '#14342B', fontWeight: '700', fontSize: 11 },
   linkBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 12, alignSelf: 'flex-start' },
-  linkText: { fontSize: 13, fontWeight: '700', color: '#14342B' },
+  linkText: { fontSize: 10, fontWeight: '700', color: '#14342B' },
 });

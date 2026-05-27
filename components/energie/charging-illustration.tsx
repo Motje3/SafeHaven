@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   title: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: -0.3,
@@ -142,23 +142,23 @@ const styles = StyleSheet.create({
     right: 0,
   },
   calloutValueGreen: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '700',
     color: '#22C55E',
   },
   calloutLabelGreen: {
-    fontSize: 11,
+    fontSize: 9,
     fontStyle: 'italic',
     color: '#22C55E',
     fontWeight: '600',
   },
   calloutValueYellow: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '700',
     color: '#F5A623',
   },
   calloutLabelYellow: {
-    fontSize: 11,
+    fontSize: 9,
     fontStyle: 'italic',
     color: '#F5A623',
     fontWeight: '600',

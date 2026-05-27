@@ -74,11 +74,11 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   time: {
-    fontSize: 12,
+    fontSize: 9,
     color: '#6B7280',
   },
   title: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   location: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#0F172A',
   },
   trailing: {
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   rsvpText: {
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: '700',
     color: '#15803D',
   },

@@ -504,7 +504,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   photoLabel: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '700',
     letterSpacing: 1.5,
     color: 'rgba(15, 23, 42, 0.40)',
@@ -551,7 +551,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   walkingText: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '700',
     color: '#0F172A',
   },
@@ -573,7 +573,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   mapWrongText: {
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: '700',
     color: '#0F172A',
   },
@@ -604,7 +604,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   bewonerText: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '700',
     color: '#0F172A',
     flex: 1,
@@ -618,12 +618,12 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   addBewonerText: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '700',
     color: '#FFFFFF',
   },
   question: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '700',
     color: '#FFFFFF',
     textAlign: 'center',
@@ -641,7 +641,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   doneTitle: {
-    fontSize: 22,
+    fontSize: 17,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.3,
@@ -663,7 +663,7 @@ const styles = StyleSheet.create({
     paddingRight: 12,
   },
   backText: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: -0.2,
@@ -675,7 +675,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   saveText: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.2,
@@ -697,13 +697,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   infoText: {
-    fontSize: 11,
+    fontSize: 9,
     fontWeight: '800',
     color: '#FFFFFF',
     lineHeight: 13,
   },
   footerLink: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#FFFFFF',
     textDecorationLine: 'underline',
   },

@@ -110,8 +110,9 @@ export default function MarketplaceScreen() {
       <View style={styles.root}>
         <ScrollView
           style={styles.scroll}
-          contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+          contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
           showsVerticalScrollIndicator={false}
+          stickyHeaderIndices={[0]}
         >
           <Animated.View entering={FadeInDown.duration(400).springify()}>
             <ScreenTopBar title="Jouw noodvoorraad" reserveRightGutter />
@@ -204,8 +205,9 @@ export default function MarketplaceScreen() {
     <View style={styles.root}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar title="Voorraadbeheer" reserveRightGutter />
@@ -312,13 +314,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   doorTitle: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   doorStatus: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#6B7280',
     marginTop: 2,
   },
@@ -347,13 +349,13 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   howTitle: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   howSubtitle: {
-    fontSize: 12,
+    fontSize: 9,
     color: '#6B7280',
     marginTop: 2,
     marginBottom: 10,
@@ -379,13 +381,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   howInnerTitle: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.2,
   },
   howInnerSub: {
-    fontSize: 12,
+    fontSize: 9,
     color: '#6B7280',
     marginTop: 1,
   },
@@ -415,13 +417,13 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   listTitle: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   listCount: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#6B7280',
     marginLeft: 26,
   },
@@ -437,7 +439,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   filterText: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '600',
     color: '#0F172A',
   },
@@ -452,7 +454,7 @@ const styles = StyleSheet.create({
     marginLeft: 2,
   },
   filterCountText: {
-    fontSize: 11,
+    fontSize: 9,
     fontWeight: '800',
     color: '#FFFFFF',
   },

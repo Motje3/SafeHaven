@@ -31,8 +31,9 @@ export default function SpaarpotjesScreen() {
     <View style={styles.root}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar title="Spaarpotjes" showBack reserveRightGutter />
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   listTitle: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
@@ -157,13 +158,13 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   suggestTitle: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.2,
   },
   suggestSub: {
-    fontSize: 12,
+    fontSize: 9,
     color: '#6B7280',
     marginLeft: 26,
   },
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   ctaText: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.2,

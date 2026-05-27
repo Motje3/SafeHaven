@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   title: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#6B7280',
   },
   subtitleItalic: {

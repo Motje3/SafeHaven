@@ -76,13 +76,13 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   title: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   subtitle: {
-    fontSize: 12,
+    fontSize: 9,
     fontStyle: 'italic',
     color: '#6B7280',
     marginTop: 2,
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
   axisText: {
-    fontSize: 11,
+    fontSize: 9,
     color: '#6B7280',
     marginTop: 6,
     textAlign: 'center',
