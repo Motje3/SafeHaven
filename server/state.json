@@ -1,3 +1,9 @@
 {
-  "emergency": null
+  "emergency": {
+    "title": "Waarschuwing",
+    "timestamp": "21-05-2026 11:11",
+    "message": "De stroom is uitgevallen in meerdere wijken van Rotterdam. Onbekend hoe lang het gaat duren. Controleer of buren hulp nodig hebben en houdt de app in de gate voor meer informatie.",
+    "bannerTitle": "Status: Stroomstoring",
+    "bannerSubtitle": "Er is momenteel een storing. U krijgt zo snel mogelijk meer informatie..."
+  }
 }
