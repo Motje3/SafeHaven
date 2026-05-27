@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   howTitle: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
     marginLeft: 2,
   },
   filterCountText: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: '800',
     color: '#FFFFFF',
   },

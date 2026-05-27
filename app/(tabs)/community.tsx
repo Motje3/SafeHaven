@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
   topBarTitle: {
     flex: 1,
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   cardHeaderTitle: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.2,
@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   unreadDotText: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: '800',
     color: '#FFFFFF',
   },
@@ -533,7 +533,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   eventMeta: {
-    fontSize: 9,
+    fontSize: 8,
     color: '#6B7280',
     fontWeight: '600',
   },

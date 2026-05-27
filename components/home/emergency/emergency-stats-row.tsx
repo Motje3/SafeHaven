@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   headerTitle: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '700',
     color: '#0F172A',
   },

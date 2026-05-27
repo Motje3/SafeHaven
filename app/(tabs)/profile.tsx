@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 2,
   },
-  cardTitle: { fontSize: 12, fontWeight: '700', color: '#0F172A', marginBottom: 10 },
+  cardTitle: { fontSize: 11, fontWeight: '700', color: '#0F172A', marginBottom: 10 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10 },
   rowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#E5E7EB' },
   rowLabel: { fontSize: 9, color: '#6B7280' },

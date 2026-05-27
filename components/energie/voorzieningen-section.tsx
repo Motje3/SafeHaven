@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   stationName: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '700',
     color: '#0F172A',
   },

@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
   axisText: {
-    fontSize: 9,
+    fontSize: 8,
     color: '#6B7280',
     marginTop: 6,
     textAlign: 'center',

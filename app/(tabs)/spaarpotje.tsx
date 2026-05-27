@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   amountValue: {
-    fontSize: 25,
+    fontSize: 24,
     fontWeight: '900',
     color: '#0F172A',
     letterSpacing: -1.0,

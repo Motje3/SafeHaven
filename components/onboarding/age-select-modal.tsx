@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E5E7EB',
   },
   rowLabel: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '800',
     color: '#0F172A',
   },

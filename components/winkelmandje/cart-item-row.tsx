@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
   },
   thumbLabel: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: '900',
     color: '#FFFFFF',
     letterSpacing: 0.5,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#22C55E',
   },
   qtyValue: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '800',
     color: '#0F172A',
     minWidth: 22,

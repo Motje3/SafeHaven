@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
     paddingTop: 48,
   },
   welcomeTitle: {
-    fontSize: 22,
+    fontSize: 21,
     fontWeight: '800',
     color: '#FFFFFF',
     textAlign: 'center',
@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   stepTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '800',
     color: '#FFFFFF',
     textAlign: 'center',
@@ -587,7 +587,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   productThumbBrand: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: '900',
     color: '#FFFFFF',
     letterSpacing: 0.5,
@@ -668,7 +668,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cartBubbleBadgeText: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: '900',
     color: YELLOW_DARK_TEXT,
   },
@@ -779,7 +779,7 @@ const styles = StyleSheet.create({
     paddingRight: 12,
   },
   backText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: -0.2,
@@ -794,7 +794,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   nextText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '800',
     color: YELLOW_DARK_TEXT,
     letterSpacing: -0.2,

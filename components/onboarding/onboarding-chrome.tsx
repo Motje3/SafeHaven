@@ -120,14 +120,14 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   title: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '800',
     color: '#FFFFFF',
     textAlign: 'center',
     letterSpacing: -0.3,
   },
   subtitle: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#FFFFFF',
     textAlign: 'center',
     marginTop: 8,
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     paddingRight: 12,
   },
   backText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: -0.2,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   nextText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.2,
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   infoText: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: '800',
     color: '#FFFFFF',
     lineHeight: 13,

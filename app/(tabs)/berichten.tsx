@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   unreadDotText: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: '800',
     color: '#FFFFFF',
   },

@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   thumbLabel: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: '700',
     letterSpacing: 1.5,
     color: 'rgba(15, 23, 42, 0.45)',

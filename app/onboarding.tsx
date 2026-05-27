@@ -663,7 +663,7 @@ const styles = StyleSheet.create({
     paddingRight: 12,
   },
   backText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: -0.2,
@@ -675,7 +675,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   saveText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.2,
@@ -697,7 +697,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   infoText: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: '800',
     color: '#FFFFFF',
     lineHeight: 13,

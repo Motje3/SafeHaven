@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   statValue: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.5,

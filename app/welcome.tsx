@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   appName: {
-    fontSize: 31,
+    fontSize: 30,
     fontWeight: '800',
     color: '#1A1A2E',
     letterSpacing: -1,
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.3,
   },
   ctaArrow: {
-    fontSize: 16,
+    fontSize: 15,
     color: 'rgba(255,255,255,0.75)',
     fontWeight: '400',
   },

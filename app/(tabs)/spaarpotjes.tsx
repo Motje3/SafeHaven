@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   suggestTitle: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.2,

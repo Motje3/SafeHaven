@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.2,
   },
   amount: {
-    fontSize: 34,
+    fontSize: 33,
     fontWeight: '900',
     color: '#FFFFFF',
     letterSpacing: -1.5,

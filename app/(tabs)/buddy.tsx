@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 2,
   },
-  cardTitle: { fontSize: 12, fontWeight: '700', color: '#0F172A', marginBottom: 12 },
+  cardTitle: { fontSize: 11, fontWeight: '700', color: '#0F172A', marginBottom: 12 },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   chip: { paddingHorizontal: 10, paddingVertical: 6, backgroundColor: '#F4F4F6', borderRadius: 8 },
   chipText: { fontSize: 9, fontWeight: '600', color: '#0F172A' },

@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     color: '#22C55E',
   },
   calloutLabelGreen: {
-    fontSize: 9,
+    fontSize: 8,
     fontStyle: 'italic',
     color: '#22C55E',
     fontWeight: '600',
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     color: '#F5A623',
   },
   calloutLabelYellow: {
-    fontSize: 9,
+    fontSize: 8,
     fontStyle: 'italic',
     color: '#F5A623',
     fontWeight: '600',

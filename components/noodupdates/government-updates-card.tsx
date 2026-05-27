@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
   newBadgeText: {
     color: '#FFFFFF',
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: '700',
   },
   source: {
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   metaText: {
-    fontSize: 9,
+    fontSize: 8,
     color: '#6B7280',
   },
   preview: {
