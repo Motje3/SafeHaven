@@ -38,8 +38,9 @@ export default function CommunityScreen() {
       <View style={styles.root}>
         <ScrollView
           style={styles.scroll}
-          contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+          contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
           showsVerticalScrollIndicator={false}
+          stickyHeaderIndices={[0]}
         >
           <Animated.View entering={FadeInDown.duration(400).springify()}>
             <ScreenTopBar title="Community" showBack reserveRightGutter />
@@ -68,10 +69,14 @@ export default function CommunityScreen() {
     <View style={styles.root}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
-        <Animated.View entering={FadeInDown.duration(400).springify()} style={styles.topBarRow}>
+        <Animated.View
+          entering={FadeInDown.duration(400).springify()}
+          style={[styles.topBarRow, { paddingTop: insets.top + 4 }]}
+        >
           <View style={styles.topBarSide} />
           <Text style={styles.topBarTitle}>Community</Text>
           <View style={styles.topBarSide}>
@@ -91,7 +96,11 @@ export default function CommunityScreen() {
           </Animated.View>
 
           <Animated.View entering={FadeInDown.duration(500).delay(200).springify()}>
-            <BuurtchatCard draft={chatDraft} onDraftChange={setChatDraft} />
+            <BuurtchatCard
+              draft={chatDraft}
+              onDraftChange={setChatDraft}
+              onPress={() => router.push('/berichten' as any)}
+            />
           </Animated.View>
 
           <Animated.View entering={FadeInDown.duration(500).delay(260).springify()}>
@@ -150,12 +159,14 @@ function GepindeBerichtenCard() {
 function BuurtchatCard({
   draft,
   onDraftChange,
+  onPress,
 }: {
   draft: string;
   onDraftChange: (v: string) => void;
+  onPress?: () => void;
 }) {
   return (
-    <View style={styles.card}>
+    <Pressable onPress={onPress} style={({ pressed }) => [styles.card, pressed && { opacity: 0.92 }]}>
       <View style={styles.cardHeaderRow}>
         <MaterialIcons name="chat-bubble-outline" size={18} color="#0F172A" />
         <Text style={styles.cardHeaderTitle}>Buurtchat</Text>
@@ -219,7 +230,7 @@ function BuurtchatCard({
           <MaterialIcons name="send" size={18} color="#0F172A" />
         </Pressable>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -232,6 +243,8 @@ function AgendaCard({ onPress }: { onPress?: () => void }) {
         <View style={styles.flexFill} />
         <MaterialIcons name="chevron-right" size={22} color="#0F172A" />
       </View>
+
+      <View style={styles.cardDivider} />
 
       <View style={styles.eventRow}>
         <View style={[styles.eventIcon, { backgroundColor: '#22C55E' }]}>
@@ -325,11 +338,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: PAGE_PAD,
-    paddingTop: 4,
-    paddingBottom: 4,
-    marginLeft: 52,
-    marginRight: 8,
+    paddingLeft: 52 + PAGE_PAD,
+    paddingRight: PAGE_PAD + 8,
+    paddingBottom: 8,
+    backgroundColor: '#F4F4F6',
   },
   topBarSide: {
     width: 44,
@@ -339,7 +351,7 @@ const styles = StyleSheet.create({
   topBarTitle: {
     flex: 1,
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
@@ -355,7 +367,7 @@ const styles = StyleSheet.create({
     borderColor: '#E5E7EB',
   },
   avatarText: {
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: 0.2,
@@ -375,13 +387,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buurtTitle: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.3,
   },
   buurtSubtitle: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#E5E7EB',
     marginTop: 2,
   },
@@ -405,7 +417,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   cardHeaderTitle: {
-    fontSize: 15,
+    fontSize: 11,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.2,
@@ -442,22 +454,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   messageWho: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '800',
     color: '#0F172A',
   },
   messageTime: {
-    fontSize: 12,
+    fontSize: 9,
     color: '#6B7280',
   },
   messageTimeGreen: {
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: '700',
     color: '#22C55E',
   },
   messagePreview: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 10,
     fontStyle: 'italic',
     color: '#6B7280',
     marginTop: 2,
@@ -477,7 +489,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   unreadDotText: {
-    fontSize: 11,
+    fontSize: 8,
     fontWeight: '800',
     color: '#FFFFFF',
   },
@@ -494,7 +506,7 @@ const styles = StyleSheet.create({
   },
   chatInput: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 10,
     color: '#0F172A',
     fontStyle: 'italic',
     paddingVertical: 8,
@@ -521,12 +533,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   eventMeta: {
-    fontSize: 11,
+    fontSize: 8,
     color: '#6B7280',
     fontWeight: '600',
   },
   eventTitle: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '800',
     color: '#0F172A',
     marginTop: 1,
@@ -539,13 +551,13 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   eventLoc: {
-    fontSize: 12,
+    fontSize: 9,
     color: '#6B7280',
   },
 
   // Spaarpotje
   spaarGoal: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#0F172A',
     fontStyle: 'italic',
     marginTop: 12,
@@ -557,7 +569,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   spaarAmount: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,

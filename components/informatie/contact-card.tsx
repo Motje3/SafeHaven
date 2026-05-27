@@ -50,13 +50,13 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   name: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   role: {
-    fontSize: 13,
+    fontSize: 10,
     fontStyle: 'italic',
     color: '#6B7280',
   },

@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     marginBottom: 22,
   },
   title: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '800',
     textAlign: 'center',
     letterSpacing: -0.3,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   body: {
-    fontSize: 14,
+    fontSize: 11,
     textAlign: 'center',
     lineHeight: 20,
   },

@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   name: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.3,
   },
   detail: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#FFFFFF',
     opacity: 0.92,
   },

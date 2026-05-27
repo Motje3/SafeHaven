@@ -113,8 +113,9 @@ export default function InformatieScreen() {
       <View style={styles.root}>
         <ScrollView
           style={styles.scroll}
-          contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+          contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
           showsVerticalScrollIndicator={false}
+          stickyHeaderIndices={[0]}
         >
           <Animated.View entering={FadeInDown.duration(400).springify()}>
             <ScreenTopBar title="Noodupdates" showBack reserveRightGutter />
@@ -142,8 +143,9 @@ export default function InformatieScreen() {
     <View style={styles.root}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar title="Informatie" showBack reserveRightGutter />
@@ -294,7 +296,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   sectionTitle: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
@@ -323,7 +325,7 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   viewAllText: {
-    fontSize: 13,
+    fontSize: 10,
     fontStyle: 'italic',
     color: '#6B7280',
     fontWeight: '500',

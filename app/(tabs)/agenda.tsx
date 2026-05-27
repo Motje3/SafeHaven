@@ -5,7 +5,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ActivityRow, type ActivityIconVariant } from '@/components/agenda/activity-row';
-import { CalendarMonth } from '@/components/agenda/calendar-month';
+import { CalendarMonth, type EventCategory } from '@/components/agenda/calendar-month';
 import { SuggestionCard } from '@/components/agenda/suggestion-card';
 import { BuurtBanner } from '@/components/shared/buurt-banner';
 import { ScreenTopBar } from '@/components/shared/screen-top-bar';
@@ -15,7 +15,11 @@ const MONTHS_NL = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli
 
 const INITIAL_YEAR = 2026;
 const INITIAL_MONTH = 4; // May (0-indexed)
-const EVENT_DAYS = [12, 13, 20];
+const EVENTS: Record<number, EventCategory> = {
+  1: 'workshop',
+  12: 'vergadering',
+  13: 'urgent',
+};
 
 type Activity = {
   time: string;
@@ -84,8 +88,9 @@ export default function AgendaScreen() {
     <View style={styles.root}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar title="Agenda" showBack reserveRightGutter />
@@ -137,7 +142,7 @@ export default function AgendaScreen() {
                     year={year}
                     month={month}
                     selectedDay={selectedDay}
-                    eventDays={EVENT_DAYS}
+                    events={EVENTS}
                     onPrev={goPrev}
                     onNext={goNext}
                     onSelectDay={handleSelectDay}
@@ -191,7 +196,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   agendaTitle: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.3,
@@ -202,7 +207,7 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
   },
   dayLabel: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,

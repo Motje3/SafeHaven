@@ -1,3 +1,4 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
@@ -21,6 +22,9 @@ export function DonutProgressCard({
 
   return (
     <View style={styles.card}>
+      <View style={styles.infoBadge}>
+        <MaterialIcons name="info" size={16} color="#0F172A" />
+      </View>
       <View style={styles.row}>
         <View style={[styles.donutWrap, { width: size, height: size }]}>
           <Svg width={size} height={size}>
@@ -84,6 +88,11 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 2,
   },
+  infoBadge: {
+    position: 'absolute',
+    top: 10,
+    right: 12,
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -99,7 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   percent: {
-    fontSize: 26,
+    fontSize: 20,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.6,
@@ -109,13 +118,13 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   headline: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   subtext: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#6B7280',
     lineHeight: 18,
     marginBottom: 6,
@@ -137,7 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   legendText: {
-    fontSize: 13,
+    fontSize: 10,
     fontStyle: 'italic',
     color: '#0F172A',
     fontWeight: '500',

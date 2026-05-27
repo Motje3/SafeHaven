@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   title: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     borderColor: '#E5E7EB',
   },
   pillText: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '600',
     color: '#0F172A',
   },
@@ -148,17 +148,17 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   stationName: {
-    fontSize: 15,
+    fontSize: 11,
     fontWeight: '700',
     color: '#0F172A',
   },
   stationSubtitle: {
-    fontSize: 13,
+    fontSize: 10,
     fontStyle: 'italic',
     color: '#6B7280',
   },
   stationLocation: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '600',
     color: '#0F172A',
     marginTop: 2,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   claimText: {
     color: '#FFFFFF',
     fontWeight: '700',
-    fontSize: 14,
+    fontSize: 11,
   },
   fullBadge: {
     paddingHorizontal: 22,
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   fullText: {
     color: '#EF4444',
     fontWeight: '700',
-    fontSize: 14,
+    fontSize: 11,
   },
   divider: {
     height: StyleSheet.hairlineWidth,

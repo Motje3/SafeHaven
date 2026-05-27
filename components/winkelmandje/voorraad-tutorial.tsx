@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
     paddingTop: 48,
   },
   welcomeTitle: {
-    fontSize: 28,
+    fontSize: 21,
     fontWeight: '800',
     color: '#FFFFFF',
     textAlign: 'center',
@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
   },
   welcomeSubtitle: {
     marginTop: 16,
-    fontSize: 14,
+    fontSize: 11,
     color: '#FFFFFF',
     textAlign: 'center',
     opacity: 0.92,
@@ -409,13 +409,13 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   primaryBtnText: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: YELLOW_DARK_TEXT,
     letterSpacing: -0.2,
   },
   skipLink: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#FFFFFF',
     textDecorationLine: 'underline',
   },
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 4,
   },
   basketItemLabel: {
-    fontSize: 9,
+    fontSize: 7,
     fontWeight: '800',
     color: '#0F172A',
     textTransform: 'lowercase',
@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   basketTagline: {
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: '800',
     color: '#0F172A',
     lineHeight: 16,
@@ -524,7 +524,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   pinLetter: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '900',
     color: YELLOW_DARK_TEXT,
   },
@@ -540,13 +540,13 @@ const styles = StyleSheet.create({
     marginTop: -3,
   },
   stepCounter: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '800',
     color: YELLOW,
     marginBottom: 6,
   },
   stepTitle: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: '800',
     color: '#FFFFFF',
     textAlign: 'center',
@@ -560,7 +560,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   stepCaption: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#FFFFFF',
     textAlign: 'center',
     lineHeight: 20,
@@ -587,14 +587,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   productThumbBrand: {
-    fontSize: 11,
+    fontSize: 8,
     fontWeight: '900',
     color: '#FFFFFF',
     letterSpacing: 0.5,
     textTransform: 'uppercase',
   },
   productThumbName: {
-    fontSize: 9,
+    fontSize: 7,
     fontWeight: '800',
     color: '#FFFFFF',
     textAlign: 'center',
@@ -612,13 +612,13 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   productName: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   productMeta: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#6B7280',
   },
   countBadge: {
@@ -629,7 +629,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   countBadgeText: {
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: '700',
     color: '#FFFFFF',
   },
@@ -668,7 +668,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cartBubbleBadgeText: {
-    fontSize: 11,
+    fontSize: 8,
     fontWeight: '900',
     color: YELLOW_DARK_TEXT,
   },
@@ -690,7 +690,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   photoCardText: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '600',
     color: 'rgba(255,255,255,0.85)',
   },
@@ -706,13 +706,13 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   tipBoldDark: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '800',
     color: '#0F172A',
   },
   tipTextDark: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 10,
     color: '#0F172A',
   },
 
@@ -728,7 +728,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   deliverBtnMockText: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.2,
@@ -758,7 +758,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   numberLine: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#FFFFFF',
     lineHeight: 22,
   },
@@ -779,7 +779,7 @@ const styles = StyleSheet.create({
     paddingRight: 12,
   },
   backText: {
-    fontSize: 15,
+    fontSize: 11,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: -0.2,
@@ -794,7 +794,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   nextText: {
-    fontSize: 15,
+    fontSize: 11,
     fontWeight: '800',
     color: YELLOW_DARK_TEXT,
     letterSpacing: -0.2,
@@ -806,7 +806,7 @@ const styles = StyleSheet.create({
     paddingTop: 18,
   },
   terugLink: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#FFFFFF',
     textDecorationLine: 'underline',
   },

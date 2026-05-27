@@ -12,8 +12,9 @@ export default function ProfileScreen() {
   return (
     <View style={styles.root}>
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar title="Profiel" showBack reserveRightGutter />
@@ -95,8 +96,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#86CFA1',
     marginBottom: 12,
   },
-  name: { fontSize: 18, fontWeight: '800', color: '#FFFFFF', letterSpacing: -0.3 },
-  sub: { fontSize: 13, color: '#D1D5DB', marginTop: 2 },
+  name: { fontSize: 14, fontWeight: '800', color: '#FFFFFF', letterSpacing: -0.3 },
+  sub: { fontSize: 10, color: '#D1D5DB', marginTop: 2 },
   card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
@@ -108,11 +109,11 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 2,
   },
-  cardTitle: { fontSize: 15, fontWeight: '700', color: '#0F172A', marginBottom: 10 },
+  cardTitle: { fontSize: 11, fontWeight: '700', color: '#0F172A', marginBottom: 10 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10 },
   rowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#E5E7EB' },
-  rowLabel: { fontSize: 12, color: '#6B7280' },
-  rowValue: { fontSize: 14, fontWeight: '600', color: '#0F172A' },
+  rowLabel: { fontSize: 9, color: '#6B7280' },
+  rowValue: { fontSize: 11, fontWeight: '600', color: '#0F172A' },
   rolePill: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -123,8 +124,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 10,
   },
-  rolePillText: { fontSize: 13, fontWeight: '700', color: '#14342B' },
-  helpsText: { fontSize: 13, color: '#6B7280', marginTop: 12, marginBottom: 8 },
+  rolePillText: { fontSize: 10, fontWeight: '700', color: '#14342B' },
+  helpsText: { fontSize: 10, color: '#6B7280', marginTop: 12, marginBottom: 8 },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   chip: {
     paddingHorizontal: 10,
@@ -132,5 +133,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F4F6',
     borderRadius: 8,
   },
-  chipText: { fontSize: 12, fontWeight: '600', color: '#0F172A' },
+  chipText: { fontSize: 9, fontWeight: '600', color: '#0F172A' },
 });

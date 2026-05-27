@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   title: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
@@ -84,13 +84,13 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   timestamp: {
-    fontSize: 15,
+    fontSize: 11,
     fontWeight: '700',
     color: '#0F172A',
     marginBottom: 8,
   },
   message: {
-    fontSize: 14,
+    fontSize: 11,
     lineHeight: 20,
     color: '#0F172A',
     marginBottom: 20,
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '700',
     letterSpacing: -0.2,
   },

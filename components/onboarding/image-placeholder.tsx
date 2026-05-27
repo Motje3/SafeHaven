@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(15, 23, 42, 0.20)',
   },
   label: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '700',
     letterSpacing: 1.5,
     textTransform: 'uppercase',

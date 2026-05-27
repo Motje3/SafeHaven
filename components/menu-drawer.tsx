@@ -213,13 +213,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   userName: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   userSub: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#6B7280',
     marginTop: 2,
   },
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F7',
   },
   menuLabel: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '600',
     color: '#0F172A',
     letterSpacing: -0.2,
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   logoutText: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '600',
     color: '#EF2A2A',
   },

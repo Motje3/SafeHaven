@@ -91,14 +91,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
     marginBottom: 4,
   },
   body: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#0F172A',
     lineHeight: 18,
   },
@@ -113,13 +113,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   tipBold: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '800',
     color: '#0F172A',
   },
   tipText: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 10,
     color: '#0F172A',
   },
 });

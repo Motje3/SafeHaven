@@ -89,13 +89,13 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   title: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   subtitle: {
-    fontSize: 13,
+    fontSize: 10,
     fontStyle: 'italic',
     color: '#0F172A',
     marginTop: 4,
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0F172A',
   },
   bulletText: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#0F172A',
     fontWeight: '500',
   },
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   percentText: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '700',
     color: '#0F172A',
     alignSelf: 'flex-end',

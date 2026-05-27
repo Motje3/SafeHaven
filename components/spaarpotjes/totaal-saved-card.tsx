@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
   },
   label: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.2,
   },
   amount: {
-    fontSize: 44,
+    fontSize: 33,
     fontWeight: '900',
     color: '#FFFFFF',
     letterSpacing: -1.5,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   metaLeft: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#FFFFFF',
     opacity: 0.9,
   },
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   metaRight: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#FFFFFF',
   },

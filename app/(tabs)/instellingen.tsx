@@ -18,8 +18,9 @@ export default function InstellingenScreen() {
   return (
     <View style={styles.root}>
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar title="Instellingen" showBack reserveRightGutter />
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
   content: {},
   body: { paddingHorizontal: 16, paddingTop: 12, gap: 18 },
   sectionTitle: {
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: '700',
     color: '#6B7280',
     textTransform: 'uppercase',
@@ -177,8 +178,8 @@ const styles = StyleSheet.create({
   },
   row: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingVertical: 14 },
   rowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#E5E7EB' },
-  rowLabel: { fontSize: 14, fontWeight: '600', color: '#0F172A' },
-  rowHint: { fontSize: 12, color: '#6B7280', marginTop: 2 },
-  rowValue: { fontSize: 13, color: '#6B7280', marginRight: 4 },
-  versionText: { fontSize: 12, color: '#9CA3AF', textAlign: 'center', marginTop: 8 },
+  rowLabel: { fontSize: 11, fontWeight: '600', color: '#0F172A' },
+  rowHint: { fontSize: 9, color: '#6B7280', marginTop: 2 },
+  rowValue: { fontSize: 10, color: '#6B7280', marginRight: 4 },
+  versionText: { fontSize: 9, color: '#9CA3AF', textAlign: 'center', marginTop: 8 },
 });

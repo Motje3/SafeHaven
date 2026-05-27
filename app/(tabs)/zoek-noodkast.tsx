@@ -12,8 +12,9 @@ export default function ZoekNoodkastScreen() {
   return (
     <View style={styles.root}>
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar title="Zoek mijn Noodkast" showBack reserveRightGutter />
@@ -109,9 +110,9 @@ const styles = StyleSheet.create({
   },
   image: { width: 110, height: 90 },
   heroBody: { flex: 1, gap: 4 },
-  heroTitle: { fontSize: 17, fontWeight: '700', color: '#0F172A', letterSpacing: -0.3 },
+  heroTitle: { fontSize: 13, fontWeight: '700', color: '#0F172A', letterSpacing: -0.3 },
   locationRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  locationText: { fontSize: 13, color: '#6B7280' },
+  locationText: { fontSize: 10, color: '#6B7280' },
   walkPill: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginTop: 6,
   },
-  walkText: { fontSize: 13, fontWeight: '700', color: '#0F172A' },
+  walkText: { fontSize: 10, fontWeight: '700', color: '#0F172A' },
   mapCard: {
     height: 220,
     backgroundColor: '#E5E7EB',
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  mapPlaceholder: { fontSize: 13, color: '#6B7280', fontStyle: 'italic' },
+  mapPlaceholder: { fontSize: 10, color: '#6B7280', fontStyle: 'italic' },
   actions: { flexDirection: 'row', gap: 10 },
   primaryBtn: {
     flex: 1,
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 12,
   },
-  primaryBtnText: { color: '#FFFFFF', fontWeight: '700', fontSize: 14 },
+  primaryBtnText: { color: '#FFFFFF', fontWeight: '700', fontSize: 11 },
   secondaryBtn: {
     flex: 1,
     flexDirection: 'row',
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#14342B',
   },
-  secondaryBtnText: { color: '#14342B', fontWeight: '700', fontSize: 14 },
+  secondaryBtnText: { color: '#14342B', fontWeight: '700', fontSize: 11 },
   statusCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
@@ -175,6 +176,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   statusRowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#E5E7EB' },
-  statusLabel: { fontSize: 13, color: '#6B7280' },
-  statusValue: { fontSize: 14, fontWeight: '700' },
+  statusLabel: { fontSize: 10, color: '#6B7280' },
+  statusValue: { fontSize: 11, fontWeight: '700' },
 });

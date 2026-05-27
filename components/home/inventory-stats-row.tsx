@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   headerTitle: {
-    fontSize: 15,
+    fontSize: 11,
     fontWeight: '700',
     color: '#0F172A',
   },
@@ -146,17 +146,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   itemLabel: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#0F172A',
     fontWeight: '500',
     flex: 1,
   },
   miniBarTrack: {
-    width: 52,
-    height: 7,
+    width: 36,
+    height: 6,
     borderRadius: 4,
     backgroundColor: '#E5E7EB',
     overflow: 'hidden',
+    marginLeft: 8,
   },
   miniBarFill: {
     height: '100%',
@@ -177,13 +178,13 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   gevuldLabel: {
-    fontSize: 12,
+    fontSize: 9,
     fontStyle: 'italic',
     color: '#0F172A',
     fontWeight: '500',
   },
   percentText: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '700',
     color: '#0F172A',
   },
@@ -207,7 +208,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   actionItem: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#0F172A',
     fontWeight: '500',
   },
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F4F6',
   },
   activityText: {
-    fontSize: 12,
+    fontSize: 9,
     fontStyle: 'italic',
     color: '#6B7280',
     fontWeight: '500',

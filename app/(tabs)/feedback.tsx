@@ -24,8 +24,9 @@ export default function FeedbackScreen() {
   return (
     <View style={styles.root}>
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 4, paddingBottom: 140 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 140 }]}
         showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
           <ScreenTopBar title="Feedback" showBack reserveRightGutter />
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     gap: 12,
     alignItems: 'flex-start',
   },
-  introText: { flex: 1, fontSize: 13, color: '#D1D5DB', lineHeight: 20 },
+  introText: { flex: 1, fontSize: 10, color: '#D1D5DB', lineHeight: 20 },
   card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 2,
   },
-  label: { fontSize: 13, fontWeight: '700', color: '#0F172A', marginTop: 8, marginBottom: 8 },
+  label: { fontSize: 10, fontWeight: '700', color: '#0F172A', marginTop: 8, marginBottom: 8 },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   chip: {
     paddingHorizontal: 12,
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   chipActive: { backgroundColor: '#F5C842' },
-  chipText: { fontSize: 13, fontWeight: '600', color: '#0F172A' },
+  chipText: { fontSize: 10, fontWeight: '600', color: '#0F172A' },
   chipTextActive: { color: '#14342B' },
   textarea: {
     minHeight: 120,
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     borderColor: '#E5E7EB',
     borderRadius: 12,
     padding: 12,
-    fontSize: 14,
+    fontSize: 11,
     color: '#0F172A',
     textAlignVertical: 'top',
   },
@@ -147,5 +148,5 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginTop: 14,
   },
-  submitText: { color: '#FFFFFF', fontWeight: '700', fontSize: 14 },
+  submitText: { color: '#FFFFFF', fontWeight: '700', fontSize: 11 },
 });

@@ -136,13 +136,13 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   title: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   subtitle: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#6B7280',
     marginTop: 2,
     marginBottom: 12,
@@ -182,11 +182,11 @@ const styles = StyleSheet.create({
   },
   newBadgeText: {
     color: '#FFFFFF',
-    fontSize: 11,
+    fontSize: 8,
     fontWeight: '700',
   },
   source: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '700',
     color: '#0F172A',
   },
@@ -196,11 +196,11 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   metaText: {
-    fontSize: 11,
+    fontSize: 8,
     color: '#6B7280',
   },
   preview: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#374151',
     lineHeight: 18,
   },

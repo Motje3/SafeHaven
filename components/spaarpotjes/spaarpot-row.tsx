@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   thumbLabel: {
-    fontSize: 11,
+    fontSize: 8,
     fontWeight: '700',
     letterSpacing: 1.5,
     color: 'rgba(15, 23, 42, 0.45)',
@@ -85,13 +85,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   name: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
   amount: {
-    fontSize: 13,
+    fontSize: 10,
     marginTop: 2,
   },
   amountBold: {

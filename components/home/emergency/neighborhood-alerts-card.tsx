@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   headerTitle: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '700',
     color: '#14342B',
   },
@@ -118,13 +118,13 @@ const styles = StyleSheet.create({
   },
   infoText: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 10,
     fontStyle: 'italic',
     color: '#0F172A',
     lineHeight: 18,
   },
   time: {
-    fontSize: 12,
+    fontSize: 9,
     color: '#6B7280',
     fontWeight: '500',
   },
@@ -141,13 +141,13 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   helpTitle: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '800',
     fontStyle: 'italic',
     color: '#0F172A',
   },
   helpLocation: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#0F172A',
   },
   questionCol: {
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   respondLabel: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#0F172A',
     fontWeight: '500',
   },
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   respondBtnText: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#0F172A',
     fontWeight: '500',
   },

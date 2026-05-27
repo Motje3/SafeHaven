@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: '700',
     color: '#0F172A',
   },
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   linkText: {
-    fontSize: 16,
+    fontSize: 12,
     color: '#7C6FE0',
   },
 });

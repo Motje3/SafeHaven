@@ -149,12 +149,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   headerTitle: {
-    fontSize: 15,
+    fontSize: 11,
     fontWeight: '700',
     color: '#0F172A',
   },
   subtitle: {
-    fontSize: 12,
+    fontSize: 9,
     fontStyle: 'italic',
     color: '#6B7280',
     marginBottom: 8,
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
   },
   itemText: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#0F172A',
     fontWeight: '500',
   },
@@ -188,13 +188,13 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   percentLabel: {
-    fontSize: 12,
+    fontSize: 9,
     fontStyle: 'italic',
     color: '#0F172A',
     fontWeight: '500',
   },
   percentText: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '700',
     color: '#0F172A',
   },
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
   },
   actionLabel: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '600',
     color: '#0F172A',
   },

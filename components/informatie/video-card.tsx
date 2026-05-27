@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     maxWidth: '90%',
   },
   titleText: {
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: '700',
     color: '#0F172A',
     letterSpacing: -0.2,

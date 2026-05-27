@@ -19,6 +19,7 @@ export default function TabLayout() {
         <Tabs.Screen name="energie" />
         <Tabs.Screen name="informatie" />
         <Tabs.Screen name="agenda" options={{ href: null }} />
+        <Tabs.Screen name="berichten" options={{ href: null }} />
         <Tabs.Screen name="spaarpotjes" options={{ href: null }} />
         <Tabs.Screen name="spaarpotje" options={{ href: null }} />
         <Tabs.Screen name="winkelmandje" options={{ href: null }} />

@@ -192,14 +192,14 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   appName: {
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: '800',
     color: '#1A1A2E',
     letterSpacing: -1,
     textAlign: 'center',
   },
   tagline: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '500',
     color: 'rgba(26,26,46,0.50)',
     textAlign: 'center',
@@ -228,13 +228,13 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   ctaText: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: -0.3,
   },
   ctaArrow: {
-    fontSize: 20,
+    fontSize: 15,
     color: 'rgba(255,255,255,0.75)',
     fontWeight: '400',
   },
@@ -249,13 +249,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   secondaryText: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '700',
     color: '#7C6FE0',
     letterSpacing: -0.2,
   },
   footerNote: {
-    fontSize: 12,
+    fontSize: 9,
     color: 'rgba(26,26,46,0.35)',
     textAlign: 'center',
     fontWeight: '500',

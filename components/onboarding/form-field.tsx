@@ -40,17 +40,17 @@ const styles = StyleSheet.create({
     gap: 1,
   },
   label: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#6B6357',
     fontWeight: '500',
   },
   asterisk: {
-    fontSize: 13,
+    fontSize: 10,
     color: '#EF4444',
     fontWeight: '700',
   },
   input: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '700',
     color: '#0F172A',
     paddingVertical: 2,
