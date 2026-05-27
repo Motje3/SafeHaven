@@ -1,6 +1,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -10,7 +11,12 @@ import { DonutProgressCard } from '@/components/voorraad/donut-progress-card';
 import { FilterModal, type FilterCategory } from '@/components/voorraad/filter-modal';
 import { InventoryItemCard } from '@/components/voorraad/inventory-item-card';
 import { SegmentedTabs } from '@/components/voorraad/segmented-tabs';
+import { VoorraadTutorial } from '@/components/winkelmandje/voorraad-tutorial';
+import { WinkelmandjeSheet } from '@/components/winkelmandje/winkelmandje-sheet';
 import { useEmergency } from '@/hooks/use-emergency';
+
+// Module-level flag so the 5-step tutorial only shows once per app session.
+let voorraadTutorialSeen = false;
 
 const TABS = ['Ontbreekt', 'Compleet', 'Mijn bijdrage'];
 
@@ -100,10 +106,18 @@ const NOOD_ITEMS: Item[] = [
 
 export default function MarketplaceScreen() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const { emergency } = useEmergency();
   const [activeTab, setActiveTab] = useState(0);
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<FilterCategory[]>(['voedsel']);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(!voorraadTutorialSeen && !emergency);
+
+  const dismissTutorial = () => {
+    voorraadTutorialSeen = true;
+    setShowTutorial(false);
+  };
 
   if (emergency) {
     return (
@@ -268,8 +282,8 @@ export default function MarketplaceScreen() {
         </View>
       </ScrollView>
 
-      <View style={[styles.fabWrap, { bottom: insets.bottom + 100 }]}>
-        <ChatFab count={3} />
+      <View style={[styles.fabWrap, { bottom: insets.bottom + 16 }]}>
+        <ChatFab count={3} onPress={() => setCartOpen(true)} />
       </View>
 
       <FilterModal
@@ -278,6 +292,25 @@ export default function MarketplaceScreen() {
         onClose={() => setFilterOpen(false)}
         onApply={setSelectedFilters}
       />
+
+      <Modal
+        visible={cartOpen}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setCartOpen(false)}
+      >
+        <Pressable style={styles.sheetBackdrop} onPress={() => setCartOpen(false)} />
+        <View style={[styles.sheetContainer, { paddingBottom: insets.bottom + 8 }]}>
+          <WinkelmandjeSheet
+            onScanRequest={() => {
+              setCartOpen(false);
+              router.push('/qr-code' as any);
+            }}
+          />
+        </View>
+      </Modal>
+
+      {showTutorial && <VoorraadTutorial onClose={dismissTutorial} />}
     </View>
   );
 }
@@ -464,5 +497,24 @@ const styles = StyleSheet.create({
   fabWrap: {
     position: 'absolute',
     right: 20,
+  },
+  sheetBackdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+  },
+  sheetContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: '75%',
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
+    elevation: 12,
   },
 });

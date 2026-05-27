@@ -13,7 +13,7 @@ export function ChatFab({ count = 3, onPress }: ChatFabProps) {
       onPress={onPress}
       style={({ pressed }) => [styles.fab, pressed && { opacity: 0.88 }]}
     >
-      <MaterialIcons name="chat-bubble-outline" size={22} color="#FFFFFF" />
+      <MaterialIcons name="inventory-2" size={22} color="#FFFFFF" />
       {count > 0 && (
         <View style={styles.badge}>
           <Text style={styles.badgeText}>{count}</Text>

@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
     borderRadius: BUBBLE_SIZE / 2,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 5,
   },
   cellText: {
     fontSize: 11,
@@ -203,10 +204,10 @@ const styles = StyleSheet.create({
   },
   eventDot: {
     position: 'absolute',
-    bottom: 2,
-    width: 5,
-    height: 5,
-    borderRadius: 2.5,
+    bottom: 1,
+    width: 4,
+    height: 4,
+    borderRadius: 2,
     backgroundColor: '#22C55E',
   },
   legendDivider: {

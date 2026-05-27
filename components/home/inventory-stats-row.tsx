@@ -152,11 +152,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   miniBarTrack: {
-    width: 52,
-    height: 7,
+    width: 36,
+    height: 6,
     borderRadius: 4,
     backgroundColor: '#E5E7EB',
     overflow: 'hidden',
+    marginLeft: 8,
   },
   miniBarFill: {
     height: '100%',

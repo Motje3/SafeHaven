@@ -32,7 +32,7 @@ export default function HomeScreen() {
         stickyHeaderIndices={[0]}
       >
         <Animated.View entering={FadeInDown.duration(400).springify()}>
-          <HomeTopBar title="Home" lastUpdated="15:54" />
+          <HomeTopBar title="Home" />
         </Animated.View>
 
         <View style={styles.body}>

@@ -121,16 +121,6 @@ export function BottomNavBar({ state, navigation }: BottomTabBarProps) {
 
   return (
     <View style={[styles.wrapper, { paddingBottom: Math.max(insets.bottom, 16) }]}>
-      {/* Bump */}
-      {tabCenters.length === visibleRoutes.length && (
-        <Animated.View
-          style={[
-            styles.bump,
-            { transform: [{ translateX: Animated.subtract(bumpX, 30) }] },
-          ]}
-        />
-      )}
-
       <View style={styles.container}>
         {visibleRoutes.map((route, index) => {
           const config = TAB_CONFIGS[route.name];
