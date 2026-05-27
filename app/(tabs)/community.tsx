@@ -91,7 +91,11 @@ export default function CommunityScreen() {
           </Animated.View>
 
           <Animated.View entering={FadeInDown.duration(500).delay(200).springify()}>
-            <BuurtchatCard draft={chatDraft} onDraftChange={setChatDraft} />
+            <BuurtchatCard
+              draft={chatDraft}
+              onDraftChange={setChatDraft}
+              onPress={() => router.push('/berichten' as any)}
+            />
           </Animated.View>
 
           <Animated.View entering={FadeInDown.duration(500).delay(260).springify()}>
@@ -150,12 +154,14 @@ function GepindeBerichtenCard() {
 function BuurtchatCard({
   draft,
   onDraftChange,
+  onPress,
 }: {
   draft: string;
   onDraftChange: (v: string) => void;
+  onPress?: () => void;
 }) {
   return (
-    <View style={styles.card}>
+    <Pressable onPress={onPress} style={({ pressed }) => [styles.card, pressed && { opacity: 0.92 }]}>
       <View style={styles.cardHeaderRow}>
         <MaterialIcons name="chat-bubble-outline" size={18} color="#0F172A" />
         <Text style={styles.cardHeaderTitle}>Buurtchat</Text>
@@ -219,7 +225,7 @@ function BuurtchatCard({
           <MaterialIcons name="send" size={18} color="#0F172A" />
         </Pressable>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -232,6 +238,8 @@ function AgendaCard({ onPress }: { onPress?: () => void }) {
         <View style={styles.flexFill} />
         <MaterialIcons name="chevron-right" size={22} color="#0F172A" />
       </View>
+
+      <View style={styles.cardDivider} />
 
       <View style={styles.eventRow}>
         <View style={[styles.eventIcon, { backgroundColor: '#22C55E' }]}>

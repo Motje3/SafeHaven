@@ -1,3 +1,4 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
@@ -21,6 +22,9 @@ export function DonutProgressCard({
 
   return (
     <View style={styles.card}>
+      <View style={styles.infoBadge}>
+        <MaterialIcons name="info" size={16} color="#0F172A" />
+      </View>
       <View style={styles.row}>
         <View style={[styles.donutWrap, { width: size, height: size }]}>
           <Svg width={size} height={size}>
@@ -83,6 +87,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.06,
     shadowRadius: 10,
     elevation: 2,
+  },
+  infoBadge: {
+    position: 'absolute',
+    top: 10,
+    right: 12,
   },
   row: {
     flexDirection: 'row',

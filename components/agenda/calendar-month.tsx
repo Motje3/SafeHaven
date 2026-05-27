@@ -9,11 +9,25 @@ const MONTHS_NL = [
 
 const WEEKDAYS_NL = ['MA', 'DI', 'WO', 'DO', 'VR', 'ZA', 'ZO'];
 
+export type EventCategory = 'workshop' | 'vergadering' | 'urgent';
+
+const CATEGORY_COLOR: Record<EventCategory, string> = {
+  workshop: '#DDE8CE',
+  vergadering: '#F4CC4A',
+  urgent: '#F5837E',
+};
+
+const CATEGORY_LABEL: Record<EventCategory, string> = {
+  workshop: 'Workshop',
+  vergadering: 'Vergadering',
+  urgent: 'Urgent',
+};
+
 interface CalendarMonthProps {
   year: number;
   month: number; // 0-indexed
   selectedDay?: number | null;
-  eventDays?: number[];
+  events?: Record<number, EventCategory>;
   onPrev?: () => void;
   onNext?: () => void;
   onSelectDay?: (day: number) => void;
@@ -26,7 +40,6 @@ function buildMonthGrid(year: number, month: number): Cell[] {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const prevMonthDays = new Date(year, month, 0).getDate();
 
-  // JS getDay: Sunday=0..Saturday=6. We want Monday=0..Sunday=6
   let firstWeekday = firstDate.getDay() - 1;
   if (firstWeekday < 0) firstWeekday = 6;
 
@@ -52,7 +65,7 @@ export function CalendarMonth({
   year,
   month,
   selectedDay,
-  eventDays = [],
+  events = {},
   onPrev,
   onNext,
   onSelectDay,
@@ -81,7 +94,7 @@ export function CalendarMonth({
       <View style={styles.grid}>
         {cells.map((cell, i) => {
           const isSelected = cell.inMonth && cell.day === selectedDay;
-          const hasEvent = cell.inMonth && eventDays.includes(cell.day);
+          const category = cell.inMonth ? events[cell.day] : undefined;
 
           return (
             <Pressable
@@ -90,30 +103,47 @@ export function CalendarMonth({
               onPress={() => cell.inMonth && onSelectDay?.(cell.day)}
               style={({ pressed }) => [
                 styles.cell,
-                isSelected && styles.cellSelected,
-                hasEvent && !isSelected && styles.cellEvent,
-                pressed && cell.inMonth && !isSelected && { opacity: 0.6 },
+                pressed && cell.inMonth && !category && { opacity: 0.6 },
               ]}
             >
-              <Text
+              <View
                 style={[
-                  styles.cellText,
-                  !cell.inMonth && styles.cellTextMuted,
-                  isSelected && styles.cellTextSelected,
+                  styles.bubble,
+                  category && { backgroundColor: CATEGORY_COLOR[category] },
                 ]}
               >
-                {cell.day}
-              </Text>
-              {hasEvent && <View style={[styles.eventDot, isSelected && styles.eventDotSelected]} />}
+                <Text
+                  style={[
+                    styles.cellText,
+                    !cell.inMonth && styles.cellTextMuted,
+                    isSelected && styles.cellTextSelected,
+                  ]}
+                >
+                  {cell.day}
+                </Text>
+              </View>
+              {category && <View style={styles.eventDot} />}
             </Pressable>
           );
         })}
+      </View>
+
+      <View style={styles.legendDivider} />
+      <View style={styles.legendRow}>
+        <Text style={styles.legendLabel}>Legenda:</Text>
+        {(Object.keys(CATEGORY_COLOR) as EventCategory[]).map((c) => (
+          <View key={c} style={styles.legendItem}>
+            <View style={[styles.legendDot, { backgroundColor: CATEGORY_COLOR[c] }]} />
+            <Text style={styles.legendText}>{CATEGORY_LABEL[c]}</Text>
+          </View>
+        ))}
       </View>
     </View>
   );
 }
 
-const CELL_SIZE = 38;
+const CELL_SIZE = 44;
+const BUBBLE_SIZE = 32;
 
 const styles = StyleSheet.create({
   headerRow: {
@@ -153,10 +183,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative',
   },
-  cellSelected: {},
-  cellEvent: {
-    backgroundColor: 'rgba(74, 222, 128, 0.15)',
-    borderRadius: CELL_SIZE / 2,
+  bubble: {
+    width: BUBBLE_SIZE,
+    height: BUBBLE_SIZE,
+    borderRadius: BUBBLE_SIZE / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cellText: {
     fontSize: 14,
@@ -171,13 +203,43 @@ const styles = StyleSheet.create({
   },
   eventDot: {
     position: 'absolute',
-    bottom: 4,
-    width: 4,
-    height: 4,
-    borderRadius: 2,
+    bottom: 2,
+    width: 5,
+    height: 5,
+    borderRadius: 2.5,
     backgroundColor: '#22C55E',
   },
-  eventDotSelected: {
-    backgroundColor: '#22C55E',
+  legendDivider: {
+    height: 1,
+    backgroundColor: '#F0F0F2',
+    marginTop: 12,
+    marginBottom: 10,
+  },
+  legendRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  legendLabel: {
+    fontSize: 12,
+    color: '#6B7280',
+    fontWeight: '600',
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  legendDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
+  legendText: {
+    fontSize: 12,
+    fontStyle: 'italic',
+    color: '#0F172A',
+    fontWeight: '500',
   },
 });

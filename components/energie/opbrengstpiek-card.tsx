@@ -2,80 +2,55 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-interface BoltPoint {
+type MarkerKind = 'dot' | 'bolt';
+
+interface Marker {
   hour: number;
-  intensity: 'high' | 'mid' | 'low' | 'none';
+  kind: MarkerKind;
 }
 
-const HOURS = [8, 10, 12, 14, 16, 18, 20, 22];
+const LABEL_HOURS = new Set([8, 10, 12, 14, 16, 18, 20, 22]);
 
-const POINTS: BoltPoint[] = [
-  { hour: 8, intensity: 'low' },
-  { hour: 9, intensity: 'mid' },
-  { hour: 10, intensity: 'mid' },
-  { hour: 11, intensity: 'low' },
-  { hour: 12, intensity: 'high' },
-  { hour: 13, intensity: 'high' },
-  { hour: 14, intensity: 'high' },
-  { hour: 15, intensity: 'high' },
-  { hour: 16, intensity: 'mid' },
+const MARKERS: Marker[] = [
+  { hour: 8, kind: 'dot' },
+  { hour: 9, kind: 'bolt' },
+  { hour: 10, kind: 'bolt' },
+  { hour: 11, kind: 'dot' },
+  { hour: 12, kind: 'bolt' },
+  { hour: 13, kind: 'bolt' },
+  { hour: 14, kind: 'dot' },
+  { hour: 15, kind: 'bolt' },
+  { hour: 16, kind: 'dot' },
+  { hour: 17, kind: 'dot' },
+  { hour: 18, kind: 'dot' },
+  { hour: 19, kind: 'dot' },
+  { hour: 20, kind: 'dot' },
+  { hour: 21, kind: 'dot' },
+  { hour: 22, kind: 'dot' },
 ];
 
-const COLOR: Record<BoltPoint['intensity'], string> = {
-  high: '#22C55E',
-  mid: '#4ADE80',
-  low: '#86EFAC',
-  none: 'transparent',
-};
-
-interface OpbrengstpiekCardProps {
-  temperature?: number;
-  condition?: string;
-}
-
-export function OpbrengstpiekCard({
-  temperature = 18,
-  condition = 'Licht bewolkt',
-}: OpbrengstpiekCardProps) {
+export function OpbrengstpiekCard() {
   return (
     <View style={styles.card}>
-      <View style={styles.topRow}>
-        <View style={styles.titleCol}>
-          <View style={styles.titleRow}>
-            <MaterialCommunityIcons name="weather-sunny" size={20} color="#0F172A" />
-            <Text style={styles.title}>Opbrengstpiek</Text>
-          </View>
-          <Text style={styles.subtitle}>Zonne-opbrengst aankomende 72 uur</Text>
-        </View>
-
-        <View style={styles.weatherCol}>
-          <View style={styles.weatherRow}>
-            <Text style={styles.temp}>{temperature}˚C</Text>
-            <MaterialCommunityIcons name="cloud" size={26} color="#9CA3AF" />
-          </View>
-          <Text style={styles.condition}>{condition}</Text>
-        </View>
+      <View style={styles.headerRow}>
+        <MaterialCommunityIcons name="weather-sunny" size={20} color="#0F172A" />
+        <Text style={styles.title}>Opbrengstpiek</Text>
       </View>
+      <Text style={styles.subtitle}>Zonne-opbrengst aankomende 72 uur</Text>
 
       <View style={styles.chart}>
-        <View style={styles.chartLine} />
-        <View style={styles.boltsRow}>
-          {POINTS.map((p, i) => (
-            <MaterialCommunityIcons
-              key={i}
-              name="lightning-bolt"
-              size={18}
-              color={COLOR[p.intensity]}
-            />
-          ))}
-        </View>
-      </View>
-
-      <View style={styles.axisRow}>
-        {HOURS.map((h) => (
-          <Text key={h} style={styles.axisText}>
-            {h}:00
-          </Text>
+        {MARKERS.map((m, i) => (
+          <View key={i} style={styles.markerCol}>
+            <View style={styles.markerHead}>
+              {m.kind === 'bolt' ? (
+                <MaterialCommunityIcons name="lightning-bolt" size={18} color="#22C55E" />
+              ) : (
+                <View style={styles.dot} />
+              )}
+            </View>
+            <View style={styles.stem} />
+            <Text style={styles.axisText}>{LABEL_HOURS.has(m.hour) ? `${m.hour}:00` : ' '}</Text>
+          </View>
         ))}
       </View>
     </View>
@@ -95,23 +70,14 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 2,
   },
-  topRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 18,
-  },
-  titleCol: {
-    flex: 1,
-  },
-  titleRow: {
+  headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
   },
   title: {
     fontSize: 17,
-    fontWeight: '700',
+    fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
   },
@@ -120,51 +86,39 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: '#6B7280',
     marginTop: 2,
-  },
-  weatherCol: {
-    alignItems: 'flex-end',
-  },
-  weatherRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  temp: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#0F172A',
-  },
-  condition: {
-    fontSize: 12,
-    color: '#6B7280',
-    marginTop: 2,
+    marginBottom: 12,
   },
   chart: {
-    height: 50,
-    justifyContent: 'center',
-    paddingHorizontal: 4,
-  },
-  chartLine: {
-    height: 2,
-    backgroundColor: '#14342B',
-    position: 'absolute',
-    left: 4,
-    right: 4,
-    top: '50%',
-  },
-  boltsRow: {
     flexDirection: 'row',
+    alignItems: 'flex-end',
     justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  axisRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 6,
     paddingHorizontal: 2,
+  },
+  markerCol: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  markerHead: {
+    height: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dot: {
+    width: 9,
+    height: 9,
+    borderRadius: 5,
+    backgroundColor: '#0F172A',
+  },
+  stem: {
+    width: 1.5,
+    height: 18,
+    backgroundColor: '#0F172A',
+    marginTop: 1,
   },
   axisText: {
     fontSize: 11,
     color: '#6B7280',
+    marginTop: 6,
+    textAlign: 'center',
   },
 });

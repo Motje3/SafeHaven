@@ -44,8 +44,6 @@ export function InventoryItemCard({
         ) : null}
       </View>
 
-      <View style={styles.divider} />
-
       <View style={styles.info}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.meta}>
@@ -56,13 +54,15 @@ export function InventoryItemCard({
         </View>
       </View>
 
-      <Pressable
-        onPress={onAdd}
-        style={({ pressed }) => [styles.addBtn, pressed && { opacity: 0.85 }]}
-        hitSlop={6}
-      >
-        <MaterialIcons name="add" size={20} color="#FFFFFF" />
-      </Pressable>
+      {onAdd ? (
+        <Pressable
+          onPress={onAdd}
+          style={({ pressed }) => [styles.addBtn, pressed && { opacity: 0.85 }]}
+          hitSlop={6}
+        >
+          <MaterialIcons name="add" size={20} color="#FFFFFF" />
+        </Pressable>
+      ) : null}
     </View>
   );
 }
@@ -93,27 +93,22 @@ const styles = StyleSheet.create({
   thumbLabel: {
     fontSize: 11,
     fontWeight: '900',
-    color: '#FFFFFF',
+    color: '#C92A1F',
     letterSpacing: 0.5,
     textTransform: 'uppercase',
   },
   thumbSubLabel: {
     fontSize: 9,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: '#0F172A',
     letterSpacing: 0.3,
     marginTop: 2,
     textTransform: 'uppercase',
   },
-  divider: {
-    width: 1,
-    height: 56,
-    backgroundColor: '#E5E7EB',
-    marginHorizontal: 12,
-  },
   info: {
     flex: 1,
     gap: 3,
+    marginLeft: 14,
   },
   name: {
     fontSize: 16,

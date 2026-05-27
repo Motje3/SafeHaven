@@ -8,7 +8,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScreenTopBar } from '@/components/shared/screen-top-bar';
 import { BuurtBanner } from '@/components/shared/buurt-banner';
 import { SpaarpotRow } from '@/components/spaarpotjes/spaarpot-row';
-import { TotaalSavedCard } from '@/components/spaarpotjes/totaal-saved-card';
 
 type Spaarpot = {
   id: string;
@@ -45,25 +44,12 @@ export default function SpaarpotjesScreen() {
           </Animated.View>
 
           <Animated.View entering={FadeInDown.duration(500).delay(160).springify()}>
-            <TotaalSavedCard amount={32} goal={200} />
-          </Animated.View>
-
-          <Animated.View entering={FadeInDown.duration(500).delay(240).springify()}>
             <View style={styles.listCard}>
               <View style={styles.listHeader}>
                 <View style={styles.headerLeft}>
                   <MaterialIcons name="savings" size={20} color="#0F172A" />
                   <Text style={styles.listTitle}>Spaarpotjes</Text>
                 </View>
-                <Pressable
-                  style={({ pressed }) => [styles.newBtn, pressed && { opacity: 0.7 }]}
-                  hitSlop={6}
-                >
-                  <Text style={styles.newBtnText}>Nieuw potje</Text>
-                  <View style={styles.plusBubble}>
-                    <MaterialIcons name="add" size={16} color="#FFFFFF" />
-                  </View>
-                </Pressable>
               </View>
 
               <View style={styles.listBody}>
@@ -80,6 +66,24 @@ export default function SpaarpotjesScreen() {
                 ))}
               </View>
             </View>
+          </Animated.View>
+
+          <Animated.View entering={FadeInDown.duration(500).delay(240).springify()}>
+            <View style={styles.suggestCard}>
+              <View style={styles.suggestHeader}>
+                <MaterialIcons name="savings" size={18} color="#0F172A" />
+                <Text style={styles.suggestTitle}>Een spaarpotje aanmaken</Text>
+              </View>
+              <Text style={styles.suggestSub}>
+                Suggesties  zijn altijd welkom in de community
+              </Text>
+            </View>
+          </Animated.View>
+
+          <Animated.View entering={FadeInDown.duration(500).delay(320).springify()}>
+            <Pressable style={({ pressed }) => [styles.ctaBtn, pressed && { opacity: 0.9 }]}>
+              <Text style={styles.ctaText}>Spaardoel starten</Text>
+            </Pressable>
           </Animated.View>
         </View>
       </ScrollView>
@@ -130,27 +134,55 @@ const styles = StyleSheet.create({
     color: '#0F172A',
     letterSpacing: -0.3,
   },
-  newBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  newBtnText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#6B7280',
-  },
-  plusBubble: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    backgroundColor: '#4ADE80',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   listBody: {},
   divider: {
     height: 1,
     backgroundColor: '#F0F0F2',
+  },
+  suggestCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    elevation: 2,
+  },
+  suggestHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 4,
+  },
+  suggestTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#0F172A',
+    letterSpacing: -0.2,
+  },
+  suggestSub: {
+    fontSize: 12,
+    color: '#6B7280',
+    marginLeft: 26,
+  },
+  ctaBtn: {
+    backgroundColor: '#22C55E',
+    borderRadius: 14,
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#22C55E',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  ctaText: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#FFFFFF',
+    letterSpacing: -0.2,
   },
 });

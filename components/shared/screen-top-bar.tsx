@@ -2,6 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface ScreenTopBarProps {
   title: string;
@@ -15,9 +16,10 @@ export function ScreenTopBar({
   reserveRightGutter = false,
 }: ScreenTopBarProps) {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top + 4 }]}>
       {/* Left side: reserved for the burger menu (positioned absolutely in MenuDrawer). */}
       <View style={[styles.side, styles.gutter]} />
 
@@ -45,8 +47,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 4,
-    paddingBottom: 4,
+    paddingBottom: 8,
+    backgroundColor: '#F4F4F6',
   },
   side: {
     width: 44,
