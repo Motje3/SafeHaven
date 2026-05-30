@@ -46,6 +46,14 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "react-native-ble-plx",
+        {
+          "isBackgroundEnabled": false,
+          "modes": ["central"],
+          "bluetoothAlwaysPermission": "SafeHaven uses Bluetooth to connect to your LoRa device for data-free communication."
+        }
       ]
     ],
     "experiments": {
