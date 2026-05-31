@@ -1,13 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface SpaarpotRowProps {
   name: string;
   saved: number;
   goal: number;
-  thumbColor?: string;
-  thumbLabel?: string;
   onPress?: () => void;
 }
 
@@ -17,8 +15,6 @@ export function SpaarpotRow({
   name,
   saved,
   goal,
-  thumbColor = '#FCEDD8',
-  thumbLabel = 'img',
   onPress,
 }: SpaarpotRowProps) {
   const percent = Math.min(100, saved / goal);
@@ -26,8 +22,12 @@ export function SpaarpotRow({
 
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [styles.row, pressed && { opacity: 0.88 }]}>
-      <View style={[styles.thumb, { backgroundColor: thumbColor }]}>
-        <Text style={styles.thumbLabel}>{thumbLabel}</Text>
+      <View style={styles.thumb}>
+        <Image
+          source={require('../../public/noodradioicon.png')}
+          style={styles.thumbImage}
+          resizeMode="contain"
+        />
       </View>
 
       <View style={styles.info}>
@@ -66,15 +66,15 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 10,
+    backgroundColor: '#E9F2E1',
+    overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 6,
   },
-  thumbLabel: {
-    fontSize: 8,
-    fontWeight: '700',
-    letterSpacing: 1.5,
-    color: 'rgba(15, 23, 42, 0.45)',
-    textTransform: 'uppercase',
+  thumbImage: {
+    width: '100%',
+    height: '100%',
   },
   info: {
     flex: 1,

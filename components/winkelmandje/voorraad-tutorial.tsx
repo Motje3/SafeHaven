@@ -175,8 +175,11 @@ function ProductCard({ countTone, withPlus = false }: { countTone: 'red' | 'yell
   return (
     <View style={styles.productCard}>
       <View style={styles.productThumb}>
-        <Text style={styles.productThumbBrand}>Unox</Text>
-        <Text style={styles.productThumbName}>Tomaten{'\n'}soep</Text>
+        <Image
+          source={require('../../public/soep.png')}
+          style={styles.productThumbImage}
+          resizeMode="contain"
+        />
       </View>
       <View style={styles.productDivider} />
       <View style={styles.productInfo}>
@@ -203,12 +206,12 @@ function ProductCard({ countTone, withPlus = false }: { countTone: 'red' | 'yell
 function CurvedArrow({ direction = 'up-right' }: { direction?: 'up-right' | 'up-left' }) {
   const path =
     direction === 'up-right'
-      ? 'M 20 120 Q 40 60 130 20'
-      : 'M 130 120 Q 110 60 20 20';
+      ? 'M 24 122 Q 118 120 132 26'
+      : 'M 126 122 Q 32 120 18 26';
   const arrowHead =
     direction === 'up-right'
-      ? 'M 130 20 L 118 22 M 130 20 L 124 32'
-      : 'M 20 20 L 32 22 M 20 20 L 26 32';
+      ? 'M 132 26 L 124 37 M 132 26 L 137 38'
+      : 'M 18 26 L 26 37 M 18 26 L 13 38';
   return (
     <View style={styles.arrowWrap}>
       <Svg width={150} height={140} viewBox="0 0 150 140">
@@ -243,9 +246,9 @@ function Step2Body() {
     <View style={styles.stepBodyInner}>
       <ProductCard countTone="yellow" />
       <View style={styles.cartBubble}>
-        <MaterialIcons name="shopping-cart" size={22} color="#FFFFFF" />
+        <MaterialIcons name="inventory-2" size={22} color="#FFFFFF" />
         <View style={styles.cartBubbleBadge}>
-          <Text style={styles.cartBubbleBadgeText}>1</Text>
+          <Text style={styles.cartBubbleBadgeText}>3</Text>
         </View>
       </View>
       <CurvedArrow direction="up-right" />
@@ -394,9 +397,9 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   stepPhotoTall: {
-    width: '72%',
+    width: 180,
+    height: 210,
     alignSelf: 'center',
-    aspectRatio: 795 / 927,
     borderRadius: 16,
   },
 
@@ -562,10 +565,15 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 10,
-    backgroundColor: '#C92A1F',
+    backgroundColor: '#EEF3E7',
+    overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 4,
+    padding: 6,
+  },
+  productThumbImage: {
+    width: '100%',
+    height: '100%',
   },
   productThumbBrand: {
     fontSize: 8,
@@ -633,6 +641,8 @@ const styles = StyleSheet.create({
     height: 44,
     borderRadius: 22,
     backgroundColor: '#0F172A',
+    borderWidth: 3,
+    borderColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -643,7 +653,7 @@ const styles = StyleSheet.create({
     minWidth: 20,
     height: 20,
     borderRadius: 10,
-    backgroundColor: YELLOW,
+    backgroundColor: '#1BD15D',
     paddingHorizontal: 5,
     alignItems: 'center',
     justifyContent: 'center',
@@ -651,11 +661,12 @@ const styles = StyleSheet.create({
   cartBubbleBadgeText: {
     fontSize: 8,
     fontWeight: '900',
-    color: YELLOW_DARK_TEXT,
+    color: '#FFFFFF',
   },
 
   // Arrow
   arrowWrap: {
+    alignSelf: 'flex-end',
     marginTop: -10,
     marginBottom: -6,
   },

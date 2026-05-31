@@ -3,18 +3,18 @@ import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
 interface InUseCardProps {
-  hoursLeft?: number;
   percent?: number;
-  phoneCount?: number[];
 }
 
 const TOTAL_BLOCKS = 16;
 
-export function InUseCard({
-  hoursLeft = 54,
-  percent = 65,
-  phoneCount = [18, 18, 18],
-}: InUseCardProps) {
+const CAPACITY = [
+  { count: 18, label: 'telefoons' },
+  { count: 13, label: 'laptops' },
+  { count: 25, label: 'powerbanks' },
+];
+
+export function InUseCard({ percent = 65 }: InUseCardProps) {
   const filled = Math.round((percent / 100) * TOTAL_BLOCKS);
 
   return (
@@ -23,15 +23,15 @@ export function InUseCard({
         <View style={styles.leftCol}>
           <View style={styles.headerRow}>
             <MaterialIcons name="battery-charging-full" size={20} color="#1BD15D" />
-            <Text style={styles.title}>In gebruik</Text>
+            <Text style={styles.title}>Volledig opgeladen</Text>
           </View>
-          <Text style={styles.subtitle}>Genoeg energie voor {hoursLeft} uur</Text>
+          <Text style={styles.subtitle}>Laadcapaciteit:</Text>
 
           <View style={styles.bulletList}>
-            {phoneCount.map((count, i) => (
+            {CAPACITY.map((d, i) => (
               <View key={i} style={styles.bulletRow}>
                 <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}>{count} telefoons</Text>
+                <Text style={styles.bulletText}>{d.count} {d.label}</Text>
               </View>
             ))}
           </View>

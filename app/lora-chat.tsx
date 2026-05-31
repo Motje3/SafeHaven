@@ -6,14 +6,18 @@
  *
  * Reminder: this needs a dev build (react-native-ble-plx is native). In Expo Go
  * it shows the "not available" notice instead of working.
+ *
+ * NOTE: the LoRa/BLE wiring lives in useLoraChat() and is intentionally left
+ * untouched — this file only handles presentation.
  */
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
 import {
   FlatList,
   KeyboardAvoidingView,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -24,7 +28,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScreenTopBar } from '@/components/shared/screen-top-bar';
 import { ChatMessage, ConnState, useLoraChat } from '@/lib/ble/lora-chat';
 
-const PURPLE = '#7C6FE0';
+const GREEN = '#1BD15D';
+const DARK = '#14342B';
 
 const STATUS_LABEL: Record<ConnState, string> = {
   idle: 'Niet verbonden',
@@ -39,10 +44,20 @@ const STATUS_COLOR: Record<ConnState, string> = {
   idle: '#94A3B8',
   scanning: '#F59E0B',
   connecting: '#F59E0B',
-  connected: '#1BD15D',
+  connected: GREEN,
   disconnected: '#94A3B8',
   error: '#EF4444',
 };
+
+// Demo-only recipient picker — purely cosmetic, does not change what is sent.
+type Recipient = { id: string; name: string; initials?: string; wijk?: boolean };
+const RECIPIENTS: Recipient[] = [
+  { id: 'wijk', name: 'Hele wijk', wijk: true },
+  { id: 'b12', name: 'Buurman 12', initials: 'B' },
+  { id: 'lola', name: 'Lola', initials: 'L' },
+  { id: 'sven', name: 'Sven', initials: 'S' },
+  { id: 'jolijn', name: 'Jolijn', initials: 'J' },
+];
 
 function Bubble({ message }: { message: ChatMessage }) {
   const outgoing = message.direction === 'out';
@@ -76,10 +91,12 @@ export default function LoraChatScreen() {
   } = useLoraChat();
 
   const [draft, setDraft] = useState('');
+  const [recipientId, setRecipientId] = useState('wijk');
   const listRef = useRef<FlatList<ChatMessage>>(null);
 
   const connected = state === 'connected';
   const busy = state === 'scanning' || state === 'connecting';
+  const recipient = RECIPIENTS.find((r) => r.id === recipientId) ?? RECIPIENTS[0];
 
   const onSend = () => {
     if (!draft.trim()) return;
@@ -109,6 +126,14 @@ export default function LoraChatScreen() {
     <View style={styles.root}>
       <ScreenTopBar title="Data-vrij gesprek" showBack />
 
+      {/* Offline explainer */}
+      <View style={styles.banner}>
+        <MaterialCommunityIcons name="radio-tower" size={18} color={GREEN} />
+        <Text style={styles.bannerText}>
+          Berichten gaan via LoRa-radio — geen internet of data nodig.
+        </Text>
+      </View>
+
       {/* Status row */}
       <View style={styles.statusRow}>
         <View style={styles.statusLeft}>
@@ -133,6 +158,44 @@ export default function LoraChatScreen() {
         </Pressable>
       </View>
 
+      {/* Recipient picker (demo) */}
+      <View style={styles.recipientSection}>
+        <Text style={styles.recipientLabel}>Versturen naar</Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.recipientRow}
+        >
+          {RECIPIENTS.map((r) => {
+            const active = r.id === recipientId;
+            return (
+              <Pressable
+                key={r.id}
+                onPress={() => setRecipientId(r.id)}
+                style={[styles.chip, active ? styles.chipActive : styles.chipIdle]}
+              >
+                {r.wijk ? (
+                  <MaterialIcons
+                    name="groups"
+                    size={16}
+                    color={active ? '#FFFFFF' : DARK}
+                  />
+                ) : (
+                  <View style={[styles.chipAvatar, active && styles.chipAvatarActive]}>
+                    <Text style={[styles.chipAvatarText, active && { color: '#FFFFFF' }]}>
+                      {r.initials}
+                    </Text>
+                  </View>
+                )}
+                <Text style={[styles.chipText, active && styles.chipTextActive]}>
+                  {r.name}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      </View>
+
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
       {/* Messages */}
@@ -145,10 +208,12 @@ export default function LoraChatScreen() {
         onContentSizeChange={() => listRef.current?.scrollToEnd({ animated: true })}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <MaterialIcons name="radio" size={36} color="#CBD5E1" />
+            <View style={styles.emptyIcon}>
+              <MaterialCommunityIcons name="radio-tower" size={34} color={GREEN} />
+            </View>
             <Text style={styles.emptyText}>
               {connected
-                ? 'Verbonden. Typ een bericht om te beginnen.'
+                ? `Verbonden. Stuur een bericht naar ${recipient.name}.`
                 : 'Verbind met een bord om te chatten.'}
             </Text>
           </View>
@@ -165,7 +230,7 @@ export default function LoraChatScreen() {
             style={styles.input}
             value={draft}
             onChangeText={setDraft}
-            placeholder={connected ? 'Bericht…' : 'Eerst verbinden'}
+            placeholder={connected ? `Bericht naar ${recipient.name}…` : 'Eerst verbinden'}
             placeholderTextColor="#94A3B8"
             editable={connected}
             onSubmitEditing={onSend}
@@ -192,19 +257,33 @@ export default function LoraChatScreen() {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: '#F4F4F6' },
 
+  banner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginHorizontal: 16,
+    marginTop: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    backgroundColor: '#EAF7EE',
+    borderRadius: 12,
+  },
+  bannerText: { flex: 1, fontSize: 11, color: DARK, fontWeight: '600', lineHeight: 16 },
+
   statusRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingTop: 12,
+    paddingBottom: 8,
   },
   statusLeft: { flexDirection: 'row', alignItems: 'center', gap: 8, flex: 1 },
   dot: { width: 9, height: 9, borderRadius: 5 },
   statusText: { fontSize: 13, fontWeight: '600', color: '#475569', flexShrink: 1 },
 
   connectBtn: {
-    backgroundColor: PURPLE,
+    backgroundColor: GREEN,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 14,
@@ -212,10 +291,46 @@ const styles = StyleSheet.create({
   disconnectBtn: {
     backgroundColor: 'transparent',
     borderWidth: 1.5,
-    borderColor: 'rgba(124,111,224,0.45)',
+    borderColor: 'rgba(27,209,93,0.5)',
   },
   connectText: { color: '#FFFFFF', fontWeight: '700', fontSize: 13 },
-  disconnectText: { color: PURPLE },
+  disconnectText: { color: DARK },
+
+  // Recipient picker
+  recipientSection: { paddingTop: 2, paddingBottom: 8 },
+  recipientLabel: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#6B7280',
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+    paddingHorizontal: 20,
+    marginBottom: 8,
+  },
+  recipientRow: { paddingHorizontal: 16, gap: 8 },
+  chip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 7,
+    paddingLeft: 8,
+    paddingRight: 14,
+    paddingVertical: 7,
+    borderRadius: 20,
+  },
+  chipActive: { backgroundColor: DARK },
+  chipIdle: { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#E5E7EB' },
+  chipAvatar: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: '#E9F2E1',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  chipAvatarActive: { backgroundColor: 'rgba(255,255,255,0.22)' },
+  chipAvatarText: { fontSize: 10, fontWeight: '800', color: DARK },
+  chipText: { fontSize: 12, fontWeight: '700', color: DARK },
+  chipTextActive: { color: '#FFFFFF' },
 
   errorText: {
     color: '#EF4444',
@@ -233,7 +348,7 @@ const styles = StyleSheet.create({
     paddingVertical: 9,
     borderRadius: 18,
   },
-  bubbleOut: { backgroundColor: PURPLE, borderBottomRightRadius: 5 },
+  bubbleOut: { backgroundColor: GREEN, borderBottomRightRadius: 5 },
   bubbleIn: {
     backgroundColor: '#FFFFFF',
     borderBottomLeftRadius: 5,
@@ -243,7 +358,15 @@ const styles = StyleSheet.create({
   bubbleTextOut: { color: '#FFFFFF', fontSize: 15 },
   bubbleTextIn: { color: '#1A1A2E', fontSize: 15 },
 
-  empty: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, paddingTop: 80 },
+  empty: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 14, paddingTop: 80 },
+  emptyIcon: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: '#EAF7EE',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   emptyText: { color: '#94A3B8', fontSize: 14, textAlign: 'center', paddingHorizontal: 40 },
 
   composer: {
@@ -272,7 +395,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: PURPLE,
+    backgroundColor: GREEN,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -281,5 +404,5 @@ const styles = StyleSheet.create({
   notice: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 14, paddingHorizontal: 40 },
   noticeTitle: { fontSize: 17, fontWeight: '700', color: '#1A1A2E' },
   noticeBody: { fontSize: 14, color: '#64748B', textAlign: 'center', lineHeight: 21 },
-  code: { fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace', color: PURPLE, fontWeight: '600' },
+  code: { fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace', color: GREEN, fontWeight: '600' },
 });

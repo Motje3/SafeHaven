@@ -22,10 +22,10 @@ const LEVEL_FILL: Record<FillLevel, number> = {
 };
 
 const INVENTORY: InventoryItem[] = [
-  { label: 'Water', level: 'high' },
-  { label: 'Toiletartikelen', level: 'high' },
-  { label: 'Voedsel', level: 'mid' },
-  { label: 'Communicatie', level: 'low' },
+  { label: 'Voedsel', level: 'high' },
+  { label: 'Verlichting', level: 'high' },
+  { label: 'Toiletartikelen', level: 'mid' },
+  { label: 'Elektronica', level: 'low' },
 ];
 
 const ACTION_ITEMS = ['Soep in blik', 'Noten', 'Noodradio', 'Batterijen', 'Zaklampen'];
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 11,
-    fontWeight: '700',
+    fontWeight: '800',
     color: '#0F172A',
   },
   itemsList: {
@@ -160,11 +160,8 @@ const styles = StyleSheet.create({
   },
   footerSection: {
     marginTop: 18,
-    marginHorizontal: -14,
-    paddingHorizontal: 14,
     paddingTop: 10,
-    paddingBottom: 12,
-    backgroundColor: '#F4F4F6',
+    paddingBottom: 14,
   },
   percentRow: {
     flexDirection: 'row',
@@ -210,12 +207,13 @@ const styles = StyleSheet.create({
   activityFooter: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 5,
     marginTop: 18,
     marginHorizontal: -14,
     paddingHorizontal: 14,
-    paddingVertical: 11,
-    backgroundColor: '#F4F4F6',
+    paddingVertical: 12,
+    backgroundColor: '#E5E7EB',
   },
   activityText: {
     fontSize: 9,

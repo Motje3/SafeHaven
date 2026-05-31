@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -11,6 +11,7 @@ import { DonutProgressCard } from '@/components/voorraad/donut-progress-card';
 import { FilterModal, type FilterCategory } from '@/components/voorraad/filter-modal';
 import { InventoryItemCard } from '@/components/voorraad/inventory-item-card';
 import { SegmentedTabs } from '@/components/voorraad/segmented-tabs';
+import { setTutorialOverlayActive } from '@/components/tutorial-overlay-state';
 import { VoorraadTutorial } from '@/components/winkelmandje/voorraad-tutorial';
 import { WinkelmandjeSheet } from '@/components/winkelmandje/winkelmandje-sheet';
 import { useEmergency } from '@/hooks/use-emergency';
@@ -113,6 +114,12 @@ export default function MarketplaceScreen() {
   const [selectedFilters, setSelectedFilters] = useState<FilterCategory[]>(['voedsel']);
   const [cartOpen, setCartOpen] = useState(false);
   const [showTutorial, setShowTutorial] = useState(!voorraadTutorialSeen && !emergency);
+
+  // While the tutorial overlay is up, hide the global burger menu.
+  useEffect(() => {
+    setTutorialOverlayActive(showTutorial);
+    return () => setTutorialOverlayActive(false);
+  }, [showTutorial]);
 
   const dismissTutorial = () => {
     voorraadTutorialSeen = true;

@@ -4,6 +4,8 @@ import React, { useRef, useState } from 'react';
 import { Animated, Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useTutorialOverlayActive } from '@/components/tutorial-overlay-state';
+
 const DRAWER_WIDTH = Math.min(320, Dimensions.get('window').width * 0.82);
 
 type IconName =
@@ -38,6 +40,7 @@ export function MenuDrawer() {
   const anim = useRef(new Animated.Value(0)).current;
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const overlayActive = useTutorialOverlayActive();
 
   const open = () => {
     setVisible(true);
@@ -99,6 +102,9 @@ export function MenuDrawer() {
     // Reset back to the welcome screen so the app can't be reached via "back"
     setTimeout(() => router.replace('/welcome'), 220);
   };
+
+  // Hide the burger entirely while a full-screen overlay (tutorial) is up.
+  if (overlayActive) return null;
 
   return (
     <>

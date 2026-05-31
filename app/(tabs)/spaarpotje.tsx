@@ -1,10 +1,9 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { ImagePlaceholder } from '@/components/onboarding/image-placeholder';
 import { ScreenTopBar } from '@/components/shared/screen-top-bar';
 
 const BLOCKS = 20;
@@ -43,13 +42,13 @@ export default function SpaarpotjeScreen() {
         <View style={styles.body}>
           <Animated.View entering={FadeInDown.duration(500).delay(80).springify()}>
             <View style={styles.heroCard}>
-              <ImagePlaceholder
-                label="img"
-                height={180}
-                rounded={14}
-                variant="card"
-                style={styles.heroPlaceholder}
-              />
+              <View style={styles.heroImageWrap}>
+                <Image
+                  source={require('../../public/noodradio.png')}
+                  style={styles.heroImage}
+                  resizeMode="contain"
+                />
+              </View>
             </View>
           </Animated.View>
 
@@ -91,8 +90,7 @@ export default function SpaarpotjeScreen() {
               <Pressable
                 style={({ pressed }) => [styles.addBtn, pressed && { opacity: 0.88 }]}
               >
-                <MaterialIcons name="add" size={20} color="#FFFFFF" />
-                <Text style={styles.addBtnText}>Toevoegen</Text>
+                <Text style={styles.addBtnText}>Geld toevoegen</Text>
               </Pressable>
             </View>
           </Animated.View>
@@ -137,9 +135,18 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     padding: 8,
   },
-  heroPlaceholder: {
+  heroImageWrap: {
+    height: 180,
+    borderRadius: 14,
     backgroundColor: '#E6F2D9',
-    borderColor: 'rgba(15, 23, 42, 0.15)',
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
+  },
+  heroImage: {
+    width: '100%',
+    height: '100%',
   },
   detailCard: {
     backgroundColor: '#FFFFFF',
@@ -225,12 +232,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    backgroundColor: '#14342B',
-    paddingVertical: 14,
+    backgroundColor: '#1BD15D',
+    paddingVertical: 16,
     borderRadius: 12,
   },
   addBtnText: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.2,
