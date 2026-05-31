@@ -98,7 +98,6 @@ function StepPage({
       <ProgressBar active={page - 1} />
 
       <View style={styles.stepHeader}>
-        {page === 1 ? <PinBadge /> : <View style={{ height: 28 }} />}
         <Text style={styles.stepCounter}>Stap {page} van {TOTAL_STEPS}</Text>
         <Text style={styles.stepTitle}>{STEP_TITLES[page - 1]}</Text>
       </View>
@@ -170,17 +169,6 @@ function ProgressBar({ active }: { active: number }) {
   );
 }
 
-function PinBadge() {
-  return (
-    <View style={styles.pinWrap}>
-      <View style={styles.pinCircle}>
-        <Text style={styles.pinLetter}>E</Text>
-      </View>
-      <View style={styles.pinTail} />
-    </View>
-  );
-}
-
 /* ---------------- Step bodies ---------------- */
 
 function ProductCard({ countTone, withPlus = false }: { countTone: 'red' | 'yellow'; withPlus?: boolean }) {
@@ -241,11 +229,8 @@ function CurvedArrow({ direction = 'up-right' }: { direction?: 'up-right' | 'up-
 function Step1Body() {
   return (
     <View style={styles.stepBodyInner}>
-      <Image
-        source={require('../../public/vooradbeheer2.png')}
-        style={styles.stepIllustration}
-        resizeMode="contain"
-      />
+      <ProductCard countTone="red" withPlus />
+      <CurvedArrow direction="up-right" />
       <Text style={styles.stepCaption}>
         Tik op het + -icoon om het aan je{'\n'}winkelmandje toe te voegen.
       </Text>
@@ -409,7 +394,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   stepPhotoTall: {
-    width: '100%',
+    width: '72%',
+    alignSelf: 'center',
     aspectRatio: 795 / 927,
     borderRadius: 16,
   },
@@ -534,13 +520,13 @@ const styles = StyleSheet.create({
     marginTop: -3,
   },
   stepCounter: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     color: YELLOW,
     marginBottom: 6,
   },
   stepTitle: {
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: '800',
     color: '#FFFFFF',
     textAlign: 'center',
@@ -548,16 +534,17 @@ const styles = StyleSheet.create({
   },
   stepBody: {
     flex: 1,
+    justifyContent: 'center',
     paddingTop: 6,
   },
   stepBodyInner: {
     alignItems: 'center',
   },
   stepCaption: {
-    fontSize: 11,
+    fontSize: 13,
     color: '#FFFFFF',
     textAlign: 'center',
-    lineHeight: 20,
+    lineHeight: 22,
     marginTop: 4,
   },
 
@@ -722,7 +709,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   deliverBtnMockText: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '800',
     color: '#FFFFFF',
     letterSpacing: -0.2,
@@ -752,9 +739,9 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   numberLine: {
-    fontSize: 11,
+    fontSize: 13,
     color: '#FFFFFF',
-    lineHeight: 22,
+    lineHeight: 24,
   },
 
   // Nav row (steps 1–4)

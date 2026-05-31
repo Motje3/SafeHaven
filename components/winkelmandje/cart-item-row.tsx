@@ -1,6 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, ImageSourcePropType, Pressable, StyleSheet, Text, View } from 'react-native';
 
 type StockStatus = 'critical' | 'warning' | 'ok';
 
@@ -10,9 +10,7 @@ interface CartItemRowProps {
   size: string;
   count: string;
   status: StockStatus;
-  thumbColor?: string;
-  thumbLabel?: string;
-  thumbSubLabel?: string;
+  image: ImageSourcePropType;
   quantity: number;
   onDec?: () => void;
   onInc?: () => void;
@@ -24,28 +22,24 @@ const STATUS_COLOR: Record<StockStatus, string> = {
   ok: '#1BD15D',
 };
 
+// Soft green behind the product thumbnails
+const THUMB_GREEN = '#E9F2E1';
+
 export function CartItemRow({
   name,
   brand,
   size,
   count,
   status,
-  thumbColor = '#E5E7EB',
-  thumbLabel = '',
-  thumbSubLabel = '',
+  image,
   quantity,
   onDec,
   onInc,
 }: CartItemRowProps) {
   return (
     <View style={styles.card}>
-      <View style={[styles.thumb, { backgroundColor: thumbColor }]}>
-        {thumbLabel ? (
-          <View style={styles.thumbInner}>
-            <Text style={styles.thumbLabel}>{thumbLabel}</Text>
-            {thumbSubLabel ? <Text style={styles.thumbSubLabel}>{thumbSubLabel}</Text> : null}
-          </View>
-        ) : null}
+      <View style={styles.thumb}>
+        <Image source={image} style={styles.thumbImage} resizeMode="contain" />
       </View>
 
       <View style={styles.divider} />
@@ -97,27 +91,14 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 10,
     overflow: 'hidden',
+    backgroundColor: THUMB_GREEN,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 6,
   },
-  thumbInner: {
-    alignItems: 'center',
-    paddingHorizontal: 6,
-  },
-  thumbLabel: {
-    fontSize: 8,
-    fontWeight: '900',
-    color: '#FFFFFF',
-    letterSpacing: 0.5,
-    textTransform: 'uppercase',
-  },
-  thumbSubLabel: {
-    fontSize: 7,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    letterSpacing: 0.3,
-    marginTop: 2,
-    textTransform: 'uppercase',
+  thumbImage: {
+    width: '100%',
+    height: '100%',
   },
   divider: {
     width: 1,

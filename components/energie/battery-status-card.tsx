@@ -1,9 +1,7 @@
-import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 interface BatteryStatusCardProps {
-  title?: string;
   percent?: number;
   timeRemaining?: string;
   kwh?: number;
@@ -12,7 +10,6 @@ interface BatteryStatusCardProps {
 const TOTAL_BLOCKS = 20;
 
 export function BatteryStatusCard({
-  title = 'Aan het oplading..',
   percent = 65,
   timeRemaining = '3 uur en 50 minuten resterend',
   kwh = 74,
@@ -22,10 +19,6 @@ export function BatteryStatusCard({
   return (
     <View style={styles.card}>
       <View style={styles.headerRow}>
-        <View style={styles.headerLeft}>
-          <MaterialIcons name="bolt" size={20} color="#F5A623" />
-          <Text style={styles.title}>{title}</Text>
-        </View>
         <Text style={styles.percent}>{percent}%</Text>
       </View>
 
@@ -56,18 +49,7 @@ const styles = StyleSheet.create({
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  title: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: '#0F172A',
-    letterSpacing: -0.3,
+    justifyContent: 'flex-end',
   },
   percent: {
     fontSize: 13,

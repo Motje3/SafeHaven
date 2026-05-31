@@ -1,53 +1,91 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  Easing,
+  useAnimatedProps,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 import Svg, { Line } from 'react-native-svg';
+
+const AnimatedLine = Animated.createAnimatedComponent(Line);
 
 interface ChargingIllustrationProps {
   title?: string;
 }
 
-export function ChargingIllustration({ title = 'Aan het oplading..' }: ChargingIllustrationProps) {
+// A dashed connector whose dashes "flow" from the source into the building,
+// so it reads as energy being collected / charging.
+function FlowLine({
+  x1,
+  y1,
+  x2,
+  y2,
+  color,
+}: {
+  x1: string;
+  y1: string;
+  x2: string;
+  y2: string;
+  color: string;
+}) {
+  const flow = useSharedValue(0);
+
+  useEffect(() => {
+    // dasharray "4 4" => cycle length 8; animate a multiple for a seamless loop
+    flow.value = withRepeat(withTiming(16, { duration: 650, easing: Easing.linear }), -1, false);
+  }, []);
+
+  const animatedProps = useAnimatedProps(() => ({ strokeDashoffset: flow.value }));
+
+  return (
+    <AnimatedLine
+      x1={x1}
+      y1={y1}
+      x2={x2}
+      y2={y2}
+      stroke={color}
+      strokeWidth="2"
+      strokeDasharray="4 4"
+      strokeLinecap="round"
+      animatedProps={animatedProps}
+    />
+  );
+}
+
+export function ChargingIllustration({ title = 'Aan het opladen..' }: ChargingIllustrationProps) {
+  const pulse = useSharedValue(0);
+
+  useEffect(() => {
+    pulse.value = withRepeat(withTiming(1, { duration: 850, easing: Easing.inOut(Easing.quad) }), -1, true);
+  }, []);
+
+  const boltStyle = useAnimatedStyle(() => ({
+    opacity: 0.55 + pulse.value * 0.45,
+    transform: [{ scale: 0.95 + pulse.value * 0.18 }],
+  }));
+
   return (
     <View style={styles.card}>
       <View style={styles.headerRow}>
-        <MaterialIcons name="bolt" size={20} color="#F5A623" />
+        <Animated.View style={boltStyle}>
+          <MaterialIcons name="bolt" size={20} color="#F5A623" />
+        </Animated.View>
         <Text style={styles.title}>{title}</Text>
       </View>
 
       <View style={styles.illustrationBox}>
-        {/* Dashed connector lines */}
+        {/* Flowing energy connectors */}
         <Svg style={StyleSheet.absoluteFill} pointerEvents="none">
           {/* top-right: solar panels */}
-          <Line
-            x1="55%"
-            y1="22%"
-            x2="78%"
-            y2="20%"
-            stroke="#1BD15D"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-          />
+          <FlowLine x1="55%" y1="22%" x2="78%" y2="20%" color="#1BD15D" />
           {/* bottom-left: pavegen tiles */}
-          <Line
-            x1="42%"
-            y1="86%"
-            x2="22%"
-            y2="86%"
-            stroke="#F5A623"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-          />
+          <FlowLine x1="42%" y1="86%" x2="22%" y2="86%" color="#F5A623" />
           {/* bottom-right: interactive game */}
-          <Line
-            x1="62%"
-            y1="78%"
-            x2="78%"
-            y2="86%"
-            stroke="#F5A623"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-          />
+          <FlowLine x1="62%" y1="78%" x2="78%" y2="86%" color="#F5A623" />
         </Svg>
 
         <Image
@@ -80,7 +118,7 @@ export function ChargingIllustration({ title = 'Aan het oplading..' }: ChargingI
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#14342B',
+    backgroundColor: '#FFFFFF',
     borderRadius: 18,
     paddingHorizontal: 14,
     paddingTop: 14,
@@ -95,7 +133,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: '#0F172A',
     letterSpacing: -0.3,
   },
   illustrationBox: {

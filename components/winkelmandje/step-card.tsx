@@ -1,6 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 export type StepIcon =
   | { kind: 'qr' }
@@ -24,8 +24,12 @@ function StepIconView({ icon }: { icon: StepIcon }) {
   }
   if (icon.kind === 'bin') {
     return (
-      <View style={[styles.iconBox, { backgroundColor: '#E5E7EB' }]}>
-        <MaterialIcons name="shopping-basket" size={44} color="#6B7280" />
+      <View style={[styles.iconBox, { backgroundColor: '#E9F2E1', padding: 10 }]}>
+        <Image
+          source={require('../../public/kleinemaandje.png')}
+          style={styles.binImage}
+          resizeMode="contain"
+        />
       </View>
     );
   }
@@ -75,6 +79,10 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  binImage: {
+    width: '100%',
+    height: '100%',
   },
   divider: {
     width: 1,

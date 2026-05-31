@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useRef, useState } from 'react';
-import { Animated, Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const DRAWER_WIDTH = Math.min(320, Dimensions.get('window').width * 0.82);
@@ -125,7 +125,11 @@ export function MenuDrawer() {
           >
             <View style={[styles.drawerInner, { paddingTop: insets.top + 18, paddingBottom: insets.bottom + 16 }]}>
               <View style={styles.profileSection}>
-                <View style={styles.avatar} />
+                <Image
+                  source={require('../public/gavin.png')}
+                  style={styles.avatar}
+                  resizeMode="cover"
+                />
                 <Text style={styles.userName}>Gavin van der Berg</Text>
                 <Text style={styles.userSub}>Nummer 13B</Text>
               </View>
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
     width: 84,
     height: 84,
     borderRadius: 42,
-    backgroundColor: '#86CFA1',
+    overflow: 'hidden',
     marginBottom: 12,
   },
   userName: {

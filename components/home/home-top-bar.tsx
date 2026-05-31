@@ -9,7 +9,7 @@ interface HomeTopBarProps {
 export function HomeTopBar({ title = 'Home' }: HomeTopBarProps) {
   const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.container, { paddingTop: insets.top + 6 }]}>
+    <View style={[styles.container, { paddingTop: insets.top + 10 }]}>
       <View style={styles.titleRow}>
         <Text style={styles.title}>{title}</Text>
       </View>
@@ -20,10 +20,11 @@ export function HomeTopBar({ title = 'Home' }: HomeTopBarProps) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    paddingBottom: 8,
+    paddingBottom: 14,
     backgroundColor: '#F4F4F6',
   },
   titleRow: {
+    height: 44,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 52,

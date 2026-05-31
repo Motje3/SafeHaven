@@ -9,7 +9,7 @@ interface Marker {
   kind: MarkerKind;
 }
 
-const LABEL_HOURS = new Set([8, 10, 12, 14, 16, 18, 20, 22]);
+const LABEL_HOURS = new Set([8, 12, 16, 20]);
 
 const MARKERS: Marker[] = [
   { hour: 8, kind: 'dot' },
@@ -49,7 +49,9 @@ export function OpbrengstpiekCard() {
               )}
             </View>
             <View style={styles.stem} />
-            <Text style={styles.axisText}>{LABEL_HOURS.has(m.hour) ? `${m.hour}:00` : ' '}</Text>
+            <Text style={styles.axisText} numberOfLines={1}>
+              {LABEL_HOURS.has(m.hour) ? `${m.hour}:00` : ' '}
+            </Text>
           </View>
         ))}
       </View>
@@ -111,6 +113,7 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
   axisText: {
+    width: 40,
     fontSize: 8,
     color: '#6B7280',
     marginTop: 6,

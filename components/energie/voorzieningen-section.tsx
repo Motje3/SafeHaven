@@ -28,7 +28,7 @@ export function VoorzieningenSection() {
     <View style={styles.card}>
       <View style={styles.headerRow}>
         <MaterialIcons name="devices" size={20} color="#0F172A" />
-        <Text style={styles.title}>Voorzieningen</Text>
+        <Text style={styles.title}>Laadvoorzieningen</Text>
       </View>
 
       <View style={styles.pillRow}>

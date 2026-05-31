@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ImageSourcePropType, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import { CartItemRow } from '@/components/winkelmandje/cart-item-row';
@@ -14,9 +14,7 @@ type CartItem = {
   size: string;
   count: string;
   status: 'critical' | 'warning' | 'ok';
-  thumbColor: string;
-  thumbLabel: string;
-  thumbSubLabel?: string;
+  image: ImageSourcePropType;
   quantity: number;
 };
 
@@ -28,9 +26,7 @@ const INITIAL_ITEMS: CartItem[] = [
     size: '800 ml',
     count: '0/20',
     status: 'critical',
-    thumbColor: '#E2EAD5',
-    thumbLabel: 'Unox',
-    thumbSubLabel: 'Tomaten soep',
+    image: require('../../public/soep.png'),
     quantity: 2,
   },
   {
@@ -40,9 +36,7 @@ const INITIAL_ITEMS: CartItem[] = [
     size: '500 g',
     count: '12/20',
     status: 'warning',
-    thumbColor: '#F5E7C8',
-    thumbLabel: 'Penne',
-    thumbSubLabel: 'Grand Italia',
+    image: require('../../public/penne.png'),
     quantity: 2,
   },
   {
@@ -52,9 +46,7 @@ const INITIAL_ITEMS: CartItem[] = [
     size: '800 ml',
     count: '12/20',
     status: 'warning',
-    thumbColor: '#F5E7C8',
-    thumbLabel: 'Penne',
-    thumbSubLabel: 'Grand Italia',
+    image: require('../../public/penne.png'),
     quantity: 2,
   },
 ];
@@ -109,9 +101,7 @@ export function WinkelmandjeSheet({ onScanRequest }: WinkelmandjeSheetProps) {
                 size={item.size}
                 count={item.count}
                 status={item.status}
-                thumbColor={item.thumbColor}
-                thumbLabel={item.thumbLabel}
-                thumbSubLabel={item.thumbSubLabel}
+                image={item.image}
                 quantity={item.quantity}
                 onDec={() => updateQty(item.id, -1)}
                 onInc={() => updateQty(item.id, 1)}
@@ -134,7 +124,7 @@ export function WinkelmandjeSheet({ onScanRequest }: WinkelmandjeSheetProps) {
             style={({ pressed }) => [styles.deliverBtn, pressed && { opacity: 0.88 }]}
           >
             <MaterialCommunityIcons name="cart" size={20} color="#FFFFFF" />
-            <Text style={styles.deliverBtnText}>Afgeven bij de noodkast</Text>
+            <Text style={styles.deliverBtnText}>Afgeven bij de BuurtHub</Text>
           </Pressable>
         </Animated.View>
       ) : (
@@ -158,7 +148,7 @@ export function WinkelmandjeSheet({ onScanRequest }: WinkelmandjeSheetProps) {
             >
               <StepCard
                 icon={{ kind: 'qr' }}
-                title="1. Scan bij jouw noodkast"
+                title="1. Scan bij jouw BuurtHub"
                 body="Laat deze QR-code scannen bij het inleverpunt om je bijdrage compleet te maken."
               />
             </Pressable>

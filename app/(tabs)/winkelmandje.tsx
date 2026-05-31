@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ImageSourcePropType, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -16,9 +16,7 @@ type CartItem = {
   size: string;
   count: string;
   status: 'critical' | 'warning' | 'ok';
-  thumbColor: string;
-  thumbLabel: string;
-  thumbSubLabel?: string;
+  image: ImageSourcePropType;
   quantity: number;
 };
 
@@ -26,37 +24,31 @@ const INITIAL_ITEMS: CartItem[] = [
   {
     id: '1',
     name: 'Soep in blik',
-    brand: 'Unox',
-    size: '100 g',
-    count: '12/20',
-    status: 'warning',
-    thumbColor: '#C92A1F',
-    thumbLabel: 'Unox',
-    thumbSubLabel: 'Tomaten soep',
+    brand: 'Merk naar keuze',
+    size: '800 ml',
+    count: '0/20',
+    status: 'critical',
+    image: require('../../public/soep.png'),
     quantity: 2,
   },
   {
     id: '2',
     name: 'Penne',
-    brand: 'Grand Italia',
+    brand: 'Merk naar keuze',
     size: '500 g',
     count: '12/20',
     status: 'warning',
-    thumbColor: '#F2C641',
-    thumbLabel: 'Penne',
-    thumbSubLabel: 'Grand Italia',
+    image: require('../../public/penne.png'),
     quantity: 2,
   },
   {
     id: '3',
     name: 'Penne',
-    brand: 'Grand Italia',
-    size: '500 g',
+    brand: 'Merk naar keuze',
+    size: '800 ml',
     count: '12/20',
     status: 'warning',
-    thumbColor: '#F2C641',
-    thumbLabel: 'Penne',
-    thumbSubLabel: 'Grand Italia',
+    image: require('../../public/penne.png'),
     quantity: 2,
   },
 ];
@@ -116,9 +108,7 @@ export default function WinkelmandjeScreen() {
                       size={item.size}
                       count={item.count}
                       status={item.status}
-                      thumbColor={item.thumbColor}
-                      thumbLabel={item.thumbLabel}
-                      thumbSubLabel={item.thumbSubLabel}
+                      image={item.image}
                       quantity={item.quantity}
                       onDec={() => updateQty(item.id, -1)}
                       onInc={() => updateQty(item.id, 1)}
@@ -141,7 +131,7 @@ export default function WinkelmandjeScreen() {
                   style={({ pressed }) => [styles.deliverBtn, pressed && { opacity: 0.88 }]}
                 >
                   <MaterialCommunityIcons name="cart" size={20} color="#FFFFFF" />
-                  <Text style={styles.deliverBtnText}>Afgeven bij de noodkast</Text>
+                  <Text style={styles.deliverBtnText}>Afgeven bij de BuurtHub</Text>
                 </Pressable>
               </Animated.View>
             ) : (
@@ -165,7 +155,7 @@ export default function WinkelmandjeScreen() {
                   >
                     <StepCard
                       icon={{ kind: 'qr' }}
-                      title="1. Scan bij jouw noodkast"
+                      title="1. Scan bij jouw BuurtHub"
                       body="Laat deze QR-code scannen bij het inleverpunt om je bijdrage compleet te maken."
                     />
                   </Pressable>

@@ -32,16 +32,17 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 12,
     overflow: 'hidden',
-    justifyContent: 'flex-end',
-    padding: 10,
     backgroundColor: '#222222',
   },
   image: {
-    ...StyleSheet.absoluteFillObject,
     width: '100%',
     height: '100%',
   },
   titleWrap: {
+    position: 'absolute',
+    left: 10,
+    right: 10,
+    bottom: 10,
     alignItems: 'flex-start',
   },
   titlePill: {
