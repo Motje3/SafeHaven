@@ -22,6 +22,7 @@ const MENU_ITEMS: MenuItem[] = [
   { icon: { lib: 'material', name: 'groups' }, label: 'Jouw buddy', route: '/buddy' },
   { icon: { lib: 'mc', name: 'piggy-bank' }, label: 'Spaarpotje', route: '/spaarpotjes' },
   { icon: { lib: 'material', name: 'forum' }, label: 'Feedback', route: '/feedback' },
+  { icon: { lib: 'mc', name: 'radio-tower' }, label: 'Data-vrij gesprek', route: '/lora-chat' },
   { icon: { lib: 'material', name: 'settings' }, label: 'Instellingen', route: '/instellingen' },
 ];
 
