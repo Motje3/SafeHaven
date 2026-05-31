@@ -40,7 +40,7 @@ export function DonutProgressCard({
               cx={size / 2}
               cy={size / 2}
               r={radius}
-              stroke="#22C55E"
+              stroke="#1BD15D"
               strokeWidth={stroke}
               fill="none"
               strokeDasharray={`${circumference} ${circumference}`}
@@ -62,7 +62,7 @@ export function DonutProgressCard({
 
           <View style={styles.legend}>
             <View style={styles.legendItem}>
-              <View style={[styles.legendDot, { backgroundColor: '#22C55E' }]} />
+              <View style={[styles.legendDot, { backgroundColor: '#1BD15D' }]} />
               <Text style={styles.legendText}>{collected} verzameld</Text>
             </View>
             <View style={styles.legendItem}>
@@ -82,11 +82,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     paddingHorizontal: 16,
     paddingVertical: 18,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   infoBadge: {
     position: 'absolute',

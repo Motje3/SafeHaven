@@ -24,7 +24,7 @@ export function ChargingIllustration({ title = 'Aan het oplading..' }: ChargingI
             y1="22%"
             x2="78%"
             y2="20%"
-            stroke="#22C55E"
+            stroke="#1BD15D"
             strokeWidth="1.5"
             strokeDasharray="4 4"
           />
@@ -85,11 +85,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingTop: 14,
     paddingBottom: 18,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   headerRow: {
     flexDirection: 'row',
@@ -124,7 +119,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   calloutGreen: {
-    borderColor: '#22C55E',
+    borderColor: '#1BD15D',
   },
   calloutYellow: {
     borderColor: '#F5A623',
@@ -144,12 +139,12 @@ const styles = StyleSheet.create({
   calloutValueGreen: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#22C55E',
+    color: '#1BD15D',
   },
   calloutLabelGreen: {
     fontSize: 8,
     fontStyle: 'italic',
-    color: '#22C55E',
+    color: '#1BD15D',
     fontWeight: '600',
   },
   calloutValueYellow: {

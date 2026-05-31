@@ -30,7 +30,7 @@ type Activity = {
 };
 
 const SAMPLE_ACTIVITIES: Record<number, Activity[]> = {
-  20: [
+  1: [
     { time: '10.00 - 12.00', title: 'Bijeenkomst noodplan', location: 'Buurthuis', variant: 'group-green' },
     { time: '10.00 - 12.00', title: 'EHBO cursus', location: 'Buurthuis', variant: 'medical-yellow', rsvp: true },
     { time: '10.00 - 12.00', title: 'Bijeenkomst noodplan', location: 'Buurthuis', variant: 'group-blue' },
@@ -105,17 +105,7 @@ export default function AgendaScreen() {
             <View style={styles.agendaCard}>
               <View style={styles.agendaHeader}>
                 <View style={styles.agendaHeaderLeft}>
-                  {isDayView ? (
-                    <Pressable
-                      onPress={() => setSelectedDay(null)}
-                      hitSlop={8}
-                      style={({ pressed }) => pressed && { opacity: 0.5 }}
-                    >
-                      <MaterialIcons name="arrow-back" size={20} color="#FFFFFF" />
-                    </Pressable>
-                  ) : (
-                    <MaterialIcons name="event" size={20} color="#FFFFFF" />
-                  )}
+                  <MaterialIcons name="event" size={20} color="#FFFFFF" />
                   <Text style={styles.agendaTitle}>Agenda</Text>
                 </View>
               </View>
@@ -123,7 +113,16 @@ export default function AgendaScreen() {
               <View style={styles.agendaContent}>
                 {isDayView ? (
                   <>
-                    <Text style={styles.dayLabel}>{dayLabel}</Text>
+                    <View style={styles.dayLabelRow}>
+                      <Text style={styles.dayLabel}>{dayLabel}</Text>
+                      <Pressable
+                        onPress={() => setSelectedDay(null)}
+                        hitSlop={8}
+                        style={({ pressed }) => pressed && { opacity: 0.5 }}
+                      >
+                        <MaterialIcons name="close" size={22} color="#0F172A" />
+                      </Pressable>
+                    </View>
                     {SAMPLE_ACTIVITIES[selectedDay!].map((a, i, arr) => (
                       <View key={i}>
                         <ActivityRow
@@ -179,11 +178,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   agendaHeader: {
     backgroundColor: '#14342B',
@@ -206,12 +200,17 @@ const styles = StyleSheet.create({
     paddingTop: 14,
     paddingBottom: 6,
   },
+  dayLabelRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
   dayLabel: {
     fontSize: 14,
     fontWeight: '800',
     color: '#0F172A',
     letterSpacing: -0.3,
-    marginBottom: 6,
   },
   divider: {
     height: 1,

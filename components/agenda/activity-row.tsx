@@ -13,7 +13,7 @@ interface ActivityRowProps {
 }
 
 const VARIANT_STYLES: Record<ActivityIconVariant, { bg: string; icon: keyof typeof MaterialIcons.glyphMap; iconColor: string }> = {
-  'group-green': { bg: '#4ADE80', icon: 'groups', iconColor: '#FFFFFF' },
+  'group-green': { bg: '#1BD15D', icon: 'groups', iconColor: '#FFFFFF' },
   'medical-yellow': { bg: '#F5C842', icon: 'medical-services', iconColor: '#FFFFFF' },
   'group-blue': { bg: '#7DC3E8', icon: 'groups', iconColor: '#FFFFFF' },
 };

@@ -22,7 +22,7 @@ export function InUseCard({
       <View style={styles.topRow}>
         <View style={styles.leftCol}>
           <View style={styles.headerRow}>
-            <MaterialIcons name="battery-charging-full" size={20} color="#22C55E" />
+            <MaterialIcons name="battery-charging-full" size={20} color="#1BD15D" />
             <Text style={styles.title}>In gebruik</Text>
           </View>
           <Text style={styles.subtitle}>Genoeg energie voor {hoursLeft} uur</Text>
@@ -69,11 +69,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingTop: 16,
     paddingBottom: 18,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   topRow: {
     flexDirection: 'row',
@@ -144,7 +139,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   blockFilled: {
-    backgroundColor: '#4ADE80',
+    backgroundColor: '#1BD15D',
   },
   blockEmpty: {
     backgroundColor: '#D1D5DB',

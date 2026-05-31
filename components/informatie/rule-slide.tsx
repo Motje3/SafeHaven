@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 interface RuleSlideProps {
   title: string;
@@ -22,7 +22,7 @@ export function RuleSlide({
 }: RuleSlideProps) {
   return (
     <View style={[styles.slide, { width, height, backgroundColor: background }]}>
-      <View style={styles.avatar} />
+      <Image source={require('../../public/dog.png')} style={styles.avatar} resizeMode="cover" />
       <Text style={[styles.title, { color: titleColor }]}>{title}</Text>
       <Text style={[styles.body, { color: bodyColor }]}>{body}</Text>
     </View>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: '#D1D5DB',
+    overflow: 'hidden',
     marginBottom: 22,
   },
   title: {

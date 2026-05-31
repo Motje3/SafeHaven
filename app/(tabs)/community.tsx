@@ -1,9 +1,8 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ActionCard, type ActionIconConfig } from '@/components/community/action-card';
 import { ScreenTopBar } from '@/components/shared/screen-top-bar';
@@ -27,7 +26,6 @@ const EMERGENCY_ACTIONS: GridAction[] = [
 ];
 
 export default function CommunityScreen() {
-  const insets = useSafeAreaInsets();
   const router = useRouter();
   const { emergency } = useEmergency();
   const [activeStatus, setActiveStatus] = useState<number | null>(emergency ? 0 : null);
@@ -73,17 +71,8 @@ export default function CommunityScreen() {
         showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[0]}
       >
-        <Animated.View
-          entering={FadeInDown.duration(400).springify()}
-          style={[styles.topBarRow, { paddingTop: insets.top + 4 }]}
-        >
-          <View style={styles.topBarSide} />
-          <Text style={styles.topBarTitle}>Community</Text>
-          <View style={styles.topBarSide}>
-            <View style={styles.avatarCircle}>
-              <Text style={styles.avatarText}>MV</Text>
-            </View>
-          </View>
+        <Animated.View entering={FadeInDown.duration(400).springify()}>
+          <ScreenTopBar title="Community" />
         </Animated.View>
 
         <View style={styles.body}>
@@ -121,7 +110,7 @@ export default function CommunityScreen() {
 function BuurtCard() {
   return (
     <View style={styles.buurtCard}>
-      <MaterialIcons name="location-pin" size={22} color="#22C55E" />
+      <MaterialIcons name="location-pin" size={22} color="#1BD15D" />
       <View style={styles.buurtTextCol}>
         <Text style={styles.buurtTitle}>Buurt</Text>
         <Text style={styles.buurtSubtitle}>Ouden Noorden Rotterdam - 150 bewoners</Text>
@@ -139,9 +128,7 @@ function GepindeBerichtenCard() {
       </View>
 
       <View style={styles.messageRow}>
-        <View style={[styles.avatarSm, { backgroundColor: '#D4A86A' }]}>
-          <MaterialCommunityIcons name="dog" size={20} color="#FFFFFF" />
-        </View>
+        <Image source={require('../../public/dog.png')} style={styles.avatarSm} resizeMode="cover" />
         <View style={styles.messageBody}>
           <View style={styles.messageHeader}>
             <Text style={styles.messageWho}>Buurman nummer 12</Text>
@@ -177,9 +164,7 @@ function BuurtchatCard({
       <View style={styles.cardDivider} />
 
       <View style={styles.messageRow}>
-        <View style={[styles.avatarSm, { backgroundColor: '#D4A86A' }]}>
-          <MaterialCommunityIcons name="dog" size={20} color="#FFFFFF" />
-        </View>
+        <Image source={require('../../public/dog.png')} style={styles.avatarSm} resizeMode="cover" />
         <View style={styles.messageBody}>
           <View style={styles.messageHeader}>
             <Text style={styles.messageWho}>Buurman nummer 12</Text>
@@ -199,9 +184,7 @@ function BuurtchatCard({
       <View style={styles.cardDivider} />
 
       <View style={styles.messageRow}>
-        <View style={[styles.avatarSm, { backgroundColor: '#D4A86A' }]}>
-          <MaterialCommunityIcons name="dog" size={20} color="#FFFFFF" />
-        </View>
+        <Image source={require('../../public/dog.png')} style={styles.avatarSm} resizeMode="cover" />
         <View style={styles.messageBody}>
           <View style={styles.messageHeader}>
             <Text style={styles.messageWho}>Buurman nummer 12</Text>
@@ -247,7 +230,7 @@ function AgendaCard({ onPress }: { onPress?: () => void }) {
       <View style={styles.cardDivider} />
 
       <View style={styles.eventRow}>
-        <View style={[styles.eventIcon, { backgroundColor: '#22C55E' }]}>
+        <View style={[styles.eventIcon, { backgroundColor: '#1BD15D' }]}>
           <MaterialIcons name="groups" size={26} color="#FFFFFF" />
         </View>
         <View style={styles.eventBody}>
@@ -301,7 +284,7 @@ function SpaarpotjeCard({ onPress }: { onPress?: () => void }) {
               key={i}
               style={[
                 styles.spaarSeg,
-                { backgroundColor: i < filled ? '#22C55E' : '#E5E7EB' },
+                { backgroundColor: i < filled ? '#1BD15D' : '#E5E7EB' },
               ]}
             />
           ))}
@@ -331,46 +314,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: GRID_GAP,
-  },
-
-  // Top bar (normal mode)
-  topBarRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingLeft: 52 + PAGE_PAD,
-    paddingRight: PAGE_PAD + 8,
-    paddingBottom: 8,
-    backgroundColor: '#F4F4F6',
-  },
-  topBarSide: {
-    width: 44,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-  },
-  topBarTitle: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#0F172A',
-    letterSpacing: -0.3,
-  },
-  avatarCircle: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-  },
-  avatarText: {
-    fontSize: 9,
-    fontWeight: '800',
-    color: '#0F172A',
-    letterSpacing: 0.2,
   },
 
   // Buurt card
@@ -405,11 +348,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingTop: 14,
     paddingBottom: 14,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   cardHeaderRow: {
     flexDirection: 'row',
@@ -442,6 +380,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
+    overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -465,7 +404,7 @@ const styles = StyleSheet.create({
   messageTimeGreen: {
     fontSize: 9,
     fontWeight: '700',
-    color: '#22C55E',
+    color: '#1BD15D',
   },
   messagePreview: {
     flex: 1,
@@ -484,7 +423,7 @@ const styles = StyleSheet.create({
     height: 18,
     borderRadius: 9,
     paddingHorizontal: 5,
-    backgroundColor: '#22C55E',
+    backgroundColor: '#1BD15D',
     alignItems: 'center',
     justifyContent: 'center',
   },

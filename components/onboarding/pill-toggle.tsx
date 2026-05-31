@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     borderRadius: 22,
   },
   pillSelected: {
-    backgroundColor: '#4ADE80',
+    backgroundColor: '#1BD15D',
   },
   pillUnselected: {
     backgroundColor: '#FFFFFF',

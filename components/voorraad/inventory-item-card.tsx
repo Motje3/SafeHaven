@@ -19,7 +19,7 @@ interface InventoryItemCardProps {
 const STATUS_COLOR: Record<StockStatus, string> = {
   critical: '#EF4444',
   warning: '#F5C842',
-  ok: '#22C55E',
+  ok: '#1BD15D',
 };
 
 export function InventoryItemCard({

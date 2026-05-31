@@ -92,11 +92,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     paddingHorizontal: 16,
     paddingVertical: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   headerRow: {
     flexDirection: 'row',
@@ -164,7 +159,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   claimBtn: {
-    backgroundColor: '#22C55E',
+    backgroundColor: '#1BD15D',
     paddingHorizontal: 22,
     paddingVertical: 9,
     borderRadius: 10,

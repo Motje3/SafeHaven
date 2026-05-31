@@ -2,6 +2,7 @@ import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
   Dimensions,
+  ImageSourcePropType,
   NativeScrollEvent,
   NativeSyntheticEvent,
   Pressable,
@@ -51,7 +52,7 @@ const RULES = [
   {
     title: 'Deel eerlijk met elkaar',
     body: 'Lorem ipsum dolor sit amet consecteur. Nulla ut maecenas porta viverra. Elementum non odio tortor adipiscing pulvinar.',
-    background: '#4ADE80',
+    background: '#1BD15D',
     titleColor: '#FFFFFF',
     bodyColor: '#F0FDF4',
   },
@@ -78,15 +79,14 @@ const RULES = [
 
 type VideoItem = {
   title: string;
-  gradient: [string, string];
-  icon: keyof typeof MaterialCommunityIcons.glyphMap;
+  image: ImageSourcePropType;
 };
 
 const VIDEOS: VideoItem[] = [
-  { title: 'Wat als er geen stroom is?', gradient: ['#5B5048', '#2A2724'], icon: 'umbrella' },
-  { title: 'Zo werkt het stroomnet', gradient: ['#5BA2D8', '#1E3A8A'], icon: 'transmission-tower' },
-  { title: 'Wat zijn de gevolgen voor jou?', gradient: ['#8C5A3C', '#3F2418'], icon: 'candle' },
-  { title: 'Wat als er geen stroom is?', gradient: ['#2A3A4A', '#0F172A'], icon: 'flashlight' },
+  { title: 'Wat als er geen stroom is?', image: require('../../public/video1.jpg') },
+  { title: 'Zo werkt het stroomnet', image: require('../../public/video2.jpg') },
+  { title: 'Wat zijn de gevolgen voor jou?', image: require('../../public/video3.jpg') },
+  { title: 'Wat als er geen stroom is?', image: require('../../public/video4.jpg') },
 ];
 
 function useSnapPage(itemWidth: number, gap: number) {
@@ -243,8 +243,7 @@ export default function InformatieScreen() {
                     key={i}
                     title={v.title}
                     width={gridItemW}
-                    gradient={v.gradient}
-                    icon={v.icon}
+                    image={v.image}
                   />
                 ))}
               </View>
@@ -283,11 +282,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: CARD_INNER_PADDING,
     paddingTop: 14,
     paddingBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   sectionHeader: {
     flexDirection: 'row',

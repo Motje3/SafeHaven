@@ -136,11 +136,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
     padding: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   heroPlaceholder: {
     backgroundColor: '#E6F2D9',
@@ -151,11 +146,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     paddingHorizontal: 18,
     paddingVertical: 18,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   title: {
     fontSize: 17,
@@ -216,7 +206,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   blockFilled: {
-    backgroundColor: '#4ADE80',
+    backgroundColor: '#1BD15D',
   },
   blockEmpty: {
     backgroundColor: '#D1D5DB',
@@ -250,11 +240,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     paddingHorizontal: 18,
     paddingVertical: 18,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   txTitle: {
     fontSize: 13,
@@ -277,7 +262,7 @@ const styles = StyleSheet.create({
   txAmount: {
     fontSize: 11,
     fontWeight: '800',
-    color: '#22C55E',
+    color: '#1BD15D',
   },
   txDivider: {
     height: 1,

@@ -1,48 +1,29 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, ImageSourcePropType, Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface VideoCardProps {
   title: string;
   width: number;
   height?: number;
-  gradient?: [string, string];
-  icon?: keyof typeof MaterialCommunityIcons.glyphMap;
+  image: ImageSourcePropType;
   onPress?: () => void;
 }
 
-export function VideoCard({
-  title,
-  width,
-  height = 180,
-  gradient = ['#3F3F46', '#18181B'],
-  icon,
-  onPress,
-}: VideoCardProps) {
+export function VideoCard({ title, width, height = 180, image, onPress }: VideoCardProps) {
   return (
     <Pressable
       onPress={onPress}
       style={({ pressed }) => [{ width, opacity: pressed ? 0.85 : 1 }]}
     >
-      <LinearGradient
-        colors={gradient}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={[styles.card, { height }]}
-      >
-        {icon && (
-          <View style={styles.iconWrap} pointerEvents="none">
-            <MaterialCommunityIcons name={icon} size={64} color="rgba(255,255,255,0.25)" />
-          </View>
-        )}
+      <View style={[styles.card, { height }]}>
+        <Image source={image} style={styles.image} resizeMode="cover" />
 
         <View style={styles.titleWrap}>
           <View style={styles.titlePill}>
             <Text style={styles.titleText}>{title}</Text>
           </View>
         </View>
-      </LinearGradient>
+      </View>
     </Pressable>
   );
 }
@@ -53,11 +34,12 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     justifyContent: 'flex-end',
     padding: 10,
+    backgroundColor: '#222222',
   },
-  iconWrap: {
-    position: 'absolute',
-    top: 18,
-    right: 14,
+  image: {
+    ...StyleSheet.absoluteFillObject,
+    width: '100%',
+    height: '100%',
   },
   titleWrap: {
     alignItems: 'flex-start',

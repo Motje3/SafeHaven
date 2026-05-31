@@ -31,7 +31,7 @@ function StepIconView({ icon }: { icon: StepIcon }) {
   }
   return (
     <View style={[styles.iconBox, { backgroundColor: '#DCFCE7' }]}>
-      <MaterialIcons name="check-circle" size={50} color="#22C55E" />
+      <MaterialIcons name="check-circle" size={50} color="#1BD15D" />
     </View>
   );
 }
@@ -50,7 +50,7 @@ export function StepCard({ title, body, icon, tipText }: StepCardProps) {
 
       {tipText ? (
         <View style={styles.tipBox}>
-          <MaterialIcons name="lightbulb" size={16} color="#22C55E" />
+          <MaterialIcons name="lightbulb" size={16} color="#1BD15D" />
           <Text style={styles.tipBold}>Tip:</Text>
           <Text style={styles.tipText} numberOfLines={2}>{tipText}</Text>
         </View>
@@ -64,11 +64,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     padding: 14,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   row: {
     flexDirection: 'row',

@@ -162,11 +162,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingTop: 14,
     paddingBottom: 6,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   listHeader: {
     flexDirection: 'row',
@@ -225,14 +220,14 @@ const styles = StyleSheet.create({
     color: '#6B7280',
   },
   rowTimeGreen: {
-    color: '#22C55E',
+    color: '#1BD15D',
   },
   unreadDot: {
     minWidth: 18,
     height: 18,
     borderRadius: 9,
     paddingHorizontal: 5,
-    backgroundColor: '#22C55E',
+    backgroundColor: '#1BD15D',
     alignItems: 'center',
     justifyContent: 'center',
   },

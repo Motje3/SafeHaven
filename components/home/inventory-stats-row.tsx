@@ -10,7 +10,7 @@ interface InventoryItem {
 }
 
 const LEVEL_COLOR: Record<FillLevel, string> = {
-  high: '#22C55E',
+  high: '#1BD15D',
   mid: '#F5C842',
   low: '#EF4444',
 };
@@ -117,11 +117,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingTop: 14,
     paddingBottom: 0,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
     overflow: 'hidden',
   },
   leftCard: {},
@@ -198,7 +193,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   blockFilled: {
-    backgroundColor: '#4ADE80',
+    backgroundColor: '#1BD15D',
   },
   blockEmpty: {
     backgroundColor: '#D1D5DB',

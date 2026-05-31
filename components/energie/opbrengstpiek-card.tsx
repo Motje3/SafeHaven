@@ -43,7 +43,7 @@ export function OpbrengstpiekCard() {
           <View key={i} style={styles.markerCol}>
             <View style={styles.markerHead}>
               {m.kind === 'bolt' ? (
-                <MaterialCommunityIcons name="lightning-bolt" size={18} color="#22C55E" />
+                <MaterialCommunityIcons name="lightning-bolt" size={18} color="#1BD15D" />
               ) : (
                 <View style={styles.dot} />
               )}
@@ -64,11 +64,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 14,
     paddingBottom: 14,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   headerRow: {
     flexDirection: 'row',

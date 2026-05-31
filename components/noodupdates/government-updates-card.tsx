@@ -82,7 +82,7 @@ export function GovernmentUpdatesCard() {
       </ScrollView>
 
       <View style={styles.dots}>
-        <PaginationDots count={UPDATES.length} activeIndex={index} activeColor="#22C55E" inactiveColor="#D1D5DB" />
+        <PaginationDots count={UPDATES.length} activeIndex={index} activeColor="#1BD15D" inactiveColor="#D1D5DB" />
       </View>
     </View>
   );
@@ -129,11 +129,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: CARD_PAD,
     paddingTop: 14,
     paddingBottom: 14,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   title: {
     fontSize: 13,
@@ -175,7 +170,7 @@ const styles = StyleSheet.create({
   },
   newBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: '#22C55E',
+    backgroundColor: '#1BD15D',
     borderRadius: 10,
     paddingHorizontal: 8,
     paddingVertical: 2,

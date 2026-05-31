@@ -10,7 +10,7 @@ export function SuggestionCard({ onSubmit }: SuggestionCardProps) {
   return (
     <View style={styles.card}>
       <View style={styles.headerRow}>
-        <MaterialIcons name="event" size={20} color="#22C55E" />
+        <MaterialIcons name="event" size={20} color="#1BD15D" />
         <Text style={styles.title}>Een activiteit toevoegen?</Text>
       </View>
       <Text style={styles.subtitle}>Suggesties zijn altijd welkom in de community</Text>
@@ -31,11 +31,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   headerRow: {
     flexDirection: 'row',
@@ -55,7 +50,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   btn: {
-    backgroundColor: '#4ADE80',
+    backgroundColor: '#1BD15D',
     paddingVertical: 14,
     borderRadius: 12,
     alignItems: 'center',

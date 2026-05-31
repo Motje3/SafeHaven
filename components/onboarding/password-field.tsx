@@ -43,7 +43,7 @@ export function PasswordField({ label, required, ...inputProps }: PasswordFieldP
 
 const styles = StyleSheet.create({
   field: {
-    backgroundColor: '#F0EDE0',
+    backgroundColor: '#FFFFFF',
     borderRadius: 12,
     paddingHorizontal: 14,
     paddingTop: 8,

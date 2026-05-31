@@ -159,11 +159,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    elevation: 12,
   },
   bump: {
     position: 'absolute',

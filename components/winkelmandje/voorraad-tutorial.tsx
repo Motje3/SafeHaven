@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
@@ -54,10 +54,13 @@ function WelcomePage({ onStart, onSkip }: { onStart: () => void; onSkip: () => v
           <Text style={styles.welcomeTitleAccent}>voorraadbeheer!</Text>
         </Text>
         <Text style={styles.welcomeSubtitle}>
-          Help mee door ontbrekende producten te verzamelen en in te leveren bij de noodkast.
+          Help mee door ontbrekende producten te verzamelen en in te leveren bij de BuurtHub.
         </Text>
-
-        <BasketArt />
+        <Image
+          source={require('../../public/vooradbeheer1.png')}
+          style={styles.welcomeImage}
+          resizeMode="contain"
+        />
       </View>
 
       <View style={styles.welcomeBottom}>
@@ -72,39 +75,6 @@ function WelcomePage({ onStart, onSkip }: { onStart: () => void; onSkip: () => v
         </Pressable>
       </View>
     </Animated.View>
-  );
-}
-
-function BasketArt() {
-  return (
-    <View style={styles.basketWrap}>
-      <View style={styles.basketBox}>
-        <View style={styles.basketItemsRow}>
-          <View style={[styles.basketItem, { backgroundColor: '#2F6E3F', height: 70 }]}>
-            <View style={styles.bottleNeck} />
-          </View>
-          <View style={[styles.basketItem, { backgroundColor: '#D9DCC7', height: 60 }]}>
-            <Text style={styles.basketItemLabel}>Can</Text>
-          </View>
-          <View style={[styles.basketItem, { backgroundColor: '#E7B23A', height: 64 }]}>
-            <Text style={styles.basketItemLabel}>chips</Text>
-          </View>
-          <View style={[styles.basketItem, { backgroundColor: '#0F172A', height: 58 }]}>
-            <Text style={[styles.basketItemLabel, { color: '#FFFFFF' }]}>tea</Text>
-          </View>
-        </View>
-        <View style={styles.basketBase}>
-          <View style={styles.basketBaseInner}>
-            <View style={styles.basketShield}>
-              <MaterialIcons name="shield" size={14} color="#FFFFFF" />
-            </View>
-            <Text style={styles.basketTagline}>
-              Samen voorbereid,{'\n'}samen sterk.
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
   );
 }
 
@@ -180,7 +150,7 @@ const STEP_TITLES = [
   'Voeg producten toe',
   'Controleer je winkelmandje',
   'Koop de producten',
-  'Geef de spullen af bij de noodkast',
+  'Geef de spullen af bij de BuurtHub',
   'Scan en lever in',
 ];
 
@@ -271,8 +241,11 @@ function CurvedArrow({ direction = 'up-right' }: { direction?: 'up-right' | 'up-
 function Step1Body() {
   return (
     <View style={styles.stepBodyInner}>
-      <ProductCard countTone="red" withPlus />
-      <CurvedArrow direction="up-right" />
+      <Image
+        source={require('../../public/vooradbeheer2.png')}
+        style={styles.stepIllustration}
+        resizeMode="contain"
+      />
       <Text style={styles.stepCaption}>
         Tik op het + -icoon om het aan je{'\n'}winkelmandje toe te voegen.
       </Text>
@@ -301,15 +274,16 @@ function Step2Body() {
 function Step3Body() {
   return (
     <View style={styles.stepBodyInner}>
-      <View style={styles.photoCard}>
-        <MaterialIcons name="shopping-cart" size={72} color="rgba(255,255,255,0.85)" />
-        <Text style={styles.photoCardText}>Boodschappen doen</Text>
-      </View>
+      <Image
+        source={require('../../public/vooradbeheer4.png')}
+        style={styles.stepPhoto}
+        resizeMode="cover"
+      />
       <Text style={[styles.stepCaption, { marginTop: 18 }]}>
-        Koop de producten in de winkel en{'\n'}ga daarna naar de noodkast om ze{'\n'}in te leveren.
+        Koop de producten in de winkel en{'\n'}ga daarna naar de BuurtHub om ze{'\n'}in te leveren.
       </Text>
       <View style={styles.tipBox}>
-        <MaterialIcons name="lightbulb" size={16} color="#22C55E" />
+        <MaterialIcons name="lightbulb" size={16} color="#1BD15D" />
         <Text style={styles.tipBoldDark}>Tip:</Text>
         <Text style={styles.tipTextDark}>Hou de winkelmand erbij tijdens het winkelen</Text>
       </View>
@@ -322,7 +296,7 @@ function Step4Body() {
     <View style={styles.stepBodyInner}>
       <View style={styles.deliverBtnMock}>
         <MaterialCommunityIcons name="cart" size={20} color="#FFFFFF" />
-        <Text style={styles.deliverBtnMockText}>Afgeven bij de noodkast</Text>
+        <Text style={styles.deliverBtnMockText}>Afgeven bij de BuurtHub</Text>
       </View>
       <CurvedArrow direction="up-right" />
       <Text style={styles.stepCaption}>
@@ -335,15 +309,13 @@ function Step4Body() {
 function Step5Body() {
   return (
     <View style={styles.stepBodyInner}>
-      <View style={styles.qrPhotoCard}>
-        <View style={styles.qrMock}>
-          <MaterialIcons name="qr-code-2" size={88} color="#0F172A" />
-        </View>
-        <Text style={styles.photoCardText}>Scannen bij noodkast</Text>
-      </View>
-      <CurvedArrow direction="up-right" />
+      <Image
+        source={require('../../public/vooradbeheer5.png')}
+        style={styles.stepPhotoTall}
+        resizeMode="contain"
+      />
       <View style={styles.numberList}>
-        <Text style={styles.numberLine}>1. Scan de QR-code bij de noodkast</Text>
+        <Text style={styles.numberLine}>1. Scan de QR-code bij de BuurtHub</Text>
         <Text style={styles.numberLine}>2. Plaats de producten in de bak</Text>
         <Text style={styles.numberLine}>3. Je winkelmandje wordt voltooid</Text>
       </View>
@@ -418,6 +390,28 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#FFFFFF',
     textDecorationLine: 'underline',
+  },
+
+  // Welcome / step images
+  welcomeImage: {
+    width: '100%',
+    aspectRatio: 388 / 240,
+    marginTop: 32,
+  },
+  stepIllustration: {
+    width: '100%',
+    aspectRatio: 364 / 296,
+    marginBottom: 6,
+  },
+  stepPhoto: {
+    width: '100%',
+    aspectRatio: 320 / 262,
+    borderRadius: 16,
+  },
+  stepPhotoTall: {
+    width: '100%',
+    aspectRatio: 795 / 927,
+    borderRadius: 16,
   },
 
   // Basket
@@ -722,7 +716,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 10,
-    backgroundColor: '#4ADE80',
+    backgroundColor: '#1BD15D',
     paddingVertical: 16,
     borderRadius: 14,
     alignSelf: 'stretch',

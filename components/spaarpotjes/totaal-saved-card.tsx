@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   blockFilled: {
-    backgroundColor: '#4ADE80',
+    backgroundColor: '#1BD15D',
   },
   blockEmpty: {
     backgroundColor: '#5A6B62',

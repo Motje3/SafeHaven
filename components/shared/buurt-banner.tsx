@@ -14,7 +14,7 @@ export function BuurtBanner({
   return (
     <View style={styles.banner}>
       <View style={styles.row}>
-        <MaterialIcons name="place" size={20} color="#4ADE80" />
+        <MaterialIcons name="place" size={20} color="#1BD15D" />
         <Text style={styles.name}>{name}</Text>
       </View>
       <Text style={styles.detail}>{detail}</Text>

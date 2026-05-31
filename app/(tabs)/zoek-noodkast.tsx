@@ -62,7 +62,7 @@ export default function ZoekNoodkastScreen() {
           <Animated.View entering={FadeInDown.duration(500).delay(320).springify()}>
             <View style={styles.statusCard}>
               <StatusRow label="Status deur" value="Gesloten" valueColor="#0F172A" />
-              <StatusRow label="Voorraad" value="75% gevuld" valueColor="#22C55E" />
+              <StatusRow label="Voorraad" value="75% gevuld" valueColor="#1BD15D" />
               <StatusRow label="Laatste activiteit" value="2 min geleden" valueColor="#6B7280" last />
             </View>
           </Animated.View>
@@ -102,11 +102,6 @@ const styles = StyleSheet.create({
     padding: 14,
     gap: 12,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   image: { width: 110, height: 90 },
   heroBody: { flex: 1, gap: 4 },
@@ -163,11 +158,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     paddingHorizontal: 16,
     paddingVertical: 6,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   statusRow: {
     flexDirection: 'row',

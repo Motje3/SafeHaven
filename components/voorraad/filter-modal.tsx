@@ -198,11 +198,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   indicatorSelected: {
-    backgroundColor: '#22C55E',
-    borderColor: '#22C55E',
+    backgroundColor: '#1BD15D',
+    borderColor: '#1BD15D',
   },
   applyBtn: {
-    backgroundColor: '#4ADE80',
+    backgroundColor: '#1BD15D',
     paddingVertical: 16,
     borderRadius: 14,
     alignItems: 'center',

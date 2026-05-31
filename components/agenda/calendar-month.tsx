@@ -71,6 +71,8 @@ export function CalendarMonth({
   onSelectDay,
 }: CalendarMonthProps) {
   const cells = buildMonthGrid(year, month);
+  const weeks: Cell[][] = [];
+  for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
   const monthLabel = `${MONTHS_NL[month][0].toUpperCase()}${MONTHS_NL[month].slice(1)} ${year}`;
 
   return (
@@ -92,40 +94,44 @@ export function CalendarMonth({
       </View>
 
       <View style={styles.grid}>
-        {cells.map((cell, i) => {
-          const isSelected = cell.inMonth && cell.day === selectedDay;
-          const category = cell.inMonth ? events[cell.day] : undefined;
+        {weeks.map((week, wi) => (
+          <View key={wi} style={styles.weekRow}>
+            {week.map((cell, ci) => {
+              const isSelected = cell.inMonth && cell.day === selectedDay;
+              const category = cell.inMonth ? events[cell.day] : undefined;
 
-          return (
-            <Pressable
-              key={i}
-              disabled={!cell.inMonth}
-              onPress={() => cell.inMonth && onSelectDay?.(cell.day)}
-              style={({ pressed }) => [
-                styles.cell,
-                pressed && cell.inMonth && !category && { opacity: 0.6 },
-              ]}
-            >
-              <View
-                style={[
-                  styles.bubble,
-                  category && { backgroundColor: CATEGORY_COLOR[category] },
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.cellText,
-                    !cell.inMonth && styles.cellTextMuted,
-                    isSelected && styles.cellTextSelected,
+              return (
+                <Pressable
+                  key={ci}
+                  disabled={!cell.inMonth}
+                  onPress={() => cell.inMonth && onSelectDay?.(cell.day)}
+                  style={({ pressed }) => [
+                    styles.cell,
+                    pressed && cell.inMonth && !category && { opacity: 0.6 },
                   ]}
                 >
-                  {cell.day}
-                </Text>
-              </View>
-              {category && <View style={styles.eventDot} />}
-            </Pressable>
-          );
-        })}
+                  <View
+                    style={[
+                      styles.bubble,
+                      category && { backgroundColor: CATEGORY_COLOR[category] },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.cellText,
+                        !cell.inMonth && styles.cellTextMuted,
+                        isSelected && styles.cellTextSelected,
+                      ]}
+                    >
+                      {cell.day}
+                    </Text>
+                  </View>
+                  {category && <View style={styles.eventDot} />}
+                </Pressable>
+              );
+            })}
+          </View>
+        ))}
       </View>
 
       <View style={styles.legendDivider} />
@@ -172,12 +178,12 @@ const styles = StyleSheet.create({
     color: '#0F172A',
     letterSpacing: 0.5,
   },
-  grid: {
+  grid: {},
+  weekRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
   },
   cell: {
-    width: `${100 / 7}%`,
+    flex: 1,
     height: CELL_SIZE,
     alignItems: 'center',
     justifyContent: 'center',
@@ -208,7 +214,7 @@ const styles = StyleSheet.create({
     width: 4,
     height: 4,
     borderRadius: 2,
-    backgroundColor: '#22C55E',
+    backgroundColor: '#1BD15D',
   },
   legendDivider: {
     height: 1,

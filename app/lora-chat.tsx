@@ -39,7 +39,7 @@ const STATUS_COLOR: Record<ConnState, string> = {
   idle: '#94A3B8',
   scanning: '#F59E0B',
   connecting: '#F59E0B',
-  connected: '#22C55E',
+  connected: '#1BD15D',
   disconnected: '#94A3B8',
   error: '#EF4444',
 };

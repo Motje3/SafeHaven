@@ -9,9 +9,9 @@ export default function TabLayout() {
   return (
     <View style={{ flex: 1, backgroundColor: '#EDE8FD' }}>
       <Tabs
+        backBehavior="history"
         tabBar={(props) => <BottomNavBar {...props} />}
-        screenOptions={{ headerShown: false }}
-        sceneContainerStyle={{ backgroundColor: 'transparent' }}
+        screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: 'transparent' } }}
       >
         <Tabs.Screen name="marketplace" />
         <Tabs.Screen name="community" />

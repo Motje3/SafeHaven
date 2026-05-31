@@ -13,21 +13,20 @@ interface ScreenTopBarProps {
 export function ScreenTopBar({
   title,
   showBack = false,
-  reserveRightGutter = false,
 }: ScreenTopBarProps) {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top + 4 }]}>
+    <View style={[styles.container, { paddingTop: insets.top + 10 }]}>
       {/* Left side: reserved for the burger menu (positioned absolutely in MenuDrawer). */}
-      <View style={[styles.side, styles.gutter]} />
+      <View style={[styles.side, styles.leftSide]} />
 
       <Text style={styles.title} numberOfLines={1}>
         {title}
       </Text>
 
-      <View style={[styles.side, styles.rightSide, reserveRightGutter && styles.rightGutter]}>
+      <View style={[styles.side, styles.rightSide]}>
         {showBack && (
           <Pressable
             hitSlop={10}
@@ -47,22 +46,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingBottom: 8,
+    paddingBottom: 14,
     backgroundColor: '#F4F4F6',
   },
+  // Equal-width sides keep the title centred on screen. Each side is 44px
+  // tall (same as the burger) so the title lines up with the burger menu,
+  // and the left side reserves the space the burger sits over.
   side: {
-    width: 44,
-    alignItems: 'flex-start',
+    width: 56,
+    height: 44,
     justifyContent: 'center',
+  },
+  leftSide: {
+    alignItems: 'flex-start',
   },
   rightSide: {
     alignItems: 'flex-end',
-  },
-  gutter: {
-    marginLeft: 52,
-  },
-  rightGutter: {
-    marginRight: 8,
   },
   backBtn: {
     width: 36,

@@ -94,6 +94,12 @@ export function MenuDrawer() {
     }
   };
 
+  const handleLogout = () => {
+    close();
+    // Reset back to the welcome screen so the app can't be reached via "back"
+    setTimeout(() => router.replace('/welcome'), 220);
+  };
+
   return (
     <>
       <Pressable
@@ -141,7 +147,7 @@ export function MenuDrawer() {
 
               <Pressable
                 style={({ pressed }) => [styles.logoutBtn, pressed && { opacity: 0.7 }]}
-                onPress={close}
+                onPress={handleLogout}
               >
                 <MaterialIcons name="logout" size={22} color="#EF2A2A" />
                 <Text style={styles.logoutText}>Uitloggen</Text>
@@ -166,11 +172,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 8,
   },
   line: {
     width: 20,
@@ -189,11 +190,6 @@ const styles = StyleSheet.create({
     width: DRAWER_WIDTH,
     backgroundColor: '#FFFFFF',
     zIndex: 99,
-    shadowColor: '#000',
-    shadowOffset: { width: 6, height: 0 },
-    shadowOpacity: 0.12,
-    shadowRadius: 24,
-    elevation: 24,
     borderTopRightRadius: 24,
     borderBottomRightRadius: 24,
   },

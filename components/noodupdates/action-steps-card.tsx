@@ -17,7 +17,7 @@ const STEPS: ActionStep[] = [
     title: '1. Kijk om naar je omgeving',
     preview: 'Let op de kwetsbare in je omgeving kijk wie er hulp...',
     body: 'Let op kinderen, ouderen en zieken in je directe omgeving. Vraag of ze hulp nodig hebben en deel waar mogelijk je voorraad.',
-    iconBg: '#22C55E',
+    iconBg: '#1BD15D',
     iconColor: '#FFFFFF',
   },
   {
@@ -88,11 +88,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingTop: 14,
     paddingBottom: 14,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 2,
   },
   title: {
     fontSize: 13,
