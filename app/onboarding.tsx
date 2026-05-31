@@ -1,12 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AGE_CATEGORIES, AgeSelectModal, type AgeCategory } from '@/components/onboarding/age-select-modal';
 import { FormField } from '@/components/onboarding/form-field';
-import { ImagePlaceholder } from '@/components/onboarding/image-placeholder';
 import { OnboardingChrome } from '@/components/onboarding/onboarding-chrome';
 import { PasswordField } from '@/components/onboarding/password-field';
 import { PillToggle } from '@/components/onboarding/pill-toggle';
@@ -93,14 +92,14 @@ const PAGES: Page[] = [
     type: 'yesno',
     step: 6,
     key: 'health',
-    title: 'Extra benodigheden',
+    title: 'Gezondheid',
     question: 'Is er iets belangrijks rondom uw gezondheid of veiligheid waarvan je wilt dat wij op de hoogte zijn?',
   },
   {
     type: 'pills',
     step: 6,
     key: 'healthHelp',
-    title: 'Extra benodigheden',
+    title: 'Gezondheid',
     question: 'Ik heb hulp nodig bij:',
     options: ['Gezelschap', 'Boodschappen', 'Mobiliteit', 'Medische ondersteuning', 'Anders'],
     showIf: (d) => d.health === 'ja',
@@ -216,8 +215,8 @@ export default function OnboardingScreen() {
   if (page.type === 'done') {
     return (
       <View style={styles.doneRoot}>
-        <View style={[styles.doneContent, { paddingTop: insets.top + 80 }]}>
-          <Text style={styles.doneTitle}>Klaar!</Text>
+        <View style={[styles.doneContent, { paddingTop: insets.top }]}>
+          <Text style={styles.doneTitle}>U bent klaar voor gebruik</Text>
         </View>
 
         <View style={[styles.doneFooter, { paddingBottom: insets.bottom + 16 }]}>
@@ -264,7 +263,11 @@ export default function OnboardingScreen() {
         >
           <View style={styles.photoWrap}>
             <View style={styles.photoCircle}>
-              <Text style={styles.photoLabel}>img</Text>
+              <Image
+                source={require('../public/gavin.png')}
+                style={styles.photoImage}
+                resizeMode="cover"
+              />
             </View>
             <View style={styles.editBadge}>
               <MaterialIcons name="edit" size={16} color="#FFFFFF" />
@@ -377,13 +380,31 @@ export default function OnboardingScreen() {
         <OnboardingChrome
           totalSteps={TOTAL_STEPS}
           activeStepIndex={page.step}
-          title="Noodkast locatie"
-          subtitle="Hier staat jouw noodkast:"
+          title="BuurtHub locatie"
+          subtitle="Hier staat jouw BuurtHub:"
           onBack={canGoBack ? goPrev : undefined}
           onNext={goNext}
         >
           <View style={styles.mapWrap}>
-            <ImagePlaceholder label="img" height={340} rounded={16} variant="card" />
+            <View style={styles.mapCard}>
+              <Image
+                source={require('../public/map.png')}
+                style={styles.mapImage}
+                resizeMode="cover"
+              />
+            </View>
+
+            {/* User location */}
+            <View style={styles.userDot} />
+
+            {/* BuurtHub destination pin */}
+            <MaterialIcons
+              name="place"
+              size={36}
+              color="#16A34A"
+              style={styles.mapPin}
+            />
+
             <View style={styles.mapWrongPill}>
               <MaterialIcons name="error-outline" size={14} color="#0F172A" />
               <Text style={styles.mapWrongText}>Deze locatie klopt niet</Text>
@@ -497,18 +518,13 @@ const styles = StyleSheet.create({
     height: 140,
     borderRadius: 70,
     backgroundColor: '#FFFFFF',
-    borderWidth: 1.5,
-    borderStyle: 'dashed',
-    borderColor: 'rgba(15, 23, 42, 0.20)',
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
-  photoLabel: {
-    fontSize: 11,
-    fontWeight: '700',
-    letterSpacing: 1.5,
-    color: 'rgba(15, 23, 42, 0.40)',
-    textTransform: 'uppercase',
+  photoImage: {
+    width: 140,
+    height: 140,
   },
   editBadge: {
     position: 'absolute',
@@ -532,6 +548,40 @@ const styles = StyleSheet.create({
   },
   mapWrap: {
     position: 'relative',
+  },
+  mapCard: {
+    width: '100%',
+    height: 340,
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  mapImage: {
+    width: '100%',
+    height: '100%',
+  },
+  mapPin: {
+    position: 'absolute',
+    left: '57%',
+    top: '30%',
+    textShadowColor: 'rgba(0,0,0,0.35)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
+  },
+  userDot: {
+    position: 'absolute',
+    left: '43%',
+    top: '57%',
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: '#2563EB',
+    borderWidth: 3,
+    borderColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 4,
   },
   walkingPill: {
     position: 'absolute',
@@ -586,8 +636,6 @@ const styles = StyleSheet.create({
     minHeight: 320,
   },
   householdBlock: {
-    flex: 1,
-    paddingTop: 8,
     paddingHorizontal: 4,
   },
   bewonersList: {
@@ -641,10 +689,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   doneTitle: {
-    fontSize: 17,
-    fontWeight: '800',
+    fontSize: 15,
+    fontWeight: '700',
     color: '#FFFFFF',
     letterSpacing: -0.3,
+    textAlign: 'center',
   },
   doneFooter: {
     paddingHorizontal: 20,

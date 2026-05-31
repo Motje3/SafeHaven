@@ -135,8 +135,10 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    paddingTop: 24,
-    paddingBottom: 20,
+    justifyContent: 'center',
+    // Centre the content vertically, biased slightly above the middle
+    paddingTop: 8,
+    paddingBottom: 48,
   },
   navRow: {
     flexDirection: 'row',

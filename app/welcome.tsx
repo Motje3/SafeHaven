@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Dimensions,
   Image,
@@ -10,51 +10,19 @@ import {
 } from 'react-native';
 import Animated, {
   FadeIn,
-  FadeInDown,
   FadeInUp,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
+const { width: SCREEN_W } = Dimensions.get('window');
 
-function FloatingIcon() {
-  const translateY = useSharedValue(0);
+// Brand colours — kept in sync with the onboarding flow (#14342B / #F5C842)
+const GREEN_BG = '#14342B';
+const GOLD = '#F5C842';
 
-  useEffect(() => {
-    translateY.value = withRepeat(
-      withSequence(
-        withTiming(-10, { duration: 2200 }),
-        withTiming(0, { duration: 2200 }),
-      ),
-      -1,
-      false,
-    );
-  }, []);
-
-  const floatStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }],
-  }));
-
-  return (
-    <Animated.View
-      style={floatStyle}
-      entering={FadeIn.duration(800).delay(200)}
-    >
-      {/* Glow ring behind image */}
-      <View style={styles.glowRing} />
-      <Image
-        source={require('../assets/images/t-icon.png')}
-        style={styles.icon}
-        resizeMode="contain"
-      />
-    </Animated.View>
-  );
-}
+// welkom.png is 252 x 128 (≈ 1.97 : 1)
+const LOGO_W = Math.min(SCREEN_W * 0.66, 300);
+const LOGO_H = LOGO_W / (252 / 128);
 
 export default function WelcomeScreen() {
   const router = useRouter();
@@ -62,61 +30,43 @@ export default function WelcomeScreen() {
 
   return (
     <View style={styles.root}>
-      {/* Background blobs */}
-      <View style={StyleSheet.absoluteFill} pointerEvents="none">
-        <View style={styles.blobTop} />
-        <View style={styles.blobMid} />
-        <View style={styles.blobBottom} />
-      </View>
-
-      {/* Content */}
-      <View style={[styles.content, { paddingTop: insets.top + 40, paddingBottom: insets.bottom + 32 }]}>
-
-        {/* Icon */}
-        <View style={styles.iconSection}>
-          <FloatingIcon />
+      <View
+        style={[
+          styles.content,
+          { paddingTop: insets.top + 40, paddingBottom: insets.bottom + 28 },
+        ]}
+      >
+        {/* Logo — hero */}
+        <View style={styles.logoSection}>
+          <Animated.Image
+            source={require('../public/welkom.png')}
+            style={styles.logo}
+            resizeMode="contain"
+            entering={FadeIn.duration(900).delay(150)}
+          />
         </View>
 
-        {/* Text block */}
-        <View style={styles.textSection}>
-          <Animated.Text
-            style={styles.appName}
-            entering={FadeInDown.duration(600).delay(400).springify()}
-          >
-            SafeHaven
-          </Animated.Text>
-
-          <Animated.Text
-            style={styles.tagline}
-            entering={FadeInDown.duration(600).delay(520).springify()}
-          >
-            Your community's lifeline.
-          </Animated.Text>
-        </View>
-
-        {/* Bottom section */}
+        {/* Auth options — rise in under the logo */}
         <Animated.View
           style={styles.bottomSection}
-          entering={FadeInUp.duration(600).delay(700).springify()}
+          entering={FadeInUp.duration(700).delay(650).springify()}
         >
-          {/* Sign up — primary */}
+          {/* Account aanmaken — primary */}
           <Pressable
-            style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.88 }]}
+            style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.9 }]}
             onPress={() => router.push('/onboarding')}
           >
-            <Text style={styles.ctaText}>Sign up</Text>
+            <Text style={styles.ctaText}>Account aanmaken</Text>
             <Text style={styles.ctaArrow}>→</Text>
           </Pressable>
 
-          {/* Sign in — secondary */}
+          {/* Inloggen — secondary */}
           <Pressable
             style={({ pressed }) => [styles.secondaryButton, pressed && { opacity: 0.7 }]}
             onPress={() => router.replace('/(tabs)')}
           >
-            <Text style={styles.secondaryText}>Sign in</Text>
+            <Text style={styles.secondaryText}>Inloggen</Text>
           </Pressable>
-
-          <Text style={styles.footerNote}>Power out. Community in.</Text>
         </Animated.View>
       </View>
     </View>
@@ -126,38 +76,8 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: GREEN_BG,
   },
-
-  // Background layers
-  blobTop: {
-    position: 'absolute',
-    width: 420,
-    height: 420,
-    borderRadius: 210,
-    backgroundColor: 'rgba(124, 111, 224, 0.10)',
-    top: -140,
-    left: SCREEN_W / 2 - 210,
-  },
-  blobMid: {
-    position: 'absolute',
-    width: 300,
-    height: 300,
-    borderRadius: 150,
-    backgroundColor: '#EDE8FD',
-    top: SCREEN_H * 0.45,
-    right: -80,
-  },
-  blobBottom: {
-    position: 'absolute',
-    width: 260,
-    height: 260,
-    borderRadius: 130,
-    backgroundColor: 'rgba(167, 139, 250, 0.08)',
-    bottom: -60,
-    left: -60,
-  },
-
   content: {
     flex: 1,
     alignItems: 'center',
@@ -165,99 +85,64 @@ const styles = StyleSheet.create({
     paddingHorizontal: 28,
   },
 
-  // Icon
-  iconSection: {
+  // Logo
+  logoSection: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  glowRing: {
-    position: 'absolute',
-    width: 240,
-    height: 240,
-    borderRadius: 120,
-    backgroundColor: 'rgba(124, 111, 224, 0.10)',
-    alignSelf: 'center',
-    top: -10,
-  },
-  icon: {
-    width: 200,
-    height: 200,
+  logo: {
+    width: LOGO_W,
+    height: LOGO_H,
   },
 
-  // Text
-  textSection: {
-    alignItems: 'center',
-    gap: 10,
-    paddingBottom: 8,
-  },
-  appName: {
-    fontSize: 30,
-    fontWeight: '800',
-    color: '#1A1A2E',
-    letterSpacing: -1,
-    textAlign: 'center',
-  },
-  tagline: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: 'rgba(26,26,46,0.50)',
-    textAlign: 'center',
-    letterSpacing: 0.2,
-  },
-  // Bottom
+  // Auth options
   bottomSection: {
     width: '100%',
     alignItems: 'center',
-    gap: 16,
-    paddingTop: 12,
+    gap: 14,
+    paddingBottom: 4,
   },
   ctaButton: {
     width: '100%',
-    height: 58,
-    borderRadius: 20,
-    backgroundColor: '#7C6FE0',
+    height: 56,
+    borderRadius: 16,
+    backgroundColor: GOLD,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 10,
-    shadowColor: 'rgba(124,111,224,0.60)',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 1,
-    shadowRadius: 24,
-    elevation: 10,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.25,
+    shadowRadius: 18,
+    elevation: 8,
   },
   ctaText: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#0F172A',
     letterSpacing: -0.3,
   },
   ctaArrow: {
-    fontSize: 15,
-    color: 'rgba(255,255,255,0.75)',
-    fontWeight: '400',
+    fontSize: 16,
+    color: 'rgba(15,23,42,0.65)',
+    fontWeight: '600',
   },
   secondaryButton: {
     width: '100%',
-    height: 54,
-    borderRadius: 20,
+    height: 52,
+    borderRadius: 16,
     backgroundColor: 'transparent',
     borderWidth: 1.5,
-    borderColor: 'rgba(124,111,224,0.40)',
+    borderColor: 'rgba(255,255,255,0.35)',
     alignItems: 'center',
     justifyContent: 'center',
   },
   secondaryText: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '700',
-    color: '#7C6FE0',
+    color: '#FFFFFF',
     letterSpacing: -0.2,
-  },
-  footerNote: {
-    fontSize: 9,
-    color: 'rgba(26,26,46,0.35)',
-    textAlign: 'center',
-    fontWeight: '500',
   },
 });
