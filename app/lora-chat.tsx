@@ -1,5 +1,5 @@
 /**
- * Data-free chat — standalone test screen.
+ * Data-free chat — neighbourhood messaging over LoRa.
  *
  * Connects to a TTGO LoRa32 board over Bluetooth and exchanges text that the
  * board relays over LoRa radio. No internet, no cellular. Route: /lora-chat
@@ -8,7 +8,8 @@
  * it shows the "not available" notice instead of working.
  *
  * NOTE: the LoRa/BLE wiring lives in useLoraChat() and is intentionally left
- * untouched — this file only handles presentation.
+ * untouched — this file only handles presentation. The "Hele wijk" group is the
+ * live LoRa channel (real send/receive); the other chats are local demo data.
  */
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
@@ -26,10 +27,49 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ScreenTopBar } from '@/components/shared/screen-top-bar';
-import { ChatMessage, ConnState, useLoraChat } from '@/lib/ble/lora-chat';
+import { ConnState, useLoraChat } from '@/lib/ble/lora-chat';
 
 const GREEN = '#1BD15D';
 const DARK = '#14342B';
+
+type Msg = { id: string; text: string; mine: boolean };
+
+type Chat = {
+  id: string;
+  name: string;
+  group?: boolean;
+  members?: number;
+  initials?: string;
+  tint?: string;
+  preview: string;
+  time: string;
+  unread?: number;
+  lora?: boolean; // the live LoRa channel
+};
+
+const CHATS: Chat[] = [
+  { id: 'buurman12', name: 'Buurman 12', initials: 'B', tint: '#BFE0EE', preview: 'Tik om een gesprek te starten', time: '' },
+  { id: 'lola', name: 'Lola', initials: 'L', tint: '#F5D38A', preview: 'Ik kom zo even langs 👋', time: '14:02', unread: 1 },
+  { id: 'sven', name: 'Sven', initials: 'S', tint: '#C9E4C5', preview: 'Top, bedankt!', time: '11:45' },
+  { id: 'wijk', name: 'Hele wijk', group: true, members: 150, preview: 'Groep voor de hele buurt · via LoRa', time: '', lora: true },
+];
+
+// Pre-filled demo threads (for portfolio screenshots). The LoRa group is empty
+// and driven by the real messages from useLoraChat().
+const SEED: Record<string, Msg[]> = {
+  buurman12: [],
+  lola: [
+    { id: 'a1', text: 'Hey! Heb je de buurt-app al gezien?', mine: false },
+    { id: 'a2', text: 'Ja, super handig! Werkt zelfs zonder internet 🙌', mine: true },
+    { id: 'a3', text: 'Precies waarvoor het bedoeld is 😄', mine: false },
+    { id: 'a4', text: 'Ik kom zo even langs 👋', mine: false },
+  ],
+  sven: [
+    { id: 'b1', text: 'Heb je de noodradio nog liggen?', mine: false },
+    { id: 'b2', text: 'Die ligt klaar, kom maar halen', mine: true },
+    { id: 'b3', text: 'Top, bedankt!', mine: false },
+  ],
+};
 
 const STATUS_LABEL: Record<ConnState, string> = {
   idle: 'Niet verbonden',
@@ -40,38 +80,31 @@ const STATUS_LABEL: Record<ConnState, string> = {
   error: 'Fout',
 };
 
-const STATUS_COLOR: Record<ConnState, string> = {
-  idle: '#94A3B8',
-  scanning: '#F59E0B',
-  connecting: '#F59E0B',
-  connected: GREEN,
-  disconnected: '#94A3B8',
-  error: '#EF4444',
-};
-
-// Demo-only recipient picker — purely cosmetic, does not change what is sent.
-type Recipient = { id: string; name: string; initials?: string; wijk?: boolean };
-const RECIPIENTS: Recipient[] = [
-  { id: 'wijk', name: 'Hele wijk', wijk: true },
-  { id: 'b12', name: 'Buurman 12', initials: 'B' },
-  { id: 'lola', name: 'Lola', initials: 'L' },
-  { id: 'sven', name: 'Sven', initials: 'S' },
-  { id: 'jolijn', name: 'Jolijn', initials: 'J' },
-];
-
-function Bubble({ message }: { message: ChatMessage }) {
-  const outgoing = message.direction === 'out';
+function Avatar({ chat, size = 50 }: { chat: Chat; size?: number }) {
+  if (chat.group) {
+    return (
+      <View style={[styles.avatar, { width: size, height: size, borderRadius: size / 2, backgroundColor: DARK }]}>
+        <MaterialIcons name="groups" size={size * 0.5} color="#FFFFFF" />
+      </View>
+    );
+  }
   return (
     <View
       style={[
-        styles.bubbleRow,
-        { justifyContent: outgoing ? 'flex-end' : 'flex-start' },
+        styles.avatar,
+        { width: size, height: size, borderRadius: size / 2, backgroundColor: chat.tint ?? '#E9F2E1' },
       ]}
     >
-      <View style={[styles.bubble, outgoing ? styles.bubbleOut : styles.bubbleIn]}>
-        <Text style={outgoing ? styles.bubbleTextOut : styles.bubbleTextIn}>
-          {message.text}
-        </Text>
+      <Text style={[styles.avatarText, { fontSize: size * 0.36 }]}>{chat.initials}</Text>
+    </View>
+  );
+}
+
+function Bubble({ msg }: { msg: Msg }) {
+  return (
+    <View style={[styles.bubbleRow, { justifyContent: msg.mine ? 'flex-end' : 'flex-start' }]}>
+      <View style={[styles.bubble, msg.mine ? styles.bubbleOut : styles.bubbleIn]}>
+        <Text style={msg.mine ? styles.bubbleTextOut : styles.bubbleTextIn}>{msg.text}</Text>
       </View>
     </View>
   );
@@ -79,28 +112,36 @@ function Bubble({ message }: { message: ChatMessage }) {
 
 export default function LoraChatScreen() {
   const insets = useSafeAreaInsets();
-  const {
-    isBleAvailable,
-    state,
-    deviceName,
-    error,
-    messages,
-    connect,
-    disconnect,
-    send,
-  } = useLoraChat();
+  const { isBleAvailable, state, deviceName, error, messages, connect, disconnect, send } = useLoraChat();
 
+  const [openId, setOpenId] = useState<string | null>(null);
   const [draft, setDraft] = useState('');
-  const [recipientId, setRecipientId] = useState('wijk');
-  const listRef = useRef<FlatList<ChatMessage>>(null);
+  const [threads, setThreads] = useState<Record<string, Msg[]>>(SEED);
+  const listRef = useRef<FlatList<Msg>>(null);
 
   const connected = state === 'connected';
   const busy = state === 'scanning' || state === 'connecting';
-  const recipient = RECIPIENTS.find((r) => r.id === recipientId) ?? RECIPIENTS[0];
+  const openChat = CHATS.find((c) => c.id === openId) ?? null;
+
+  // Live LoRa messages mapped into the unified bubble shape.
+  const loraThread: Msg[] = messages.map((m) => ({ id: m.id, text: m.text, mine: m.direction === 'out' }));
+  const thread: Msg[] = openChat ? (openChat.lora ? loraThread : threads[openChat.id] ?? []) : [];
 
   const onSend = () => {
-    if (!draft.trim()) return;
-    send(draft);
+    const text = draft.trim();
+    if (!text || !openChat) return;
+    if (openChat.lora) {
+      if (!connected) return;
+      send(text); // real LoRa broadcast — untouched backend
+    } else {
+      setThreads((prev) => ({
+        ...prev,
+        [openChat.id]: [
+          ...(prev[openChat.id] ?? []),
+          { id: `${openChat.id}-${(prev[openChat.id]?.length ?? 0)}-${Date.now()}`, text, mine: true },
+        ],
+      }));
+    }
     setDraft('');
   };
 
@@ -122,135 +163,164 @@ export default function LoraChatScreen() {
     );
   }
 
-  return (
-    <View style={styles.root}>
-      <ScreenTopBar title="Data-vrij gesprek" showBack />
+  /* ---------------- Inbox ---------------- */
+  if (!openChat) {
+    return (
+      <View style={styles.root}>
+        <ScreenTopBar title="Data-vrij gesprek" showBack />
 
-      {/* Offline explainer */}
-      <View style={styles.banner}>
-        <MaterialCommunityIcons name="radio-tower" size={18} color={GREEN} />
-        <Text style={styles.bannerText}>
-          Berichten gaan via LoRa-radio — geen internet of data nodig.
-        </Text>
-      </View>
-
-      {/* Status row */}
-      <View style={styles.statusRow}>
-        <View style={styles.statusLeft}>
-          <View style={[styles.dot, { backgroundColor: STATUS_COLOR[state] }]} />
-          <Text style={styles.statusText}>
-            {STATUS_LABEL[state]}
-            {connected && deviceName ? ` · ${deviceName}` : ''}
+        <View style={styles.banner}>
+          <MaterialCommunityIcons name="radio-tower" size={18} color={GREEN} />
+          <Text style={styles.bannerText}>
+            Berichten gaan via LoRa-radio — geen internet of data nodig.
           </Text>
         </View>
-        <Pressable
-          onPress={connected ? disconnect : connect}
-          disabled={busy}
-          style={({ pressed }) => [
-            styles.connectBtn,
-            connected && styles.disconnectBtn,
-            (pressed || busy) && { opacity: 0.6 },
-          ]}
-        >
-          <Text style={[styles.connectText, connected && styles.disconnectText]}>
-            {connected ? 'Verbreken' : busy ? '…' : 'Verbinden'}
-          </Text>
-        </Pressable>
-      </View>
 
-      {/* Recipient picker (demo) */}
-      <View style={styles.recipientSection}>
-        <Text style={styles.recipientLabel}>Versturen naar</Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.recipientRow}
-        >
-          {RECIPIENTS.map((r) => {
-            const active = r.id === recipientId;
-            return (
-              <Pressable
-                key={r.id}
-                onPress={() => setRecipientId(r.id)}
-                style={[styles.chip, active ? styles.chipActive : styles.chipIdle]}
-              >
-                {r.wijk ? (
-                  <MaterialIcons
-                    name="groups"
-                    size={16}
-                    color={active ? '#FFFFFF' : DARK}
-                  />
-                ) : (
-                  <View style={[styles.chipAvatar, active && styles.chipAvatarActive]}>
-                    <Text style={[styles.chipAvatarText, active && { color: '#FFFFFF' }]}>
-                      {r.initials}
-                    </Text>
-                  </View>
-                )}
-                <Text style={[styles.chipText, active && styles.chipTextActive]}>
-                  {r.name}
-                </Text>
-              </Pressable>
-            );
-          })}
+        <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}>
+          {CHATS.map((c, i) => (
+            <Pressable
+              key={c.id}
+              onPress={() => setOpenId(c.id)}
+              style={({ pressed }) => [styles.inboxRow, pressed && { backgroundColor: '#F1F1F4' }]}
+            >
+              <Avatar chat={c} />
+              <View style={styles.inboxBody}>
+                <View style={styles.inboxTopRow}>
+                  <Text style={styles.inboxName} numberOfLines={1}>{c.name}</Text>
+                  {c.lora ? (
+                    <View style={[styles.liveTag, connected && styles.liveTagOn]}>
+                      <View style={[styles.liveDot, connected && styles.liveDotOn]} />
+                      <Text style={[styles.liveTagText, connected && styles.liveTagTextOn]}>LoRa</Text>
+                    </View>
+                  ) : c.time ? (
+                    <Text style={styles.inboxTime}>{c.time}</Text>
+                  ) : null}
+                </View>
+                <View style={styles.inboxBottomRow}>
+                  <Text style={styles.inboxPreview} numberOfLines={1}>
+                    {c.lora && connected ? 'Verbonden · klaar om te chatten' : c.preview}
+                  </Text>
+                  {c.unread ? (
+                    <View style={styles.unreadBadge}>
+                      <Text style={styles.unreadText}>{c.unread}</Text>
+                    </View>
+                  ) : null}
+                </View>
+              </View>
+              {i < CHATS.length - 1 ? <View style={styles.inboxDivider} /> : null}
+            </Pressable>
+          ))}
         </ScrollView>
       </View>
+    );
+  }
 
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+  /* ---------------- Conversation ---------------- */
+  const isLora = !!openChat.lora;
+  const canType = isLora ? connected : true;
 
-      {/* Messages */}
+  return (
+    <KeyboardAvoidingView
+      style={styles.root}
+      behavior="padding"
+      keyboardVerticalOffset={0}
+    >
+      {/* Conversation header */}
+      <View style={[styles.convHeader, { paddingTop: insets.top + 8 }]}>
+        <Pressable
+          onPress={() => {
+            setOpenId(null);
+            setDraft('');
+          }}
+          hitSlop={10}
+          style={({ pressed }) => [styles.backBtn, pressed && { opacity: 0.6 }]}
+        >
+          <MaterialIcons name="chevron-left" size={28} color="#0F172A" />
+        </Pressable>
+        <Avatar chat={openChat} size={38} />
+        <View style={styles.convTitleCol}>
+          <Text style={styles.convName} numberOfLines={1}>{openChat.name}</Text>
+          <Text style={styles.convSub} numberOfLines={1}>
+            {isLora
+              ? connected
+                ? `Verbonden · ${deviceName ?? 'LoRa'}`
+                : STATUS_LABEL[state]
+              : openChat.group
+                ? `${openChat.members} leden`
+                : 'online'}
+          </Text>
+        </View>
+        {isLora && (
+          <Pressable
+            onPress={connected ? disconnect : connect}
+            disabled={busy}
+            style={({ pressed }) => [
+              styles.connBtn,
+              connected && styles.connBtnOn,
+              (pressed || busy) && { opacity: 0.6 },
+            ]}
+          >
+            <Text style={[styles.connBtnText, connected && styles.connBtnTextOn]}>
+              {connected ? 'Verbreken' : busy ? '…' : 'Verbinden'}
+            </Text>
+          </Pressable>
+        )}
+      </View>
+
+      {error && isLora ? <Text style={styles.errorText}>{error}</Text> : null}
+
       <FlatList
         ref={listRef}
-        data={messages}
+        data={thread}
         keyExtractor={(m) => m.id}
-        renderItem={({ item }) => <Bubble message={item} />}
+        renderItem={({ item }) => <Bubble msg={item} />}
         contentContainerStyle={styles.listContent}
         onContentSizeChange={() => listRef.current?.scrollToEnd({ animated: true })}
         ListEmptyComponent={
           <View style={styles.empty}>
             <View style={styles.emptyIcon}>
-              <MaterialCommunityIcons name="radio-tower" size={34} color={GREEN} />
+              <MaterialCommunityIcons
+                name={isLora ? 'radio-tower' : 'message-outline'}
+                size={32}
+                color={GREEN}
+              />
             </View>
             <Text style={styles.emptyText}>
-              {connected
-                ? `Verbonden. Stuur een bericht naar ${recipient.name}.`
-                : 'Verbind met een bord om te chatten.'}
+              {isLora
+                ? connected
+                  ? 'Verbonden. Stuur het eerste bericht naar de wijk.'
+                  : 'Verbind met het LoRa-bord om te chatten.'
+                : 'Nog geen berichten. Stuur er eentje 👋'}
             </Text>
           </View>
         }
       />
 
-      {/* Composer */}
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 8 : 0}
-      >
-        <View style={[styles.composer, { paddingBottom: insets.bottom + 10 }]}>
-          <TextInput
-            style={styles.input}
-            value={draft}
-            onChangeText={setDraft}
-            placeholder={connected ? `Bericht naar ${recipient.name}…` : 'Eerst verbinden'}
-            placeholderTextColor="#94A3B8"
-            editable={connected}
-            onSubmitEditing={onSend}
-            returnKeyType="send"
-            multiline
-          />
-          <Pressable
-            onPress={onSend}
-            disabled={!connected || !draft.trim()}
-            style={({ pressed }) => [
-              styles.sendBtn,
-              (!connected || !draft.trim()) && styles.sendBtnDisabled,
-              pressed && { opacity: 0.7 },
-            ]}
-          >
-            <MaterialIcons name="send" size={20} color="#FFFFFF" />
-          </Pressable>
-        </View>
-      </KeyboardAvoidingView>
-    </View>
+      <View style={[styles.composer, { paddingBottom: insets.bottom + 10 }]}>
+        <TextInput
+          style={styles.input}
+          value={draft}
+          onChangeText={setDraft}
+          placeholder={canType ? `Bericht naar ${openChat.name}…` : 'Eerst verbinden'}
+          placeholderTextColor="#94A3B8"
+          editable={canType}
+          onSubmitEditing={onSend}
+          returnKeyType="send"
+          multiline
+        />
+        <Pressable
+          onPress={onSend}
+          disabled={!canType || !draft.trim()}
+          style={({ pressed }) => [
+            styles.sendBtn,
+            (!canType || !draft.trim()) && styles.sendBtnDisabled,
+            pressed && { opacity: 0.7 },
+          ]}
+        >
+          <MaterialIcons name="send" size={20} color="#FFFFFF" />
+        </Pressable>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -263,6 +333,7 @@ const styles = StyleSheet.create({
     gap: 8,
     marginHorizontal: 16,
     marginTop: 6,
+    marginBottom: 4,
     paddingHorizontal: 14,
     paddingVertical: 10,
     backgroundColor: '#EAF7EE',
@@ -270,84 +341,86 @@ const styles = StyleSheet.create({
   },
   bannerText: { flex: 1, fontSize: 11, color: DARK, fontWeight: '600', lineHeight: 16 },
 
-  statusRow: {
+  // Inbox
+  inboxRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 12,
-    paddingBottom: 8,
+    gap: 14,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    position: 'relative',
   },
-  statusLeft: { flexDirection: 'row', alignItems: 'center', gap: 8, flex: 1 },
-  dot: { width: 9, height: 9, borderRadius: 5 },
-  statusText: { fontSize: 13, fontWeight: '600', color: '#475569', flexShrink: 1 },
-
-  connectBtn: {
+  avatar: { alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  avatarText: { fontWeight: '800', color: DARK },
+  inboxBody: { flex: 1, gap: 3 },
+  inboxTopRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  inboxName: { fontSize: 14, fontWeight: '800', color: '#0F172A', letterSpacing: -0.3, flex: 1 },
+  inboxTime: { fontSize: 10, color: '#94A3B8', fontWeight: '600' },
+  inboxBottomRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
+  inboxPreview: { flex: 1, fontSize: 12, color: '#6B7280' },
+  inboxDivider: {
+    position: 'absolute',
+    left: 80,
+    right: 0,
+    bottom: 0,
+    height: 1,
+    backgroundColor: '#ECECEF',
+  },
+  unreadBadge: {
+    minWidth: 18,
+    height: 18,
+    borderRadius: 9,
+    paddingHorizontal: 5,
     backgroundColor: GREEN,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 14,
-  },
-  disconnectBtn: {
-    backgroundColor: 'transparent',
-    borderWidth: 1.5,
-    borderColor: 'rgba(27,209,93,0.5)',
-  },
-  connectText: { color: '#FFFFFF', fontWeight: '700', fontSize: 13 },
-  disconnectText: { color: DARK },
-
-  // Recipient picker
-  recipientSection: { paddingTop: 2, paddingBottom: 8 },
-  recipientLabel: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: '#6B7280',
-    textTransform: 'uppercase',
-    letterSpacing: 0.4,
-    paddingHorizontal: 20,
-    marginBottom: 8,
-  },
-  recipientRow: { paddingHorizontal: 16, gap: 8 },
-  chip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 7,
-    paddingLeft: 8,
-    paddingRight: 14,
-    paddingVertical: 7,
-    borderRadius: 20,
-  },
-  chipActive: { backgroundColor: DARK },
-  chipIdle: { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#E5E7EB' },
-  chipAvatar: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    backgroundColor: '#E9F2E1',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  chipAvatarActive: { backgroundColor: 'rgba(255,255,255,0.22)' },
-  chipAvatarText: { fontSize: 10, fontWeight: '800', color: DARK },
-  chipText: { fontSize: 12, fontWeight: '700', color: DARK },
-  chipTextActive: { color: '#FFFFFF' },
-
-  errorText: {
-    color: '#EF4444',
-    fontSize: 12,
-    paddingHorizontal: 20,
-    paddingBottom: 6,
+  unreadText: { fontSize: 9, fontWeight: '800', color: '#FFFFFF' },
+  liveTag: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderRadius: 8,
+    backgroundColor: '#EEF1F4',
   },
+  liveTagOn: { backgroundColor: '#EAF7EE' },
+  liveDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#94A3B8' },
+  liveDotOn: { backgroundColor: GREEN },
+  liveTagText: { fontSize: 9, fontWeight: '800', color: '#94A3B8', letterSpacing: 0.3 },
+  liveTagTextOn: { color: GREEN },
 
-  listContent: { paddingHorizontal: 16, paddingVertical: 8, flexGrow: 1 },
-
-  bubbleRow: { flexDirection: 'row', marginVertical: 4 },
-  bubble: {
-    maxWidth: '78%',
+  // Conversation header
+  convHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingHorizontal: 12,
+    paddingBottom: 10,
+    backgroundColor: '#FFFFFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ECECEF',
+  },
+  backBtn: { width: 30, alignItems: 'flex-start', justifyContent: 'center' },
+  convTitleCol: { flex: 1 },
+  convName: { fontSize: 14, fontWeight: '800', color: '#0F172A', letterSpacing: -0.3 },
+  convSub: { fontSize: 10, color: '#6B7280', marginTop: 1 },
+  connBtn: {
+    backgroundColor: GREEN,
     paddingHorizontal: 14,
-    paddingVertical: 9,
-    borderRadius: 18,
+    paddingVertical: 7,
+    borderRadius: 12,
   },
+  connBtnOn: { backgroundColor: 'transparent', borderWidth: 1.5, borderColor: 'rgba(27,209,93,0.5)' },
+  connBtnText: { color: '#FFFFFF', fontWeight: '700', fontSize: 12 },
+  connBtnTextOn: { color: DARK },
+
+  errorText: { color: '#EF4444', fontSize: 12, paddingHorizontal: 20, paddingTop: 8 },
+
+  listContent: { paddingHorizontal: 16, paddingVertical: 10, flexGrow: 1 },
+  bubbleRow: { flexDirection: 'row', marginVertical: 4 },
+  bubble: { maxWidth: '78%', paddingHorizontal: 14, paddingVertical: 9, borderRadius: 18 },
   bubbleOut: { backgroundColor: GREEN, borderBottomRightRadius: 5 },
   bubbleIn: {
     backgroundColor: '#FFFFFF',
