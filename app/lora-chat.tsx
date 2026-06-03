@@ -181,7 +181,11 @@ export default function LoraChatScreen() {
             <Pressable
               key={c.id}
               onPress={() => setOpenId(c.id)}
-              style={({ pressed }) => [styles.inboxRow, pressed && { backgroundColor: '#F1F1F4' }]}
+              style={({ pressed }) => [
+                styles.inboxRow,
+                !c.lora && styles.inboxRowExample,
+                pressed && { backgroundColor: '#F1F1F4' },
+              ]}
             >
               <Avatar chat={c} />
               <View style={styles.inboxBody}>
@@ -192,9 +196,11 @@ export default function LoraChatScreen() {
                       <View style={[styles.liveDot, connected && styles.liveDotOn]} />
                       <Text style={[styles.liveTagText, connected && styles.liveTagTextOn]}>LoRa</Text>
                     </View>
-                  ) : c.time ? (
-                    <Text style={styles.inboxTime}>{c.time}</Text>
-                  ) : null}
+                  ) : (
+                    <View style={styles.exampleTag}>
+                      <Text style={styles.exampleTagText}>Voorbeeld</Text>
+                    </View>
+                  )}
                 </View>
                 <View style={styles.inboxBottomRow}>
                   <Text style={styles.inboxPreview} numberOfLines={1}>
@@ -268,6 +274,15 @@ export default function LoraChatScreen() {
       </View>
 
       {error && isLora ? <Text style={styles.errorText}>{error}</Text> : null}
+
+      {!isLora ? (
+        <View style={styles.exampleBanner}>
+          <MaterialIcons name="info-outline" size={15} color="#92722A" />
+          <Text style={styles.exampleBannerText}>
+            Voorbeeldgesprek — gaat niet via LoRa. Gebruik “Hele wijk” voor de echte data-vrije chat.
+          </Text>
+        </View>
+      ) : null}
 
       <FlatList
         ref={listRef}
@@ -352,6 +367,7 @@ const styles = StyleSheet.create({
   },
   avatar: { alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   avatarText: { fontWeight: '800', color: DARK },
+  inboxRowExample: { opacity: 0.55 },
   inboxBody: { flex: 1, gap: 3 },
   inboxTopRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   inboxName: { fontSize: 14, fontWeight: '800', color: '#0F172A', letterSpacing: -0.3, flex: 1 },
@@ -390,6 +406,25 @@ const styles = StyleSheet.create({
   liveDotOn: { backgroundColor: GREEN },
   liveTagText: { fontSize: 9, fontWeight: '800', color: '#94A3B8', letterSpacing: 0.3 },
   liveTagTextOn: { color: GREEN },
+  exampleTag: {
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderRadius: 8,
+    backgroundColor: '#FBF1D9',
+  },
+  exampleTagText: { fontSize: 9, fontWeight: '800', color: '#92722A', letterSpacing: 0.3 },
+  exampleBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginHorizontal: 16,
+    marginTop: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+    backgroundColor: '#FBF1D9',
+    borderRadius: 12,
+  },
+  exampleBannerText: { flex: 1, fontSize: 11, color: '#92722A', fontWeight: '600', lineHeight: 15 },
 
   // Conversation header
   convHeader: {
